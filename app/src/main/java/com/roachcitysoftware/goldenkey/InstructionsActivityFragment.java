@@ -1,5 +1,7 @@
 package com.roachcitysoftware.goldenkey;
 
+import android.app.Application;
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,6 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.text.Html;
 import android.widget.TextView;
+import android.content.ContextWrapper;
+import android.widget.Toast;
+
+import java.io.File;
+import java.io.FileReader;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -55,7 +62,40 @@ public class InstructionsActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_instructions, container, false);
         TextView instructionsView = (TextView) v.findViewById(R.id.textView3);
-        instructionsView.setText(Html.fromHtml(instructionsText, null, null));
+        StringBuffer data = new StringBuffer();
+        boolean gotIt = ReadInstructionsFile (data);
+        if (gotIt) {
+            instructionsView.setText(Html.fromHtml(data.toString(), null, null));
+        }
+        else {
+            instructionsView.setText(Html.fromHtml(instructionsText, null, null));
+        }
         return v;
+    }
+
+    private boolean ReadInstructionsFile (StringBuffer data) {
+        android.app.Activity window = this.getActivity();
+        Application app = window.getApplication();
+        File dataFile = app.getFileStreamPath("instructions.txt");
+        String error;
+        try {
+            FileReader dataReader = new FileReader(dataFile);
+            int chunk = 100;
+            char[] stuff = new char [chunk];
+            int bytesRead = dataReader.read(stuff, 0, chunk);
+            while (bytesRead > 0){
+                data.append(stuff);
+            }
+            return true;
+        }
+        catch (java.io.FileNotFoundException fex) {
+           error = fex.getMessage();
+            Toast.makeText(getActivity(), error, Toast.LENGTH_LONG).show();
+        }
+        catch (java.io.IOException iox){
+            error = iox.getMessage();
+            Toast.makeText(getActivity(), error, Toast.LENGTH_LONG).show();
+        }
+        return false;
     }
 }

@@ -2,6 +2,7 @@ package com.roachcitysoftware.goldenkey;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.res.Resources;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,7 +21,7 @@ import java.io.FileReader;
  */
 public class InstructionsActivityFragment extends Fragment {
 
-    private final String instructionsText = "<body><H1>Background</H1>" +
+/*    private final String instructionsText = "<body><H1>Background</H1>" +
             "<P>This world can be both heaven and hell.  It's hell when your mind" +
             " is filled with bad things - problems, failures, loss and pain.  It's" +
             " heaven when your mind is filled with good things.</P>" +
@@ -53,6 +54,7 @@ public class InstructionsActivityFragment extends Fragment {
             " that shouldn't stop you from adding to your list.  Keep growing the list as long as" +
             " you keep practicing.</P>" +
             "</body>";
+*/
 
     public InstructionsActivityFragment() {
     }
@@ -63,16 +65,12 @@ public class InstructionsActivityFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_instructions, container, false);
         TextView instructionsView = (TextView) v.findViewById(R.id.textView3);
         StringBuffer data = new StringBuffer();
-        boolean gotIt = ReadInstructionsFile (data);
-        if (gotIt) {
-            instructionsView.setText(Html.fromHtml(data.toString(), null, null));
-        }
-        else {
-            instructionsView.setText(Html.fromHtml(instructionsText, null, null));
-        }
+        BuildInstructionsBuffer(data);
+        instructionsView.setText(Html.fromHtml(data.toString(), null, null));
         return v;
     }
 
+    /*
     private boolean ReadInstructionsFile (StringBuffer data) {
         android.app.Activity window = this.getActivity();
         Application app = window.getApplication();
@@ -97,5 +95,40 @@ public class InstructionsActivityFragment extends Fragment {
             Toast.makeText(getActivity(), error, Toast.LENGTH_LONG).show();
         }
         return false;
+    }
+    */
+
+    private void BuildInstructionsBuffer (StringBuffer data) {
+        data.append("<body>");
+        AddHeader(data, R.string.section_1_header);
+        AddParagraph(data, R.array.section_1_para_1);
+        AddParagraph(data, R.array.section_1_para_2);
+        AddParagraph(data, R.array.section_1_para_3);
+        AddParagraph(data, R.array.section_1_para_4);
+        AddParagraph(data, R.array.section_1_para_5);
+        AddHeader(data, R.string.section_2_header);
+        AddParagraph(data, R.array.section_2_para_1);
+        AddParagraph(data, R.array.section_2_para_2);
+        AddParagraph(data, R.array.section_2_para_3);
+        AddParagraph(data, R.array.section_2_para_4);
+        data.append("</body>");
+    }
+
+    private void AddHeader (StringBuffer data, int headerId) {
+        data.append("<H2>");
+        String header = getString(headerId);
+        data.append(header);
+        data.append("</H2>");
+    }
+
+    private void AddParagraph (StringBuffer data, int paraId) {
+        data.append("<P>");
+        Resources res = getResources();
+        String [] paraText = res.getStringArray(paraId);
+        for (String item : paraText) {
+            data.append(item);
+            data.append(" ");
+        }
+        data.append("</P>");
     }
 }

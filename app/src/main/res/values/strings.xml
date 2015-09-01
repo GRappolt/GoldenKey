@@ -8,8 +8,57 @@
     <string name="list_button">Build List</string>
     <string name="practice_button">Practice</string>
     <string name="title_activity_instructions">Golden Key - Instructions</string>
-<!--    <string name="instructions_html">"<html><body>" +
-        "<H1/>Background</H1>" +
-        "<P>This world can be both heaven and hell.</P>" +
-        "</body></html>"</string>  -->
+    <string name="section_1_header">Background</string>
+    <string-array name="section_1_para_1">
+        <item>This world can be both heaven and hell.  </item>
+        <item>It\'s hell when your mind is filled with bad things</item>
+        <item> - problems, failures, loss and pain.  </item>
+        <item>It\'s heaven when your mind is filled with good things.</item>
+    </string-array>
+    <string-array name="section_1_para_2">
+        <item>You can train your mind to focus more on the good things of the world.</item>
+        <item>  It\'s a matter of practicing thinking about good things, and feeling happy about them.</item>
+        <item>  As with any kind of training, steady practice is key.</item>
+    </string-array>
+    <string-array name="section_1_para_3">
+        <item>This app helps you train.</item>
+        <item>  You start by building a list of good things,</item>
+        <item> and then use that list to practice thinking about good things.</item>
+    </string-array>
+    <string-array name="section_1_para_4">
+        <item>After a week of regular, daily practice, you will find yourself starting </item>
+        <item>to sometimes feel really good for no particular reason.  Keep on training, </item>
+        <item>and this will happen more and more often, and more strongly.  After a </item>
+        <item>month of steady practice, you will feel happy most of the time.</item>
+    </string-array>
+    <string-array name="section_1_para_5">
+        <item>Steady practice is the golden key to paradise.</item>
+    </string-array>
+    <string name="section_2_header">Build List</string>
+    <string-array name="section_2_para_1">
+        <item>Before you can practice, you need a list of good things.  </item>
+        <item>Use the &lt;B>Build List&lt;/B> screen to create that list.  </item>
+        <item>Enter things that make you happy into the text </item>
+        <item>box, and press the &lt;B>Add&lt;/B> button after each one.</item>
+    </string-array>
+    <string-array name="section_2_para_2">
+        <item>For example, let\'s say you like hotdogs.  Enter \"hotdogs\" in the text box – </item>
+        <item>all you need is the one word.  Notice that the example is hotdogs - probably not </item>
+        <item>the greatest thing you\'ve ever eaten, but good.  You need a lot of things that make </item>
+        <item>you happy for your list – but they don\'t all have to be wonderful.  Just good is </item>
+        <item>good enough.</item>
+    </string-array>
+    <string-array name="section_2_para_3">
+        <item>You will need lots of things that make you happy in your list - and lots of </item>
+        <item>different kinds of things.  Food, pets, friends, things you are proud of, natural </item>
+        <item>beauty, special moments in your life, music, movies, books, sex, big and little </item>
+        <item>victories, insights, escapes from danger and relief from pain - anything and </item>
+        <item>everything you can feel good about.  Humor (favorite jokes, funny happenings) is </item>
+        <item>especially good.</item>
+    </string-array>
+    <string-array name="section_2_para_4">
+        <item>Once you\'ve made a good start on your list, you can begin training.  However, </item>
+        <item>that shouldn\'t stop you from adding to your list.  Keep growing the list as long as </item>
+        <item>you keep practicing.</item>
+    </string-array>
 </resources>

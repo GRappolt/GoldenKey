@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,8 @@ import java.io.FileReader;
  * A placeholder fragment containing a simple view.
  */
 public class InstructionsActivityFragment extends Fragment {
+
+    private static final String TAG = InstructionsActivityFragment.class.getSimpleName();
 
 /*    private final String instructionsText = "<body><H1>Background</H1>" +
             "<P>This world can be both heaven and hell.  It's hell when your mind" +
@@ -67,6 +70,7 @@ public class InstructionsActivityFragment extends Fragment {
         StringBuffer data = new StringBuffer();
         BuildInstructionsBuffer(data);
         instructionsView.setText(Html.fromHtml(data.toString(), null, null));
+        Log.d(TAG, "onCreateView");
         return v;
     }
 

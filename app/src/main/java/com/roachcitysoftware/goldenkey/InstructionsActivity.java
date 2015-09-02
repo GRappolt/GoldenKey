@@ -2,15 +2,19 @@ package com.roachcitysoftware.goldenkey;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 public class InstructionsActivity extends AppCompatActivity {
 
+    private static final String TAG = InstructionsActivity.class.getSimpleName();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_instructions);
+        Log.d(TAG, "onCreate");
     }
 
 
@@ -18,6 +22,7 @@ public class InstructionsActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_instructions, menu);
+        Log.d(TAG, "onCreateOptionsMenu");
         return true;
     }
 
@@ -27,6 +32,7 @@ public class InstructionsActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up instructions_button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        Log.d(TAG, "onOptionsItemSelected item " + id);
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {

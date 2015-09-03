@@ -7,7 +7,7 @@
     tools:context="com.roachcitysoftware.goldenkey.BuildListActivityFragment">
 
     <EditText
-        android:hint="Enter new item here"
+        android:hint="@string/_text_entry_hint"
         android:id="@+id/new_list_items"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,7 +18,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add"
+        android:text="@string/add_button"
         android:id="@+id/add_button"
         android:layout_below="@+id/new_list_items"
         android:layout_centerHorizontal="true"
@@ -27,7 +27,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Show Hints"
+        android:text="@string/hint_button_1"
         android:id="@+id/hint_button"
         android:layout_below="@+id/add_button"
         android:layout_centerHorizontal="true"

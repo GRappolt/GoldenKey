@@ -62,4 +62,8 @@
         <item>you keep practicing.</item>
     </string-array>
     <string name="title_activity_build_list">BuildListActivity</string>
+    <string name="add_button">Add</string>
+    <string name="hint_button_1">Show Hints</string>
+    <string name="hint_button_2">Next Hint</string>
+    <string name="_text_entry_hint">Enter new item here</string>
 </resources>

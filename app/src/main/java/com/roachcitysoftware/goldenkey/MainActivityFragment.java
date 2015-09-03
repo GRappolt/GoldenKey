@@ -17,7 +17,7 @@ public class MainActivityFragment extends Fragment {
     private static final String TAG = MainActivityFragment.class.getSimpleName();
 
 //    private Button mInstructionsButton;
-    private Button mListButton;
+//    private Button mListButton;
     private Button mPracticeButton;
 
     public MainActivityFragment() {
@@ -32,6 +32,13 @@ public class MainActivityFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent("com.roachcitysoftware.goldenkey.action.instructions"));
+            }
+        });
+        Button mListButton = (Button) v.findViewById(R.id.list_button);
+        mListButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent("com.roachcitysoftware.goldenkey.action.build_list"));
             }
         });
         Log.d(TAG, "onCreateView");

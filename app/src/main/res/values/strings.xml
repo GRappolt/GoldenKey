@@ -61,4 +61,5 @@
         <item>that shouldn\'t stop you from adding to your list.  Keep growing the list as long as </item>
         <item>you keep practicing.</item>
     </string-array>
+    <string name="title_activity_build_list">BuildListActivity</string>
 </resources>

@@ -37,10 +37,18 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.roachcitysoftware.goldenkey.MainActivity" />
         </activity>
+
+        <provider
+            android:name=".BlessingProvider"
+            android:authorities="com.roachcitysoftware.goldenkey.BlessingProvider"
+            android:enabled="true"
+            android:exported="false" >
+        </provider>
     </application>
 
 </manifest>

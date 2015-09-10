@@ -22,7 +22,7 @@ public class GrandContract {
 
     // BlessingProvider specific constants
     public static final String AUTHORITY_1 = "com.roachcitysoftware.goldenkey.BlessingProvider";
-    public static final String CONTENT_URI_1 = "content://" + AUTHORITY_1 + "/" + TABLE_1;
+    public static final Uri CONTENT_URI_1 = Uri.parse("content://" + AUTHORITY_1 + "/" + TABLE_1);
     public static final int BLESSING_ITEM = 1;
     public static final int BLESSING_DIR = 2;
     public static final String BLESSING_TYPE_ITEM =

@@ -2,6 +2,7 @@ package com.roachcitysoftware.goldenkey;
 
 import android.content.ContentValues;
 import android.net.Uri;
+import android.provider.BaseColumns;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,11 +32,15 @@ public class BuildListActivityFragment extends Fragment {
         mAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d(TAG, "Add button Clicked");
                 ContentValues values = new ContentValues();
                 values.clear();
-                values.put(GrandContract.BlessingsColumn.ID, "");
+                values.put(GrandContract.BlessingsColumn.ID, 0);
                 values.put(GrandContract.BlessingsColumn.BLESSING, mNewBlessing.getText().toString());
                 Uri uri = v.getContext().getContentResolver().insert(GrandContract.CONTENT_URI_1, values);
+                if (uri != null) {
+                    mNewBlessing.setText("");
+                }
             }
         });
         Log.d(TAG, "onCreateView");

@@ -12,6 +12,7 @@ import android.util.Log;
 public class BlessingProvider extends ContentProvider {
     private static final String TAG = BlessingProvider.class.getSimpleName();
     private GrandDbHelper grandDbHelper;
+    private static long nextID = 1;
 
     private static final UriMatcher sURIMatcher = new UriMatcher(
             UriMatcher.NO_MATCH);
@@ -55,11 +56,14 @@ public class BlessingProvider extends ContentProvider {
         }
 
         SQLiteDatabase db = grandDbHelper.getWritableDatabase();
+        // Need to somehow get next legal ID here!
+        values.put(GrandContract.BlessingsColumn.ID, nextID);
         long rowId = db.insertWithOnConflict(GrandContract.TABLE_1, null,
                 values, SQLiteDatabase.CONFLICT_IGNORE);
 
         // Was insert successful?
         if (rowId != -1) {
+            nextID = rowId;
             long id = values.getAsLong(GrandContract.BlessingsColumn.ID);
             ret = ContentUris.withAppendedId(uri, id);
             Log.d(TAG, "inserted uri: " + ret);
@@ -70,6 +74,9 @@ public class BlessingProvider extends ContentProvider {
             //         setNotificationUri(ContentResolver, Uri)
             //   2nd argument for a ContentObserver is null here
             getContext().getContentResolver().notifyChange(uri, null);
+        }
+        else {
+            Log.d(TAG, "insert failed");
         }
 
         return ret;

@@ -13,7 +13,8 @@ public class GrandContract {
     public static final int DB_VERSION = 1;
 
     public static final String TABLE_1 = "blessings";
-    public static final String DEFAULT_SORT_1 = BlessingsColumn.ID + " DESC";
+//    public static final String DEFAULT_SORT_1 = BlessingsColumn.ID + " DESC";
+    public static final String DEFAULT_SORT_1 = BlessingsColumn.ID;
 
     public class BlessingsColumn {
         public static final String ID = BaseColumns._ID;

@@ -6,13 +6,18 @@ import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.util.Log;
+
+import java.util.List;
 
 public class BlessingProvider extends ContentProvider {
     private static final String TAG = BlessingProvider.class.getSimpleName();
     private GrandDbHelper grandDbHelper;
-    private static long nextID = 1;
+    private List<ContentValues> localBlessings;
+    private static long lastID;
 
     private static final UriMatcher sURIMatcher = new UriMatcher(
             UriMatcher.NO_MATCH);
@@ -56,14 +61,11 @@ public class BlessingProvider extends ContentProvider {
         }
 
         SQLiteDatabase db = grandDbHelper.getWritableDatabase();
-        // Need to somehow get next legal ID here!
-        values.put(GrandContract.BlessingsColumn.ID, nextID);
         long rowId = db.insertWithOnConflict(GrandContract.TABLE_1, null,
                 values, SQLiteDatabase.CONFLICT_IGNORE);
 
         // Was insert successful?
         if (rowId != -1) {
-            nextID = rowId;
             long id = values.getAsLong(GrandContract.BlessingsColumn.ID);
             ret = ContentUris.withAppendedId(uri, id);
             Log.d(TAG, "inserted uri: " + ret);
@@ -101,5 +103,35 @@ public class BlessingProvider extends ContentProvider {
                       String[] selectionArgs) {
         // TODO: Implement this to handle requests to update one or more rows.
         throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    public void startBuildList () {
+        SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+        qb.setTables( GrandContract.TABLE_1 );
+
+        String orderBy = GrandContract.DEFAULT_SORT_1;
+
+        SQLiteDatabase db = grandDbHelper.getWritableDatabase();
+        Cursor cursor = qb.query(db, null, null, null, null, null, orderBy);
+
+        int records = cursor.getCount();
+        localBlessings.clear();
+        ContentValues blessingRecord = new ContentValues();
+        long nextID = 0;
+        String nextBlessing;
+        if (records > 0) {
+            boolean live = cursor.moveToFirst();
+            while (live) {
+                blessingRecord.clear();
+                nextID = cursor.getLong(cursor.getColumnIndex(GrandContract.BlessingsColumn.ID));
+                blessingRecord.put(GrandContract.BlessingsColumn.ID, nextID);
+                nextBlessing = cursor.getString(cursor.getColumnIndex(GrandContract.BlessingsColumn.BLESSING));
+                blessingRecord.put(GrandContract.BlessingsColumn.BLESSING, nextBlessing);
+                localBlessings.add(blessingRecord);
+                live = cursor.moveToNext();
+            }
+
+        }
+        lastID = nextID;
     }
 }

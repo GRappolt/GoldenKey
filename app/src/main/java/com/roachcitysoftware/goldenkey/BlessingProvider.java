@@ -11,13 +11,19 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BlessingProvider extends ContentProvider {
     private static final String TAG = BlessingProvider.class.getSimpleName();
     private GrandDbHelper grandDbHelper;
-    private List<ContentValues> localBlessings;
+    private ArrayList<BlessingEntry> localBlessings;
     private static long lastID;
+
+    private class BlessingEntry {
+        public long ID;
+        public String blessing;
+    }
 
     private static final UriMatcher sURIMatcher = new UriMatcher(
             UriMatcher.NO_MATCH);
@@ -29,7 +35,8 @@ public class BlessingProvider extends ContentProvider {
     }
 
     public BlessingProvider() {
-    }
+        localBlessings = new ArrayList<>();
+     }
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
@@ -114,24 +121,24 @@ public class BlessingProvider extends ContentProvider {
         SQLiteDatabase db = grandDbHelper.getWritableDatabase();
         Cursor cursor = qb.query(db, null, null, null, null, null, orderBy);
 
-        int records = cursor.getCount();
-        localBlessings.clear();
-        ContentValues blessingRecord = new ContentValues();
+        BlessingEntry blessingRecord = new BlessingEntry();
         long nextID = 0;
         String nextBlessing;
-        if (records > 0) {
+        // PROBLEM: localBlessings is uniinitalized, and I don't know how to initialize it.
+        if (cursor.getCount() > 0) {
             boolean live = cursor.moveToFirst();
             while (live) {
-                blessingRecord.clear();
                 nextID = cursor.getLong(cursor.getColumnIndex(GrandContract.BlessingsColumn.ID));
-                blessingRecord.put(GrandContract.BlessingsColumn.ID, nextID);
+                blessingRecord.ID = nextID;
                 nextBlessing = cursor.getString(cursor.getColumnIndex(GrandContract.BlessingsColumn.BLESSING));
-                blessingRecord.put(GrandContract.BlessingsColumn.BLESSING, nextBlessing);
+                blessingRecord.blessing = nextBlessing;
                 localBlessings.add(blessingRecord);
+                Log.d(TAG, "item ID: " + blessingRecord.ID + " text: " + blessingRecord.blessing);
                 live = cursor.moveToNext();
-            }
+             }
 
         }
         lastID = nextID;
+        Log.d(TAG, "startBuildList count: " + cursor.getCount());
     }
 }

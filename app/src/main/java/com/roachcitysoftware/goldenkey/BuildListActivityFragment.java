@@ -1,6 +1,7 @@
 package com.roachcitysoftware.goldenkey;
 
 import android.content.ContentValues;
+import android.content.ContentProviderClient;
 import android.net.Uri;
 import android.provider.BaseColumns;
 import android.support.v4.app.Fragment;
@@ -44,6 +45,12 @@ public class BuildListActivityFragment extends Fragment {
             }
         });
         Log.d(TAG, "onCreateView");
+        ContentProviderClient cpc =
+                v.getContext().getContentResolver().acquireContentProviderClient(GrandContract.CONTENT_URI_1);
+        BlessingProvider bp = (BlessingProvider) cpc.getLocalContentProvider();
+        bp.startBuildList();
+        cpc.release();
+        Log.d(TAG, "after final code in onCreateView");
         return v;
     }
 }

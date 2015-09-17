@@ -34,12 +34,12 @@ public class BuildListActivityFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "Add button Clicked");
-                ContentValues values = new ContentValues();
-                values.clear();
-                values.put(GrandContract.BlessingsColumn.ID, 0);
-                values.put(GrandContract.BlessingsColumn.BLESSING, mNewBlessing.getText().toString());
-                Uri uri = v.getContext().getContentResolver().insert(GrandContract.CONTENT_URI_1, values);
-                if (uri != null) {
+                ContentProviderClient cpc =
+                        v.getContext().getContentResolver().acquireContentProviderClient(GrandContract.CONTENT_URI_1);
+                BlessingProvider bp = (BlessingProvider) cpc.getLocalContentProvider();
+                boolean added = bp.onAdd(mNewBlessing.getText().toString());
+                cpc.release();
+                if (added){
                     mNewBlessing.setText("");
                 }
             }

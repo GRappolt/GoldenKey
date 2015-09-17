@@ -76,6 +76,7 @@ public class BlessingProvider extends ContentProvider {
             long id = values.getAsLong(GrandContract.BlessingsColumn.ID);
             ret = ContentUris.withAppendedId(uri, id);
             Log.d(TAG, "inserted uri: " + ret);
+            Log.d(TAG, "db rowID: " + rowId);
 
             // Notify that data for this uri has changed
             // clk: Notify registered observers that a row was updated
@@ -121,24 +122,48 @@ public class BlessingProvider extends ContentProvider {
         SQLiteDatabase db = grandDbHelper.getWritableDatabase();
         Cursor cursor = qb.query(db, null, null, null, null, null, orderBy);
 
-        BlessingEntry blessingRecord = new BlessingEntry();
-        long nextID = 0;
-        String nextBlessing;
-        // PROBLEM: localBlessings is uniinitalized, and I don't know how to initialize it.
+//        BlessingEntry blessingRecord = new BlessingEntry();
+        long nextID;
+        lastID = 0;
+//        String nextBlessing;
         if (cursor.getCount() > 0) {
             boolean live = cursor.moveToFirst();
             while (live) {
                 nextID = cursor.getLong(cursor.getColumnIndex(GrandContract.BlessingsColumn.ID));
-                blessingRecord.ID = nextID;
-                nextBlessing = cursor.getString(cursor.getColumnIndex(GrandContract.BlessingsColumn.BLESSING));
-                blessingRecord.blessing = nextBlessing;
-                localBlessings.add(blessingRecord);
-                Log.d(TAG, "item ID: " + blessingRecord.ID + " text: " + blessingRecord.blessing);
+//                blessingRecord.ID = nextID;
+                if (nextID > lastID){
+                    lastID = nextID;
+                }
+//                nextBlessing = cursor.getString(cursor.getColumnIndex(GrandContract.BlessingsColumn.BLESSING));
+//                blessingRecord.blessing = nextBlessing;
+//                localBlessings.add(blessingRecord);
+//                Log.d(TAG, "item ID: " + blessingRecord.ID + " text: " + blessingRecord.blessing);
+                Log.d(TAG, "item ID: " + nextID);
                 live = cursor.moveToNext();
              }
-
         }
-        lastID = nextID;
+//        lastID = nextID;
         Log.d(TAG, "startBuildList count: " + cursor.getCount());
+    }
+
+    public boolean onAdd (String text)
+    {
+        ContentValues entry = new ContentValues();
+        entry.clear();
+        entry.put(GrandContract.BlessingsColumn.ID, lastID + 1);
+        entry.put(GrandContract.BlessingsColumn.BLESSING, text);
+        Uri result = insert(GrandContract.CONTENT_URI_1, entry);
+        if (result != null) {
+//            BlessingEntry blessingRecord = new BlessingEntry();
+//            blessingRecord.ID = lastID + 1;
+//            blessingRecord.blessing = text;
+//            localBlessings.add(blessingRecord);
+            Log.d(TAG, "onAdd success ID: " + (lastID + 1) + " text: " + text);
+            ++lastID;
+            return true;
+        } else {
+            Log.d(TAG, "onAdd failed ID: " + (lastID + 1));
+            return false;
+        }
     }
 }

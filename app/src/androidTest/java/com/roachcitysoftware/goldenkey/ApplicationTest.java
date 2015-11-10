@@ -10,11 +10,4 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
     public ApplicationTest() {
         super(Application.class);
     }
-
-    private MainActivityTest mainActivityTest;
-
-    public void testMainActivity () {
-        mainActivityTest = new MainActivityTest();
-        mainActivityTest.run();
-    }
 }

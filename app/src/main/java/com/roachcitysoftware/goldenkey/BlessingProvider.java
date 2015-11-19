@@ -6,24 +6,23 @@ import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteQueryBuilder;
+// import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
-import android.text.TextUtils;
+// import android.text.TextUtils;
 import android.util.Log;
 
-import java.util.ArrayList;
-import java.util.List;
+// import java.util.ArrayList;
+// import java.util.List;
 
 public class BlessingProvider extends ContentProvider {
     private static final String TAG = BlessingProvider.class.getSimpleName();
     private GrandDbHelper grandDbHelper;
-    private ArrayList<BlessingEntry> localBlessings;
-    private static long lastID;
+//    private ArrayList<BlessingEntry> localBlessings;
 
-    private class BlessingEntry {
-        public long ID;
-        public String blessing;
-    }
+//    private class BlessingEntry {
+//        public long ID;
+//        public String blessing;
+//    }
 
     private static final UriMatcher sURIMatcher = new UriMatcher(
             UriMatcher.NO_MATCH);
@@ -34,9 +33,9 @@ public class BlessingProvider extends ContentProvider {
                 + "/#", GrandContract.BLESSING_ITEM);
     }
 
-    public BlessingProvider() {
-        localBlessings = new ArrayList<>();
-     }
+//    public BlessingProvider() {
+//        localBlessings = new ArrayList<>();
+//     }
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
@@ -73,9 +72,7 @@ public class BlessingProvider extends ContentProvider {
 
         // Was insert successful?
         if (rowId != -1) {
-            long id = values.getAsLong(GrandContract.BlessingsColumn.ID);
-            ret = ContentUris.withAppendedId(uri, id);
-            Log.d(TAG, "inserted uri: " + ret);
+              ret = ContentUris.withAppendedId(uri, rowId);
             Log.d(TAG, "db rowID: " + rowId);
 
             // Notify that data for this uri has changed
@@ -113,56 +110,17 @@ public class BlessingProvider extends ContentProvider {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    public void startBuildList () {
-        SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
-        qb.setTables( GrandContract.TABLE_1 );
-
-        String orderBy = GrandContract.DEFAULT_SORT_1;
-
-        SQLiteDatabase db = grandDbHelper.getWritableDatabase();
-        Cursor cursor = qb.query(db, null, null, null, null, null, orderBy);
-
-//        BlessingEntry blessingRecord = new BlessingEntry();
-        long nextID;
-        lastID = 0;
-//        String nextBlessing;
-        if (cursor.getCount() > 0) {
-            boolean live = cursor.moveToFirst();
-            while (live) {
-                nextID = cursor.getLong(cursor.getColumnIndex(GrandContract.BlessingsColumn.ID));
-//                blessingRecord.ID = nextID;
-                if (nextID > lastID){
-                    lastID = nextID;
-                }
-//                nextBlessing = cursor.getString(cursor.getColumnIndex(GrandContract.BlessingsColumn.BLESSING));
-//                blessingRecord.blessing = nextBlessing;
-//                localBlessings.add(blessingRecord);
-//                Log.d(TAG, "item ID: " + blessingRecord.ID + " text: " + blessingRecord.blessing);
-                Log.d(TAG, "item ID: " + nextID);
-                live = cursor.moveToNext();
-             }
-        }
-//        lastID = nextID;
-        Log.d(TAG, "startBuildList count: " + cursor.getCount());
-    }
-
     public boolean onAdd (String text)
     {
         ContentValues entry = new ContentValues();
         entry.clear();
-        entry.put(GrandContract.BlessingsColumn.ID, lastID + 1);
         entry.put(GrandContract.BlessingsColumn.BLESSING, text);
         Uri result = insert(GrandContract.CONTENT_URI_1, entry);
         if (result != null) {
-//            BlessingEntry blessingRecord = new BlessingEntry();
-//            blessingRecord.ID = lastID + 1;
-//            blessingRecord.blessing = text;
-//            localBlessings.add(blessingRecord);
-            Log.d(TAG, "onAdd success ID: " + (lastID + 1) + " text: " + text);
-            ++lastID;
+            Log.d(TAG, "onAdd success - text: " + text);
             return true;
         } else {
-            Log.d(TAG, "onAdd failed ID: " + (lastID + 1));
+            Log.d(TAG, "onAdd failed");
             return false;
         }
     }

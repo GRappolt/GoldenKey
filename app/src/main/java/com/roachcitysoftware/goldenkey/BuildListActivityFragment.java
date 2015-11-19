@@ -36,7 +36,15 @@ public class BuildListActivityFragment extends Fragment {
                 Log.d(TAG, "Add button Clicked");
                 ContentProviderClient cpc =
                         v.getContext().getContentResolver().acquireContentProviderClient(GrandContract.CONTENT_URI_1);
+                if (cpc == null) {
+                    Log.d(TAG, "Add failed - can't get Content Resolver");
+                    return;
+                }
                 BlessingProvider bp = (BlessingProvider) cpc.getLocalContentProvider();
+                if (bp == null) {
+                    Log.d(TAG, "Add failed - can't get BlessingProvider");
+                    return;
+                }
                 boolean added = bp.onAdd(mNewBlessing.getText().toString());
                 cpc.release();
                 if (added){
@@ -45,12 +53,6 @@ public class BuildListActivityFragment extends Fragment {
             }
         });
         Log.d(TAG, "onCreateView");
-        ContentProviderClient cpc =
-                v.getContext().getContentResolver().acquireContentProviderClient(GrandContract.CONTENT_URI_1);
-        BlessingProvider bp = (BlessingProvider) cpc.getLocalContentProvider();
-        bp.startBuildList();
-        cpc.release();
-        Log.d(TAG, "after final code in onCreateView");
         return v;
     }
 }

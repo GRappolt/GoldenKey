@@ -1,9 +1,7 @@
 package com.roachcitysoftware.goldenkey;
 
-import android.content.ContentValues;
 import android.content.ContentProviderClient;
-import android.net.Uri;
-import android.provider.BaseColumns;
+import android.content.res.Resources;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+
+import java.util.Date;
+import java.util.Random;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -20,6 +22,11 @@ public class BuildListActivityFragment extends Fragment {
 
     private static final String TAG = BuildListActivityFragment.class.getSimpleName();
     private EditText mNewBlessing;
+    private boolean mHintsShown;
+    private Button mHintButton;
+    private TextView mHintText;
+    private String [] mHintList;
+    private int mCurrentHint;
 
     public BuildListActivityFragment() {
     }
@@ -52,7 +59,61 @@ public class BuildListActivityFragment extends Fragment {
                 }
             }
         });
+        mHintsShown = false;
+        mHintButton = (Button) v.findViewById(R.id.hint_button);
+        mHintText = (TextView) v.findViewById(R.id.hint_items);
+        mCurrentHint = 0;
+        mHintButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mHintsShown)
+                    GetNextHint();
+                else
+                    StartHints();
+            }
+        });
         Log.d(TAG, "onCreateView");
         return v;
+    }
+
+    public void StartHints ()
+    {
+        mHintsShown = true;
+        mHintButton.setText(R.string.hint_button_2);
+        // Set up hint list
+        Resources res = getResources();
+        mHintList = res.getStringArray(R.array.hint_list);
+        Date dt = new Date();
+        long seed = dt.getTime();
+        RandomizeList(mHintList, seed);
+        // Set initial hint text
+        mHintText.setText(mHintList[mCurrentHint]);
+        mHintText.setVisibility(View.VISIBLE);
+    }
+
+    public void GetNextHint ()
+    {
+        ++mCurrentHint;
+        if (mCurrentHint >= mHintList.length)
+            mCurrentHint = 0;
+        mHintText.setText(mHintList[mCurrentHint]);
+    }
+
+    public void RandomizeList (String [] list, long seed)
+    {
+        String temp;
+        int a;
+        int b;
+        int size = list.length;
+        Random rn = new Random(seed);
+        for (a = 0; a < size; ++a)
+        {
+            b = rn.nextInt(size);
+            if (a!= b) {
+                temp = list [a];
+                list [a] = list [b];
+                list [b] = temp;
+            }
+        }
     }
 }

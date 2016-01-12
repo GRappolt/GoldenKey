@@ -41,6 +41,13 @@ public class MainActivityFragment extends Fragment {
                 startActivity(new Intent("com.roachcitysoftware.goldenkey.action.build_list"));
             }
         });
+        Button mPracticeButton = (Button) v.findViewById(R.id.practice_button);
+        mPracticeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent("com.roachcitysoftware.goldenkey.action.practice"));
+            }
+        });
         Log.d(TAG, "onCreateView");
         return v;
     }

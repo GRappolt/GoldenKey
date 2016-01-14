@@ -7,8 +7,10 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 // import android.database.sqlite.SQLiteQueryBuilder;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 // import android.text.TextUtils;
+import android.text.TextUtils;
 import android.util.Log;
 
 // import java.util.ArrayList;
@@ -99,8 +101,33 @@ public class BlessingProvider extends ContentProvider {
     @Override
     public Cursor query(Uri uri, String[] projection, String selection,
                         String[] selectionArgs, String sortOrder) {
-        // TODO: Implement this to handle query requests from clients.
-        throw new UnsupportedOperationException("Not yet implemented");
+        SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+        qb.setTables( GrandContract.TABLE_1 );
+
+        switch (sURIMatcher.match(uri)) {
+            case GrandContract.BLESSING_DIR:
+                break;
+            case GrandContract.BLESSING_ITEM:
+                qb.appendWhere(GrandContract.BlessingsColumn.ID + "="
+                        + uri.getLastPathSegment());
+                break;
+            default:
+                throw new IllegalArgumentException("Illegal uri: " + uri);
+        }
+
+        String orderBy = (TextUtils.isEmpty(sortOrder)) ? GrandContract.DEFAULT_SORT_1
+                : sortOrder;
+
+        SQLiteDatabase db = grandDbHelper.getReadableDatabase();
+        Cursor cursor = qb.query(db, projection, selection, selectionArgs, null, null, orderBy);
+
+        // register for uri changes
+        // clk: So the Cursor returned to CursorLoader after it does a query
+        //   will know of changes and CursorLoader will know to re-query
+        cursor.setNotificationUri(getContext().getContentResolver(), uri);
+
+        Log.d(TAG, "queried records: "+cursor.getCount());
+        return cursor;
     }
 
     @Override

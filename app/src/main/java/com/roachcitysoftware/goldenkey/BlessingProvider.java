@@ -6,25 +6,15 @@ import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-// import android.database.sqlite.SQLiteQueryBuilder;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
-// import android.text.TextUtils;
 import android.text.TextUtils;
 import android.util.Log;
 
-// import java.util.ArrayList;
-// import java.util.List;
 
 public class BlessingProvider extends ContentProvider {
     private static final String TAG = BlessingProvider.class.getSimpleName();
     private GrandDbHelper grandDbHelper;
-//    private ArrayList<BlessingEntry> localBlessings;
-
-//    private class BlessingEntry {
-//        public long ID;
-//        public String blessing;
-//    }
 
     private static final UriMatcher sURIMatcher = new UriMatcher(
             UriMatcher.NO_MATCH);
@@ -35,15 +25,39 @@ public class BlessingProvider extends ContentProvider {
                 + "/#", GrandContract.BLESSING_ITEM);
     }
 
-//    public BlessingProvider() {
-//        localBlessings = new ArrayList<>();
-//     }
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
         // Implement this to handle requests to delete one or more rows.
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
+        String where;
+
+        switch (sURIMatcher.match(uri)) {
+            case GrandContract.BLESSING_DIR:
+                // so we count deleted rows
+                where = (selection == null) ? "1" : selection;
+                break;
+            case GrandContract.BLESSING_ITEM:
+                long id = ContentUris.parseId(uri);
+                where = GrandContract.BlessingsColumn.ID
+                        + "="
+                        + id
+                        + (TextUtils.isEmpty(selection) ? "" : " and ( "
+                        + selection + " )");
+                break;
+            default:
+                throw new IllegalArgumentException("Illegal uri: " + uri);
+        }
+
+        SQLiteDatabase db = grandDbHelper.getReadableDatabase();
+        int ret = db.delete(GrandContract.TABLE_1, where, selectionArgs);
+
+        if(ret>0) {
+            // Notify that data for this uri has changed
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+        Log.d(TAG, "deleted records: " + ret);
+        return ret;
+   }
 
     @Override
     public String getType(Uri uri) {
@@ -63,7 +77,7 @@ public class BlessingProvider extends ContentProvider {
     public Uri insert(Uri uri, ContentValues values) {
         Uri ret = null;
 
-        // Assert correct uri - can't be for specific ID, not known until inssert() returns!
+        // Assert correct uri - can't be for specific ID, not known until insert() returns!
         if (sURIMatcher.match(uri) != GrandContract.BLESSING_DIR) {
             throw new IllegalArgumentException("Illegal uri: " + uri);
         }
@@ -134,7 +148,34 @@ public class BlessingProvider extends ContentProvider {
     public int update(Uri uri, ContentValues values, String selection,
                       String[] selectionArgs) {
         // TODO: Implement this to handle requests to update one or more rows.
-        throw new UnsupportedOperationException("Not yet implemented");
+        String where;
+
+        switch (sURIMatcher.match(uri)) {
+            case GrandContract.BLESSING_DIR:
+                // so we count updated rows
+                where = selection;
+                break;
+            case GrandContract.BLESSING_ITEM:
+                long id = ContentUris.parseId(uri);
+                where = GrandContract.BlessingsColumn.ID
+                        + "="
+                        + id
+                        + (TextUtils.isEmpty(selection) ? "" : " and ( "
+                        + selection + " )");
+                break;
+            default:
+                throw new IllegalArgumentException("Illegal uri: " + uri);
+        }
+
+        SQLiteDatabase db = grandDbHelper.getReadableDatabase();
+        int ret = db.update(GrandContract.TABLE_1, values, where, selectionArgs);
+
+        if(ret>0) {
+            // Notify that data for this uri has changed
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+        Log.d(TAG, "updated records: " + ret);
+        return ret;
     }
 
     public boolean onAdd (String text)

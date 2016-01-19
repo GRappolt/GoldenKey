@@ -2,7 +2,10 @@ package com.roachcitysoftware.goldenkey;
 
 
 import android.content.ContentProviderClient;
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -48,12 +51,29 @@ public class PracticeActivityFragment extends Fragment {
         LoadBlessingList(v);
         if (mBlessingCount > 0)
             mBlessing.setText(mBlessingList[mCurrentBlessing].blessingText);
-        Log.d(TAG, "onCreateView");
-        return v;
-    }
+        mNextButton.setOnClickListener(new View.OnClickListener() {
+                                           @Override
+                                           public void onClick(View v) {
+                                               String caption = mBlessing.getText().toString();
+                                                ProcessUpdate(caption, v);
+                                               ++mCurrentBlessing;
+                                               if (mCurrentBlessing >= mBlessingCount)
+                                               {
+                                                   // Run follow-up activity (exit this activity)
+                                               }
+                                               else
+                                               {
+                                                   mBlessing.setText(mBlessingList[mCurrentBlessing].blessingText);
+                                                   if (mCurrentBlessing == mBlessingCount - 1)
+                                                       mNextButton.setText(R.string.next_button_done);
+                                               }
+                                           }
+                                       });
+                Log.d(TAG, "onCreateView");
+                return v;
+            }
 
-    private void LoadBlessingList (View v)
-    {
+    private void LoadBlessingList(View v) {
         mCurrentBlessing = 0;
         mBlessingCount = 0;
         ContentProviderClient cpc =
@@ -74,10 +94,9 @@ public class PracticeActivityFragment extends Fragment {
             return;
         }
         mBlessingCount = cursor.getCount();
-        mBlessingList = new BlessingEntry [mBlessingCount];
+        mBlessingList = new BlessingEntry[mBlessingCount];
         int current = 0;
-        while (current < mBlessingCount)
-        {
+        while (current < mBlessingCount) {
             BlessingEntry entry = new BlessingEntry();
             entry.rowID =
                     cursor.getLong(cursor.getColumnIndex(GrandContract.BlessingsColumn.ID));
@@ -86,7 +105,7 @@ public class PracticeActivityFragment extends Fragment {
             entry.changed = false;
             mBlessingList[current] = entry;
             if (!cursor.moveToNext())
-                 break;
+                break;
             ++current;
         }
         Date dt = new Date();
@@ -99,22 +118,54 @@ public class PracticeActivityFragment extends Fragment {
 
     }
 
-    private void RandomizeList (BlessingEntry [] list, long seed)
-    {
+    private void RandomizeList(BlessingEntry[] list, long seed) {
         BlessingEntry temp;
         int a;
         int b;
         int size = list.length;
         Random rn = new Random(seed);
-        for (a = 0; a < size; ++a)
-        {
+        for (a = 0; a < size; ++a) {
             b = rn.nextInt(size);
-            if (a!= b) {
-                temp = list [a];
-                list [a] = list [b];
-                list [b] = temp;
+            if (a != b) {
+                temp = list[a];
+                list[a] = list[b];
+                list[b] = temp;
             }
         }
+    }
+
+    private void ProcessUpdate (String caption, View v)
+    {
+       if (caption.compareTo(mBlessingList[mCurrentBlessing].blessingText) == 0)
+           return;      // no change - no update
+        // Set up access to BlessingProvider
+        ContentProviderClient cpc =
+                v.getContext().getContentResolver().acquireContentProviderClient(GrandContract.CONTENT_URI_1);
+        if (cpc == null) {
+            Log.d(TAG, "ProcessUpdate failed - can't get Content Resolver");
+            return;
+        }
+        BlessingProvider bp = (BlessingProvider) cpc.getLocalContentProvider();
+        if (bp == null) {
+            Log.d(TAG, "ProcessUpdate failed - can't get BlessingProvider");
+            return;
+        }
+        Uri target = ContentUris.withAppendedId(GrandContract.CONTENT_URI_1, mBlessingList[mCurrentBlessing].rowID);
+        // Do the work
+        caption = caption.trim();
+        if (caption.isEmpty()) {
+            bp.delete(target, null, null);
+        }
+        else
+        {
+            ContentValues entry = new ContentValues();
+            entry.clear();
+            entry.put(GrandContract.BlessingsColumn.BLESSING, caption);
+            bp.update(target,entry,null,null);
+        }
+        // Clean up
+        cpc.release();
+        Log.d(TAG, "ProcessUpdate");
     }
 
 }

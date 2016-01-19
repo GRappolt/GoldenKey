@@ -76,5 +76,6 @@
     </string-array>
     <string name="title_activity_practice">PracticeActivity</string>
     <string name="next_button">Next</string>
+    <string name="next_button_done">Done</string>
 
 </resources>

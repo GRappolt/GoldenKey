@@ -10,7 +10,7 @@ import android.provider.BaseColumns;
 
 public class GrandContract {
     public static final String DB_NAME = "grand.db";
-    public static final int DB_VERSION = 1;
+    public static final int DB_VERSION = 2;
 
     public static final String TABLE_1 = "blessings";
     // + " DESC" for descending order

@@ -30,7 +30,6 @@ public class PracticeActivityFragment extends Fragment {
     private class BlessingEntry {
         public long rowID;
         public String blessingText;
-        public boolean changed;
     }
     private BlessingEntry [] mBlessingList;
     private int mCurrentBlessing;
@@ -60,6 +59,7 @@ public class PracticeActivityFragment extends Fragment {
                                                if (mCurrentBlessing >= mBlessingCount)
                                                {
                                                    // Run follow-up activity (exit this activity)
+                                                   return;
                                                }
                                                else
                                                {
@@ -89,8 +89,14 @@ public class PracticeActivityFragment extends Fragment {
         }
         // Do the real work here
         Cursor cursor = bp.query(GrandContract.CONTENT_URI_1, null, null, null, null);
-        if (!cursor.moveToFirst()) {
-            Log.d(TAG, "LoadBlessingList failed - can't get BlessingProvider");
+        try {
+            if (!cursor.moveToFirst()) {
+                Log.d(TAG, "LoadBlessingList failed - can't get blessings");
+                return;
+            }
+        }
+        catch (NullPointerException e) {
+            Log.d(TAG, "LoadBlessingList failed - null cursor contents");
             return;
         }
         mBlessingCount = cursor.getCount();
@@ -102,7 +108,6 @@ public class PracticeActivityFragment extends Fragment {
                     cursor.getLong(cursor.getColumnIndex(GrandContract.BlessingsColumn.ID));
             entry.blessingText =
                     cursor.getString(cursor.getColumnIndex(GrandContract.BlessingsColumn.BLESSING));
-            entry.changed = false;
             mBlessingList[current] = entry;
             if (!cursor.moveToNext())
                 break;
@@ -124,6 +129,10 @@ public class PracticeActivityFragment extends Fragment {
         int b;
         int size = list.length;
         Random rn = new Random(seed);
+        Log.d(TAG, "Before Randomize");
+        for (a = 0; a < size; ++a) {
+            Log.d(TAG, "blessing[" + a + "] text: " + list[a].blessingText + " ID: " + list[a].rowID);
+        }
         for (a = 0; a < size; ++a) {
             b = rn.nextInt(size);
             if (a != b) {
@@ -131,11 +140,18 @@ public class PracticeActivityFragment extends Fragment {
                 list[a] = list[b];
                 list[b] = temp;
             }
+            Log.d(TAG, "swapped " + a + ", " + b);
+        }
+        Log.d(TAG, "After Randomize");
+        for (a = 0; a < size; ++a) {
+            Log.d(TAG, "blessing[" + a + "] text: " + list[a].blessingText + " ID: " + list[a].rowID);
         }
     }
 
     private void ProcessUpdate (String caption, View v)
     {
+        if (mCurrentBlessing >= mBlessingCount)
+            return;     // illegal condition - possible in development code
        if (caption.compareTo(mBlessingList[mCurrentBlessing].blessingText) == 0)
            return;      // no change - no update
         // Set up access to BlessingProvider
@@ -155,6 +171,7 @@ public class PracticeActivityFragment extends Fragment {
         caption = caption.trim();
         if (caption.isEmpty()) {
             bp.delete(target, null, null);
+//            bp.delete(GrandContract.CONTENT_URI_1,null,null);
         }
         else
         {

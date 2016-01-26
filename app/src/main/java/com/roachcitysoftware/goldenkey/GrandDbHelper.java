@@ -19,7 +19,7 @@ public class GrandDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db){
-        String sql = String.format("create table %s (%s int primary key, %s text)",
+        String sql = String.format("create table %s (%s integer primary key autoincrement, %s text)",
                 GrandContract.TABLE_1, GrandContract.BlessingsColumn.ID,
                 GrandContract.BlessingsColumn.BLESSING);
         Log.d(TAG, "onCreate with SQL: " + sql);
@@ -28,6 +28,8 @@ public class GrandDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
-
+        // Typically you do ALTER TABLE ...
+        db.execSQL("drop table if exists " + GrandContract.TABLE_1);
+        onCreate(db);
     }
 }

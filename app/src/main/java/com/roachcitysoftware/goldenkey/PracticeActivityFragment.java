@@ -1,6 +1,7 @@
 package com.roachcitysoftware.goldenkey;
 
 
+import android.app.Activity;
 import android.content.ContentProviderClient;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -59,7 +60,8 @@ public class PracticeActivityFragment extends Fragment {
                                                if (mCurrentBlessing >= mBlessingCount)
                                                {
                                                    // Run follow-up activity (exit this activity)
-                                                   return;
+                                                   Activity a = getActivity();
+                                                   a.finish();
                                                }
                                                else
                                                {

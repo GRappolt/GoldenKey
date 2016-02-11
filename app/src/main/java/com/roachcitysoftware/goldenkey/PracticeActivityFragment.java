@@ -2,6 +2,7 @@ package com.roachcitysoftware.goldenkey;
 
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.content.ContentProviderClient;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -35,6 +36,9 @@ public class PracticeActivityFragment extends Fragment {
     private BlessingEntry [] mBlessingList;
     private int mCurrentBlessing;
     private int mBlessingCount;
+    private long mStartTime;
+    private boolean mDone;
+    private long mPracticeTime;
 
     public PracticeActivityFragment() {
         // Required empty public constructor
@@ -51,13 +55,14 @@ public class PracticeActivityFragment extends Fragment {
         LoadBlessingList(v);
         if (mBlessingCount > 0)
             mBlessing.setText(mBlessingList[mCurrentBlessing].blessingText);
+        if (mBlessingCount < 2)
+            mNextButton.setText(R.string.next_button_done);
         mNextButton.setOnClickListener(new View.OnClickListener() {
                                            @Override
                                            public void onClick(View v) {
                                                String caption = mBlessing.getText().toString();
                                                 ProcessUpdate(caption, v);
-                                               ++mCurrentBlessing;
-                                               if (mCurrentBlessing >= mBlessingCount)
+                                               if (mDone)
                                                {
                                                    // Run follow-up activity (exit this activity)
                                                    Activity a = getActivity();
@@ -65,9 +70,16 @@ public class PracticeActivityFragment extends Fragment {
                                                }
                                                else
                                                {
+                                                   ++mCurrentBlessing;
                                                    mBlessing.setText(mBlessingList[mCurrentBlessing].blessingText);
-                                                   if (mCurrentBlessing == mBlessingCount - 1)
+                                                   Date dt = new Date();
+                                                   long now = dt.getTime();
+                                                   if ((mCurrentBlessing == mBlessingCount - 1) ||
+                                                           (now - mStartTime > mPracticeTime))
+                                                   {
                                                        mNextButton.setText(R.string.next_button_done);
+                                                       mDone = true;
+                                                   }
                                                }
                                            }
                                        });
@@ -78,6 +90,8 @@ public class PracticeActivityFragment extends Fragment {
     private void LoadBlessingList(View v) {
         mCurrentBlessing = 0;
         mBlessingCount = 0;
+        mDone = true;
+        mPracticeTime = AlarmManager.INTERVAL_FIFTEEN_MINUTES;
         ContentProviderClient cpc =
                 v.getContext().getContentResolver().acquireContentProviderClient(GrandContract.CONTENT_URI_1);
         if (cpc == null) {
@@ -116,8 +130,10 @@ public class PracticeActivityFragment extends Fragment {
             ++current;
         }
         Date dt = new Date();
-        long seed = dt.getTime();
-        RandomizeList(mBlessingList, seed);
+        mStartTime = dt.getTime();
+        RandomizeList(mBlessingList, mStartTime);
+        if (mBlessingCount > 0)
+            mDone = false;
         // Clean up
         cursor.close();
         cpc.release();

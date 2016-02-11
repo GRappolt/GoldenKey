@@ -147,7 +147,6 @@ public class BlessingProvider extends ContentProvider {
     @Override
     public int update(Uri uri, ContentValues values, String selection,
                       String[] selectionArgs) {
-        // TODO: Implement this to handle requests to update one or more rows.
         String where;
 
         switch (sURIMatcher.match(uri)) {
@@ -180,6 +179,11 @@ public class BlessingProvider extends ContentProvider {
 
     public boolean onAdd (String text)
     {
+        text = text.trim();
+        if (text.isEmpty()) {
+            Log.d(TAG, "onAdd empty string");
+            return false;
+        }
         ContentValues entry = new ContentValues();
         entry.clear();
         entry.put(GrandContract.BlessingsColumn.BLESSING, text);

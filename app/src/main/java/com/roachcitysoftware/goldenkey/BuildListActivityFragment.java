@@ -54,15 +54,24 @@ public class BuildListActivityFragment extends Fragment {
                 }
                 boolean added = bp.onAdd(mNewBlessing.getText().toString());
                 cpc.release();
-                if (added){
+                if (added) {
                     mNewBlessing.setText("");
                 }
             }
         });
-        mHintsShown = false;
+        // Set mHinntsShown, mCurrentHint and mHintList from savedInstanceState
+        if (savedInstanceState.getInt("hintsShown") > 0)
+        {
+            mHintsShown = true;
+            mCurrentHint = savedInstanceState.getInt("currentHint");
+            mHintList = savedInstanceState.getStringArray("hintList");
+        }
+        else {
+            mHintsShown = false;
+            mCurrentHint = 0;
+        }
         mHintButton = (Button) v.findViewById(R.id.hint_button);
         mHintText = (TextView) v.findViewById(R.id.hint_items);
-        mCurrentHint = 0;
         mHintButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,6 +123,19 @@ public class BuildListActivityFragment extends Fragment {
                 list [a] = list [b];
                 list [b] = temp;
             }
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (mHintsShown) {
+            outState.putInt("hintsShown", 1);
+            outState.putInt("currentHint", mCurrentHint);
+            outState.putStringArray("hintList", mHintList);
+        }
+        else {
+            outState.putInt("hintsShown", 0);
         }
     }
 }

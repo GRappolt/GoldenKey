@@ -60,7 +60,7 @@ public class BuildListActivityFragment extends Fragment {
             }
         });
         // Set mHinntsShown, mCurrentHint and mHintList from savedInstanceState
-        if (savedInstanceState.getInt("hintsShown") > 0)
+        if ((savedInstanceState != null) && (savedInstanceState.getInt("hintsShown") > 0))
         {
             mHintsShown = true;
             mCurrentHint = savedInstanceState.getInt("currentHint");
@@ -72,6 +72,11 @@ public class BuildListActivityFragment extends Fragment {
         }
         mHintButton = (Button) v.findViewById(R.id.hint_button);
         mHintText = (TextView) v.findViewById(R.id.hint_items);
+        if (mHintsShown) {
+            mHintButton.setText(R.string.hint_button_2);
+            mHintText.setText(mHintList[mCurrentHint]);
+            mHintText.setVisibility(View.VISIBLE);
+        }
         mHintButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

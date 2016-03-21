@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.Date;
 import java.util.Random;
@@ -52,7 +53,12 @@ public class PracticeActivityFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_practice, container, false);
         mBlessing = (EditText) v.findViewById(R.id.blessing_items);
         mNextButton = (Button) v.findViewById(R.id.next_button);
-        LoadBlessingList(v);
+        if ((savedInstanceState != null) && (savedInstanceState.getInt("blessingCount", 0) > 0)) {
+            RestoreBlessingList(savedInstanceState);
+        }
+        else {
+            LoadBlessingList(v);
+        }
         if (mBlessingCount > 0)
             mBlessing.setText(mBlessingList[mCurrentBlessing].blessingText);
         if (mBlessingCount < 2)
@@ -141,6 +147,55 @@ public class PracticeActivityFragment extends Fragment {
 
     }
 
+    private void RestoreBlessingList (Bundle inState) {
+        mDone = inState.getBoolean("done", true);
+        mBlessingCount = inState.getInt("blessingCount");
+        mCurrentBlessing = inState.getInt("currentBlessing", 0);
+        long [] rowIDList  = inState.getLongArray("rowIDarray");
+        String [] blessingTextList = inState.getStringArray("blessingTextarray");
+        String msg;
+        if (rowIDList == null) {
+            msg = "null rowListID";
+            mBlessing.setText(msg);
+            mDone = true;
+            mBlessingCount = 0;
+            return;
+        }
+        if (blessingTextList == null){
+            msg = "null blessingTextList";
+            mBlessing.setText(msg);
+            mDone = true;
+            mBlessingCount = 0;
+            return;
+        }
+        if (rowIDList.length != mBlessingCount){
+            msg = "rowIDList length " + rowIDList.length + " mBlessingCount " + mBlessingCount;
+            mBlessing.setText(msg);
+            mDone = true;
+            mBlessingCount = 0;
+            return;
+        }
+        if (blessingTextList.length != mBlessingCount){
+            msg = "blessingTextList length " + blessingTextList.length + " mBlessingCount " + mBlessingCount;
+            mBlessing.setText(msg);
+            mDone = true;
+            mBlessingCount = 0;
+            return;
+        }
+        mBlessingList = new BlessingEntry[mBlessingCount];
+        int ndx;
+        for (ndx = 0; ndx < mBlessingCount; ++ndx) {
+            BlessingEntry entry = new BlessingEntry();
+            entry.rowID = rowIDList[ndx];
+            entry.blessingText = blessingTextList[ndx];
+            mBlessingList[ndx] = entry;
+        }
+        mStartTime = inState.getLong("startTime");
+        mPracticeTime = inState.getLong("practiceTime");
+        Log.d(TAG, "RestoreBlessingList");
+    }
+
+
     private void RandomizeList(BlessingEntry[] list, long seed) {
         BlessingEntry temp;
         int a;
@@ -203,5 +258,27 @@ public class PracticeActivityFragment extends Fragment {
         Log.d(TAG, "ProcessUpdate");
     }
 
-}
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("blessingCount", mBlessingCount);
+        outState.putInt("currentBlessing", mCurrentBlessing);
+        if (mBlessingCount > 0) {
+            long[] rowIDList = new long[mBlessingCount];
+            String[] blessingTextList = new String[mBlessingCount];
+            int ndx;
+            for (ndx = 0; ndx < mBlessingCount; ++ndx) {
+               rowIDList [ndx] = mBlessingList [ndx].rowID;
+               blessingTextList [ndx] = mBlessingList [ndx].blessingText;
+            }
+            outState.putLongArray("rowIDarray", rowIDList);
+            outState.putStringArray("blessingTextarray", blessingTextList);
+        }
+        outState.putLong("startTime", mStartTime);
+        outState.putLong("practiceTime", mPracticeTime);
+        outState.putBoolean("done", mDone);
+        Log.d(TAG, "onSaveInstanceState");
+    }
+
+    }
 

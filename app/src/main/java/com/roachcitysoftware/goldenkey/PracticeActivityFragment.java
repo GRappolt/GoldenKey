@@ -10,13 +10,13 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import java.util.Date;
 import java.util.Random;
@@ -76,6 +76,7 @@ public class PracticeActivityFragment extends Fragment {
                                                }
                                                else
                                                {
+                                                   mBlessing.setInputType(0);
                                                    ++mCurrentBlessing;
                                                    mBlessing.setText(mBlessingList[mCurrentBlessing].blessingText);
                                                    Date dt = new Date();
@@ -89,9 +90,16 @@ public class PracticeActivityFragment extends Fragment {
                                                }
                                            }
                                        });
-                Log.d(TAG, "onCreateView");
-                return v;
+        mBlessing.setInputType(0);
+        mBlessing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                mBlessing.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
             }
+        });
+        Log.d(TAG, "onCreateView");
+        return v;
+    }
 
     private void LoadBlessingList(View v) {
         mCurrentBlessing = 0;
@@ -111,14 +119,8 @@ public class PracticeActivityFragment extends Fragment {
         }
         // Do the real work here
         Cursor cursor = bp.query(GrandContract.CONTENT_URI_1, null, null, null, null);
-        try {
-            if (!cursor.moveToFirst()) {
-                Log.d(TAG, "LoadBlessingList failed - can't get blessings");
-                return;
-            }
-        }
-        catch (NullPointerException e) {
-            Log.d(TAG, "LoadBlessingList failed - null cursor contents");
+        if ((cursor == null) || (!cursor.moveToFirst())) {
+            Log.d(TAG, "LoadBlessingList failed - can't get blessings");
             return;
         }
         mBlessingCount = cursor.getCount();

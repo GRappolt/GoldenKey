@@ -29,7 +29,7 @@
         <item>After a week of regular, daily practice, you will find yourself starting </item>
         <item>to sometimes feel really good for no particular reason.  Keep on training, </item>
         <item>and this will happen more and more often, and more strongly.  After a </item>
-        <item>month of steady practice, you will feel happy most of the time.</item>
+        <item>month of steady practice, you will feel very happy most of the time.</item>
     </string-array>
     <string-array name="section_1_para_5">
         <item>Steady practice is the golden key to paradise.</item>
@@ -57,9 +57,46 @@
         <item>especially good.</item>
     </string-array>
     <string-array name="section_2_para_4">
+        <item>If you need help thinking of different kinds of good things, use </item>
+        <item>the &lt;B>Hints&lt;/B> button.</item>
+    </string-array>
+    <string-array name="section_2_para_5">
         <item>Once you\'ve made a good start on your list, you can begin training.  However, </item>
         <item>that shouldn\'t stop you from adding to your list.  Keep growing the list as long as </item>
         <item>you keep practicing.</item>
+    </string-array>
+    <string name="section_3_header">Practice</string>
+    <string-array name="section_3_para_1">
+        <item>Use the &lt;B>Practice&lt;/B> screen for daily practice.  The screen will show one item from </item>
+        <item>your list, and a &lt;B>Next&lt;/B> button.</item>
+    </string-array>
+    <string-array name="section_3_para_2">
+        <item>Think about what\'s good about the item on the screen – why you like it.  </item>
+        <item>When you feel as good about the item as you can, press the &lt;B>Next&lt;/B> button.  </item>
+        <item>Keep going.  At the end of the session, the &lt;B>Next&lt;/B> button will say &lt;B>Done&lt;/B> </item>
+        <item>and the &lt;B>Practice&lt;/B> screen will close when you press it.</item>
+    </string-array>
+    <string-array name="section_3_para_3">
+        <item>The idea is to use each item to make yourself feel good.  If the item is \"hotdogs\", </item>
+        <item>and you find yourself remembering a fair where you had a hotdog and how much fun the </item>
+        <item>Ferris wheel was, that\'s great - you\'re feeling happy.  If you find yourself </item>
+        <item>thinking \"I really wish I had a hotdog right now!\", that\'s not great - you\'re not </item>
+        <item>feeling happy.  If you find yourself thinking \"Gee, I feel really stupid thinking </item>
+        <item>about hotdogs!\", that\'s not great either.</item>
+    </string-array>
+    <string-array name="section_3_para_4">
+        <item>If you get distracted by some of these not so great thoughts, don\'t try to fight it.  </item>
+        <item>Instead, just try to remember what\'s good about your happy list item.  Struggling </item>
+        <item>against bad thoughts just makes them stronger.  Actively concentrating on good thoughts </item>
+        <item>will lead to the bad thoughts fading away on their own.</item>
+    </string-array>
+    <string-array name="section_3_para_5">
+        <item>Items on the Practice screen can be edited, if you really think you need to.  They can </item>
+        <item>also be deleted, if they don’t work anymore.  Just edit or delete the text and press </item>
+        <item>the &lt;B>Next&lt;/B> button.</item>
+    </string-array>
+    <string-array name="section_3_para_6">
+        <item>Practice every day to feel really great!</item>
     </string-array>
     <string name="title_activity_build_list">BuildListActivity</string>
     <string name="add_button">Add</string>

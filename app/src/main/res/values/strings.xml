@@ -98,7 +98,7 @@
     <string-array name="section_3_para_6">
         <item>Practice every day to feel really great!</item>
     </string-array>
-    <string name="title_activity_build_list">BuildListActivity</string>
+    <string name="title_activity_build_list">Golden Key - Build List</string>
     <string name="add_button">Add</string>
     <string name="hint_button_1">Show Hints</string>
     <string name="hint_button_2">Next Hint</string>
@@ -106,12 +106,39 @@
     <string-array name="hint_list">
         <item>friends</item>
         <item>little victories</item>
-        <item>favorite foods</item>
+        <item>my favorite foods</item>
         <item>natural beauty</item>
         <item>pets</item>
         <item>music</item>
+        <item>exciting fun</item>
+        <item>quiet contentment</item>
+        <item>good times</item>
+        <item>special celebrations</item>
+        <item>places I love</item>
+        <item>comforts</item>
+        <item>favorite activities</item>
+        <item>jokes</item>
+        <item>funny happenings</item>
+        <item>humor</item>
+        <item>romantic moments</item>
+        <item>sexy people</item>
+        <item>special beverages</item>
+        <item>narrow escapes</item>
+        <item>relief</item>
+        <item>family</item>
+        <item>favorite people</item>
+        <item>love</item>
+        <item>things I am proud of</item>
+        <item>good deeds</item>
+        <item>my major achievements</item>
+        <item>books</item>
+        <item>art works</item>
+        <item>sports</item>
+        <item>movies I like</item>
+        <item>games</item>
+        <item>moments of spiritual insight</item>
     </string-array>
-    <string name="title_activity_practice">PracticeActivity</string>
+    <string name="title_activity_practice">Golden Key - Practice</string>
     <string name="next_button">Next</string>
     <string name="next_button_done">Done</string>
 

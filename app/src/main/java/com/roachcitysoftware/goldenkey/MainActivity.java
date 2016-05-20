@@ -1,5 +1,6 @@
 package com.roachcitysoftware.goldenkey;
 
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +15,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ActionBar actionBar;
+        actionBar = getSupportActionBar();
+        if (actionBar != null)
+        {
+            actionBar.setIcon(R.mipmap.ic_launcher1);
+            actionBar.setDisplayShowHomeEnabled(true);
+        }
         Log.d(TAG, "onCreate");
     }
 

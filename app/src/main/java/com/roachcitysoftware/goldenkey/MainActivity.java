@@ -15,13 +15,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ActionBar actionBar;
-        actionBar = getSupportActionBar();
-        if (actionBar != null)
-        {
-            actionBar.setIcon(R.mipmap.ic_launcher1);
-            actionBar.setDisplayShowHomeEnabled(true);
-        }
         Log.d(TAG, "onCreate");
     }
 

@@ -35,8 +35,10 @@
         android:text="@string/instructions_button"
         android:id="@+id/instructions_button"
         android:layout_below="@+id/textView2"
-        android:layout_marginStart="30dp"
-        android:layout_alignParentStart="true"
+        android:layout_marginRight="30dp"
+        android:layout_toLeftOf="@+id/list_button"
+        android:layout_marginEnd="30dp"
+        android:layout_toStartOf="@+id/list_button"
         android:layout_marginTop="30dp" />
 
     <Button
@@ -54,7 +56,9 @@
         android:text="@string/practice_button"
         android:id="@+id/practice_button"
         android:layout_below="@+id/textView2"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="30dp"
+        android:layout_toEndOf="@+id/list_button"
+        android:layout_marginStart="30dp"
+        android:layout_toRightOf="@+id/list_button"
+        android:layout_marginLeft="30dp"
         android:layout_marginTop="30dp" />
 </RelativeLayout>

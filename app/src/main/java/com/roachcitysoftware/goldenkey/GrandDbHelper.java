@@ -24,12 +24,23 @@ public class GrandDbHelper extends SQLiteOpenHelper {
                 GrandContract.BlessingsColumn.BLESSING);
         Log.d(TAG, "onCreate with SQL: " + sql);
         db.execSQL(sql);
+        sql = String.format("create table %s (%s integer primary key autoincrement, %s integer, %s text, %s text)",
+                GrandContract.TABLE_2, GrandContract.HistoryColumn.ID, GrandContract.HistoryColumn.DATE_TIME,
+                GrandContract.HistoryColumn.EVENT_TYPE, GrandContract.HistoryColumn.EXTRA_DATA);
+        Log.d(TAG, "onCreate with SQL: " + sql);
+        db.execSQL(sql);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
         // Typically you do ALTER TABLE ...
-        db.execSQL("drop table if exists " + GrandContract.TABLE_1);
+        // db.execSQL("drop table if exists " + GrandContract.TABLE_1);
+        // Rename table with blessing list to save contents
+        db.execSQL("alter table if exists " + GrandContract.TABLE_1 + "rename to oldBlessings");
         onCreate(db);
+        // Drop new empty table
+        db.execSQL("drop table if exists " + GrandContract.TABLE_1);
+        // Replace by renaming saved table (will need new logic if table format ever changes)
+        db.execSQL("alter table if exists oldBlessings rename to" + GrandContract.TABLE_1);
     }
 }

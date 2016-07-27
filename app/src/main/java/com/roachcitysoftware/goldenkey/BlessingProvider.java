@@ -11,6 +11,8 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
+import java.util.Date;
+
 
 public class BlessingProvider extends ContentProvider {
     private static final String TAG = BlessingProvider.class.getSimpleName();
@@ -23,6 +25,10 @@ public class BlessingProvider extends ContentProvider {
                 GrandContract.BLESSING_DIR);
         sURIMatcher.addURI(GrandContract.AUTHORITY_1, GrandContract.TABLE_1
                 + "/#", GrandContract.BLESSING_ITEM);
+        sURIMatcher.addURI(GrandContract.AUTHORITY_1, GrandContract.TABLE_2,
+                GrandContract.HISTORY_DIR);
+        sURIMatcher.addURI(GrandContract.AUTHORITY_1, GrandContract.TABLE_2
+                + "/#", GrandContract.HISTORY_ITEM);
     }
 
 
@@ -30,26 +36,44 @@ public class BlessingProvider extends ContentProvider {
     public int delete(Uri uri, String selection, String[] selectionArgs) {
         // Implement this to handle requests to delete one or more rows.
         String where;
+        String table;
+        long id;
 
         switch (sURIMatcher.match(uri)) {
             case GrandContract.BLESSING_DIR:
                 // so we count deleted rows
                 where = (selection == null) ? "1" : selection;
+                table = GrandContract.TABLE_1;
                 break;
             case GrandContract.BLESSING_ITEM:
-                long id = ContentUris.parseId(uri);
+                id = ContentUris.parseId(uri);
                 where = GrandContract.BlessingsColumn.ID
                         + "="
                         + id
                         + (TextUtils.isEmpty(selection) ? "" : " and ( "
                         + selection + " )");
+                table = GrandContract.TABLE_1;
+                break;
+            case GrandContract.HISTORY_DIR:
+                // so we count deleted rows
+                where = (selection == null) ? "1" : selection;
+                table = GrandContract.TABLE_2;
+                break;
+            case GrandContract.HISTORY_ITEM:
+                id = ContentUris.parseId(uri);
+                where = GrandContract.HistoryColumn.ID
+                        + "="
+                        + id
+                        + (TextUtils.isEmpty(selection) ? "" : " and ( "
+                        + selection + " )");
+                table = GrandContract.TABLE_2;
                 break;
             default:
                 throw new IllegalArgumentException("Illegal uri: " + uri);
         }
 
         SQLiteDatabase db = grandDbHelper.getReadableDatabase();
-        int ret = db.delete(GrandContract.TABLE_1, where, selectionArgs);
+        int ret = db.delete(table, where, selectionArgs);
 
         if(ret>0) {
             // Notify that data for this uri has changed
@@ -68,6 +92,12 @@ public class BlessingProvider extends ContentProvider {
             case GrandContract.BLESSING_ITEM:
                 Log.d(TAG, "gotType: " + GrandContract.BLESSING_TYPE_ITEM);
                 return GrandContract.BLESSING_TYPE_ITEM;
+            case GrandContract.HISTORY_DIR:
+                Log.d(TAG, "gotType: " + GrandContract.HISTORY_TYPE_DIR);
+                return GrandContract.HISTORY_TYPE_DIR;
+            case GrandContract.HISTORY_ITEM:
+                Log.d(TAG, "gotType: " + GrandContract.HISTORY_TYPE_ITEM);
+                return GrandContract.HISTORY_TYPE_ITEM;
             default:
                 throw new IllegalArgumentException("Illegal uri: " + uri);
         }
@@ -78,13 +108,19 @@ public class BlessingProvider extends ContentProvider {
         Uri ret = null;
 
         // Assert correct uri - can't be for specific ID, not known until insert() returns!
-        if (sURIMatcher.match(uri) != GrandContract.BLESSING_DIR) {
+        if ((sURIMatcher.match(uri) != GrandContract.BLESSING_DIR) &&
+                (sURIMatcher.match(uri) != GrandContract.HISTORY_DIR)){
             throw new IllegalArgumentException("Illegal uri: " + uri);
         }
 
         SQLiteDatabase db = grandDbHelper.getWritableDatabase();
-        long rowId = db.insertWithOnConflict(GrandContract.TABLE_1, null,
-                values, SQLiteDatabase.CONFLICT_IGNORE);
+        long rowId;
+        if (sURIMatcher.match(uri) == GrandContract.BLESSING_DIR)
+            rowId = db.insertWithOnConflict(GrandContract.TABLE_1, null, values,
+                    SQLiteDatabase.CONFLICT_IGNORE);
+        else        // GrandContract.HISTORY_DIR
+            rowId = db.insertWithOnConflict(GrandContract.TABLE_2, null, values,
+                    SQLiteDatabase.CONFLICT_IGNORE);
 
         // Was insert successful?
         if (rowId != -1) {
@@ -116,21 +152,37 @@ public class BlessingProvider extends ContentProvider {
     public Cursor query(Uri uri, String[] projection, String selection,
                         String[] selectionArgs, String sortOrder) {
         SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
-        qb.setTables( GrandContract.TABLE_1 );
+        String orderBy;
 
         switch (sURIMatcher.match(uri)) {
             case GrandContract.BLESSING_DIR:
+                qb.setTables( GrandContract.TABLE_1 );
+                orderBy = (TextUtils.isEmpty(sortOrder)) ? GrandContract.DEFAULT_SORT_1
+                        : sortOrder;
                 break;
             case GrandContract.BLESSING_ITEM:
+                qb.setTables( GrandContract.TABLE_1 );
                 qb.appendWhere(GrandContract.BlessingsColumn.ID + "="
                         + uri.getLastPathSegment());
+                orderBy = (TextUtils.isEmpty(sortOrder)) ? GrandContract.DEFAULT_SORT_1
+                        : sortOrder;
+                break;
+            case GrandContract.HISTORY_DIR:
+                qb.setTables( GrandContract.TABLE_2 );
+                orderBy = (TextUtils.isEmpty(sortOrder)) ? GrandContract.DEFAULT_SORT_2
+                        : sortOrder;
+                break;
+            case GrandContract.HISTORY_ITEM:
+                qb.setTables( GrandContract.TABLE_2 );
+                qb.appendWhere(GrandContract.HistoryColumn.ID + "="
+                        + uri.getLastPathSegment());
+                orderBy = (TextUtils.isEmpty(sortOrder)) ? GrandContract.DEFAULT_SORT_2
+                        : sortOrder;
                 break;
             default:
                 throw new IllegalArgumentException("Illegal uri: " + uri);
         }
 
-        String orderBy = (TextUtils.isEmpty(sortOrder)) ? GrandContract.DEFAULT_SORT_1
-                : sortOrder;
 
         SQLiteDatabase db = grandDbHelper.getReadableDatabase();
         Cursor cursor = qb.query(db, projection, selection, selectionArgs, null, null, orderBy);
@@ -148,26 +200,44 @@ public class BlessingProvider extends ContentProvider {
     public int update(Uri uri, ContentValues values, String selection,
                       String[] selectionArgs) {
         String where;
+        String table;
+        long id;
 
         switch (sURIMatcher.match(uri)) {
             case GrandContract.BLESSING_DIR:
                 // so we count updated rows
                 where = selection;
+                table = GrandContract.TABLE_1;
                 break;
             case GrandContract.BLESSING_ITEM:
-                long id = ContentUris.parseId(uri);
+                id = ContentUris.parseId(uri);
                 where = GrandContract.BlessingsColumn.ID
                         + "="
                         + id
                         + (TextUtils.isEmpty(selection) ? "" : " and ( "
                         + selection + " )");
+                table = GrandContract.TABLE_1;
+                break;
+            case GrandContract.HISTORY_DIR:
+                // so we count updated rows
+                where = selection;
+                table = GrandContract.TABLE_2;
+                break;
+            case GrandContract.HISTORY_ITEM:
+                id = ContentUris.parseId(uri);
+                where = GrandContract.HistoryColumn.ID
+                        + "="
+                        + id
+                        + (TextUtils.isEmpty(selection) ? "" : " and ( "
+                        + selection + " )");
+                table = GrandContract.TABLE_2;
                 break;
             default:
                 throw new IllegalArgumentException("Illegal uri: " + uri);
         }
 
         SQLiteDatabase db = grandDbHelper.getReadableDatabase();
-        int ret = db.update(GrandContract.TABLE_1, values, where, selectionArgs);
+        int ret = db.update(table, values, where, selectionArgs);
 
         if(ret>0) {
             // Notify that data for this uri has changed
@@ -193,6 +263,33 @@ public class BlessingProvider extends ContentProvider {
             return true;
         } else {
             Log.d(TAG, "onAdd failed");
+            return false;
+        }
+    }
+
+    public boolean onAddEvent (String eventType, String extraData)
+    {
+        eventType = eventType.trim();
+        if (eventType.isEmpty()) {
+            Log.d(TAG, "onAddEvent no event type");
+            return false;
+        }
+        extraData = extraData.trim();
+
+        ContentValues entry = new ContentValues();
+        entry.clear();
+        java.util.Date present = new Date();
+        long now = present.getTime();
+        entry.put(GrandContract.HistoryColumn.DATE_TIME, now);
+        entry.put(GrandContract.HistoryColumn.EVENT_TYPE, eventType);
+        entry.put(GrandContract.HistoryColumn.EXTRA_DATA, extraData);
+
+        Uri result = insert(GrandContract.CONTENT_URI_2, entry);
+        if (result != null) {
+            Log.d(TAG, "onAddEvent success - event: " + eventType + " - data: " + extraData);
+            return true;
+        } else {
+            Log.d(TAG, "onAddEvent failed");
             return false;
         }
     }

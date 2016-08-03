@@ -49,5 +49,8 @@ public class GrandContract {
     public static final String HISTORY_TYPE_DIR =
             "vnd.android.cursor.dir/vnd.com.roachcitysoftware.goldenkey.provider.history";
 
+    public static final String BUILD_LIST_EVENT = "BuildList";
+    public static final String PRACTICE_EVENT = "Practice";
+
 }
 

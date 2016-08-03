@@ -1,6 +1,7 @@
 package com.roachcitysoftware.goldenkey;
 
 import android.content.ContentProviderClient;
+import android.content.Context;
 import android.content.res.Resources;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -27,6 +28,8 @@ public class BuildListActivityFragment extends Fragment {
     private TextView mHintText;
     private String [] mHintList;
     private int mCurrentHint;
+    private long mEventId;
+    private int mItemsAdded;
 
     public BuildListActivityFragment() {
     }
@@ -56,19 +59,29 @@ public class BuildListActivityFragment extends Fragment {
                 cpc.release();
                 if (added) {
                     mNewBlessing.setText("");
+                    ++mItemsAdded;
                 }
             }
         });
         // Set mHinntsShown, mCurrentHint and mHintList from savedInstanceState
-        if ((savedInstanceState != null) && (savedInstanceState.getInt("hintsShown") > 0))
+        if (savedInstanceState != null)
         {
-            mHintsShown = true;
-            mCurrentHint = savedInstanceState.getInt("currentHint");
-            mHintList = savedInstanceState.getStringArray("hintList");
+            if (savedInstanceState.getInt("hintsShown") > 0) {
+                mHintsShown = true;
+                mCurrentHint = savedInstanceState.getInt("currentHint");
+                mHintList = savedInstanceState.getStringArray("hintList");
+            } else {
+                mHintsShown = false;
+                mCurrentHint = 0;
+            }
+            mEventId = savedInstanceState.getLong("eventId", -1);
+            mItemsAdded = savedInstanceState.getInt("itemsAdded", 0);
         }
         else {
             mHintsShown = false;
             mCurrentHint = 0;
+            mEventId = -1;
+            mItemsAdded = 0;
         }
         mHintButton = (Button) v.findViewById(R.id.hint_button);
         mHintText = (TextView) v.findViewById(R.id.hint_items);
@@ -134,6 +147,9 @@ public class BuildListActivityFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        Log.d(TAG, "onSaveInstanceState eventId: " + Long.toString(mEventId) + " itemsAdded: " +
+                Integer.toString(mItemsAdded));
+        recordEvent();
         if (mHintsShown) {
             outState.putInt("hintsShown", 1);
             outState.putInt("currentHint", mCurrentHint);
@@ -142,5 +158,44 @@ public class BuildListActivityFragment extends Fragment {
         else {
             outState.putInt("hintsShown", 0);
         }
+        outState.putLong("eventId", mEventId);
+        outState.putInt("itemsAdded", mItemsAdded);
+    }
+
+    private void recordEvent () {
+        View v = getView();
+        if (v == null){
+            Log.d(TAG, "recordEvent failed - can't get View");
+            return;
+        }
+        Context ctx = v.getContext();
+        if (ctx == null){
+            Log.d(TAG, "recordEvent failed - can't get Context");
+            return;
+        }
+        ContentProviderClient cpc =
+                ctx.getContentResolver().acquireContentProviderClient(GrandContract.CONTENT_URI_2);
+        if (cpc == null){
+            Log.d(TAG, "recordEvent failed - can't get ContentProviderClient");
+            return;
+        }
+        BlessingProvider bp = (BlessingProvider) cpc.getLocalContentProvider();
+        if (bp == null){
+            Log.d(TAG, "recordEvent failed - can't get BlessingProvider");
+            cpc.release();
+            return;
+        }
+        String itemsAdded = Integer.toString(mItemsAdded);
+        if (mEventId == -1) {
+            mEventId = bp.onAddEvent(GrandContract.BUILD_LIST_EVENT, itemsAdded);
+            Log.d(TAG, "recordEvent success - onAddEvent " + GrandContract.BUILD_LIST_EVENT +
+                " " + itemsAdded);
+        } else
+        {
+            bp.onUpdateEvent(mEventId, GrandContract.BUILD_LIST_EVENT, itemsAdded);
+            Log.d(TAG, "recordEvent success - onUpdateEvent " + GrandContract.BUILD_LIST_EVENT +
+                    " " + itemsAdded + "eventID: " + Long.toString(mEventId));
+        }
+        cpc.release();
     }
 }

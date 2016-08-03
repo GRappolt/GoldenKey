@@ -267,12 +267,12 @@ public class BlessingProvider extends ContentProvider {
         }
     }
 
-    public boolean onAddEvent (String eventType, String extraData)
+    public long onAddEvent (String eventType, String extraData)
     {
         eventType = eventType.trim();
         if (eventType.isEmpty()) {
             Log.d(TAG, "onAddEvent no event type");
-            return false;
+            return -1;
         }
         extraData = extraData.trim();
 
@@ -287,10 +287,40 @@ public class BlessingProvider extends ContentProvider {
         Uri result = insert(GrandContract.CONTENT_URI_2, entry);
         if (result != null) {
             Log.d(TAG, "onAddEvent success - event: " + eventType + " - data: " + extraData);
-            return true;
+            return ContentUris.parseId(result);
         } else {
             Log.d(TAG, "onAddEvent failed");
-            return false;
+            return -1;
+        }
+    }
+
+    public void onUpdateEvent (long eventId, String eventType, String extraData)
+    {
+        if (eventId == -1){
+            Log.d(TAG, "onUpdateEvent failed - invalid ID");
+            return;
+        }
+        eventType = eventType.trim();
+        if (eventType.isEmpty()) {
+            Log.d(TAG, "onUpdateEvent failed - no event type");
+            return;
+        }
+        extraData = extraData.trim();
+
+        ContentValues entry = new ContentValues();
+        entry.clear();
+        java.util.Date present = new Date();
+        long now = present.getTime();
+        entry.put(GrandContract.HistoryColumn.DATE_TIME, now);
+        entry.put(GrandContract.HistoryColumn.EVENT_TYPE, eventType);
+        entry.put(GrandContract.HistoryColumn.EXTRA_DATA, extraData);
+
+        Uri target = ContentUris.withAppendedId(GrandContract.CONTENT_URI_2, eventId);
+        int upDateCount = update(target, entry, null, null);
+        if (upDateCount > 0){
+            Log.d(TAG, "onUpdateEvent succeeded");
+        } else {
+            Log.d(TAG, "onUpdateEvent failed - zero updates");
         }
     }
 }

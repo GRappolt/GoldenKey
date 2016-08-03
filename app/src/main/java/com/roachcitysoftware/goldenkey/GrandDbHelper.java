@@ -36,11 +36,11 @@ public class GrandDbHelper extends SQLiteOpenHelper {
         // Typically you do ALTER TABLE ...
         // db.execSQL("drop table if exists " + GrandContract.TABLE_1);
         // Rename table with blessing list to save contents
-        db.execSQL("alter table if exists " + GrandContract.TABLE_1 + "rename to oldBlessings");
+        db.execSQL("alter table " + GrandContract.TABLE_1 + " rename to oldBlessings");
         onCreate(db);
         // Drop new empty table
         db.execSQL("drop table if exists " + GrandContract.TABLE_1);
         // Replace by renaming saved table (will need new logic if table format ever changes)
-        db.execSQL("alter table if exists oldBlessings rename to" + GrandContract.TABLE_1);
+        db.execSQL("alter table oldBlessings rename to " + GrandContract.TABLE_1);
     }
 }

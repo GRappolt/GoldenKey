@@ -6,6 +6,7 @@ import android.app.AlarmManager;
 import android.content.ContentProviderClient;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -40,6 +41,7 @@ public class PracticeActivityFragment extends Fragment {
     private long mStartTime;
     private boolean mDone;
     private long mPracticeTime;
+    private long mEventId;
 
     public PracticeActivityFragment() {
         // Required empty public constructor
@@ -70,6 +72,7 @@ public class PracticeActivityFragment extends Fragment {
                                                 ProcessUpdate(caption, v);
                                                if (mDone)
                                                {
+                                                   recordEvent();
                                                    // Run follow-up activity (exit this activity)
                                                    Activity a = getActivity();
                                                    a.finish();
@@ -106,6 +109,7 @@ public class PracticeActivityFragment extends Fragment {
         mBlessingCount = 0;
         mDone = true;
         mPracticeTime = AlarmManager.INTERVAL_FIFTEEN_MINUTES;
+        mEventId = -1;
         ContentProviderClient cpc =
                 v.getContext().getContentResolver().acquireContentProviderClient(GrandContract.CONTENT_URI_1);
         if (cpc == null) {
@@ -194,6 +198,7 @@ public class PracticeActivityFragment extends Fragment {
         }
         mStartTime = inState.getLong("startTime");
         mPracticeTime = inState.getLong("practiceTime");
+        mEventId = inState.getLong("eventId", -1);
         Log.d(TAG, "RestoreBlessingList");
     }
 
@@ -263,6 +268,7 @@ public class PracticeActivityFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        recordEvent();
         outState.putInt("blessingCount", mBlessingCount);
         outState.putInt("currentBlessing", mCurrentBlessing);
         if (mBlessingCount > 0) {
@@ -279,8 +285,45 @@ public class PracticeActivityFragment extends Fragment {
         outState.putLong("startTime", mStartTime);
         outState.putLong("practiceTime", mPracticeTime);
         outState.putBoolean("done", mDone);
+        outState.putLong("eventId", mEventId);
         Log.d(TAG, "onSaveInstanceState");
     }
 
+    private void recordEvent () {
+        View v = getView();
+        if (v == null){
+            Log.d(TAG, "recordEvent failed - can't get View");
+            return;
+        }
+        Context ctx = v.getContext();
+        if (ctx == null){
+            Log.d(TAG, "recordEvent failed - can't get Context");
+            return;
+        }
+        ContentProviderClient cpc =
+                ctx.getContentResolver().acquireContentProviderClient(GrandContract.CONTENT_URI_2);
+        if (cpc == null){
+            Log.d(TAG, "recordEvent failed - can't get ContentProviderClient");
+            return;
+        }
+        BlessingProvider bp = (BlessingProvider) cpc.getLocalContentProvider();
+        if (bp == null){
+            Log.d(TAG, "recordEvent failed - can't get BlessingProvider");
+            cpc.release();
+            return;
+        }
+        String done = mDone ? "Done" : "No";
+        if (mEventId == -1) {
+            mEventId = bp.onAddEvent(GrandContract.PRACTICE_EVENT, done);
+            Log.d(TAG, "recordEvent success - onAddEvent " + GrandContract.PRACTICE_EVENT +
+                    " " + done);
+        } else
+        {
+            bp.onUpdateEvent(mEventId, GrandContract.PRACTICE_EVENT, done);
+            Log.d(TAG, "recordEvent success - onUpdateEvent " + GrandContract.PRACTICE_EVENT +
+                    " " + done + "eventID: " + Long.toString(mEventId));
+        }
+        cpc.release();
     }
+}
 

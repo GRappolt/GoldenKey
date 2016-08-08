@@ -63,8 +63,12 @@ public class PracticeActivityFragment extends Fragment {
         }
         if (mBlessingCount > 0)
             mBlessing.setText(mBlessingList[mCurrentBlessing].blessingText);
-        if (mBlessingCount < 2)
+        else
+            mBlessing.setText(R.string.practice_hint);
+        if (mBlessingCount < 2) {
             mNextButton.setText(R.string.next_button_done);
+            mDone = true;
+        }
         mNextButton.setOnClickListener(new View.OnClickListener() {
                                            @Override
                                            public void onClick(View v) {
@@ -312,7 +316,8 @@ public class PracticeActivityFragment extends Fragment {
             cpc.release();
             return;
         }
-        String done = mDone ? "Done" : "No";
+        boolean mComplete = mDone && (mBlessingCount > 0);
+        String done = mComplete ? "Done" : "No";
         if (mEventId == -1) {
             mEventId = bp.onAddEvent(GrandContract.PRACTICE_EVENT, done);
             Log.d(TAG, "recordEvent success - onAddEvent " + GrandContract.PRACTICE_EVENT +

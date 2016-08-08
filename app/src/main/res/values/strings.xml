@@ -142,5 +142,6 @@
     <string name="title_activity_practice">Golden Key - Practice</string>
     <string name="next_button">Next</string>
     <string name="next_button_done">Done</string>
+    <string name="practice_hint">Build a list of good things first - then practice.</string>
 
 </resources>

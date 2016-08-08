@@ -8,6 +8,7 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -63,8 +64,10 @@ public class PracticeActivityFragment extends Fragment {
         }
         if (mBlessingCount > 0)
             mBlessing.setText(mBlessingList[mCurrentBlessing].blessingText);
-        else
+        else {
+            mBlessing.setTextColor(Color.GRAY);
             mBlessing.setText(R.string.practice_hint);
+        }
         if (mBlessingCount < 2) {
             mNextButton.setText(R.string.next_button_done);
             mDone = true;

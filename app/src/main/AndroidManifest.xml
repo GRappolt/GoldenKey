@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.roachcitysoftware.goldenkey">
 
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -42,7 +43,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.roachcitysoftware.goldenkey.MainActivity" />
         </activity>
-        <activity android:name=".PracticeActivity"
+        <activity
+            android:name=".PracticeActivity"
             android:label="@string/title_activity_practice"
             android:parentActivityName=".MainActivity">
             <intent-filter>
@@ -54,7 +56,6 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.roachcitysoftware.goldenkey.MainActivity" />
-
         </activity>
 
         <provider
@@ -63,6 +64,28 @@
             android:enabled="true"
             android:exported="false" />
 
-     </application>
+        <receiver
+            android:name=".BootReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".ReminderService"
+            android:enabled="true"
+            android:exported="false" />
+
+        <receiver
+            android:name=".ReminderReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.roachcitysoftware.goldenkey.action.REMINDER" />
+            </intent-filter>
+        </receiver>
+    </application>
 
 </manifest>

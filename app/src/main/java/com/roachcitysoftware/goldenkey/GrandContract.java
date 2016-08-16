@@ -23,7 +23,8 @@ public class GrandContract {
     }
 
     public static final String TABLE_2 = "history";
-    public static final String DEFAULT_SORT_2 = HistoryColumn.DATE_TIME;
+    // descending order for most recent/latest first
+    public static final String DEFAULT_SORT_2 = HistoryColumn.DATE_TIME + " DESC";
 
     public class HistoryColumn {
         public static final String ID = BaseColumns._ID;

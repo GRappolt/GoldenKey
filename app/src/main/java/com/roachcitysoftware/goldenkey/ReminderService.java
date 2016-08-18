@@ -70,7 +70,7 @@ public class ReminderService extends Service {
         }
         // Retrieve the last Practice time, update Practice deadline
         Cursor practiceCursor = bp.query(GrandContract.CONTENT_URI_2, null,
-                "EVENT_TYPE = " + GrandContract.PRACTICE_EVENT + " AND EXTRA_DATA = Done",
+                " eventType = '" + GrandContract.PRACTICE_EVENT + "' AND  extraData = 'Done' ",
                 null, null);
         if ((practiceCursor != null) && (practiceCursor.moveToFirst())){
             long lastPractice =
@@ -85,7 +85,7 @@ public class ReminderService extends Service {
         }
         // Retrieve the last Build List time, update Build List deadline
         Cursor buildListCursor = bp.query(GrandContract.CONTENT_URI_2, null,
-                "EVENT_TYPE = " + GrandContract.BUILD_LIST_EVENT, null, null);
+                "eventType = '" + GrandContract.BUILD_LIST_EVENT +"'", null, null);
         if ((buildListCursor != null) && (buildListCursor.moveToFirst())){
             long lastBuild =
                     buildListCursor.getLong(buildListCursor.getColumnIndex(GrandContract.HistoryColumn.DATE_TIME));

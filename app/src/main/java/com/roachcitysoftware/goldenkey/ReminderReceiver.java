@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.util.Log;
 
 public class ReminderReceiver extends BroadcastReceiver {
@@ -21,6 +22,7 @@ public class ReminderReceiver extends BroadcastReceiver {
         int notificationId;
         PendingIntent operation;
         String content;
+        String title;
 
         NotificationManager notificationManager = (NotificationManager) context
                 .getSystemService(Context.NOTIFICATION_SERVICE);
@@ -36,6 +38,7 @@ public class ReminderReceiver extends BroadcastReceiver {
                         new Intent(context, PracticeActivity.class),
                         PendingIntent.FLAG_ONE_SHOT);
                 content = "Practice now to feel really great.";
+                title = "Golden Key - Practice";
                 break;
             case ReminderService.BUILD_LIST:
                 notificationId = BUILD_LIST_NOTIFICATION_ID;
@@ -43,6 +46,7 @@ public class ReminderReceiver extends BroadcastReceiver {
                         new Intent(context, BuildListActivity.class),
                         PendingIntent.FLAG_ONE_SHOT);
                 content = "It’s fun to think of good things and add them to your list.";
+                title = "Golden Key - Build List";
                 break;
             default:
                 // Handle unexpected event (throw exception?)
@@ -52,9 +56,9 @@ public class ReminderReceiver extends BroadcastReceiver {
 
         // Build and send notification
         Notification notification = new Notification.Builder(context)
-                .setContentTitle("Golden Key")
+                .setContentTitle(title)
                 .setContentText(content)
-                .setSmallIcon(R.mipmap.gk_icon)
+                .setSmallIcon(R.drawable.gk_notify)
                 .setContentIntent(operation)
                 .setAutoCancel(true)
                 .build(); // clk: getNotification() was deprecated in API level 16

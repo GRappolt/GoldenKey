@@ -45,7 +45,7 @@ public class ReminderReceiver extends BroadcastReceiver {
                 operation = PendingIntent.getActivity(context, -1,
                         new Intent(context, BuildListActivity.class),
                         PendingIntent.FLAG_ONE_SHOT);
-                content = "It’s fun to think of good things and add them to your list.";
+                content = "It’s fun to think of good things to add to your list.";
                 title = "Golden Key - Build List";
                 break;
             default:

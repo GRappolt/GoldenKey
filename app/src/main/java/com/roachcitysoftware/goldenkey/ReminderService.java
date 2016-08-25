@@ -109,14 +109,11 @@ public class ReminderService extends Service {
             sendBroadcast(new Intent(
                     "com.roachcitysoftware.goldenkey.action.REMINDER").putExtra(
                     "Target", ReminderService.PRACTICE));
-            mPracticeReminderDeadline += AlarmManager.INTERVAL_HOUR;
-            return;
         }
         if (now > mBuildListReminderDeadline){
             sendBroadcast(new Intent(
                     "com.roachcitysoftware.goldenkey.action.REMINDER").putExtra(
                     "Target", ReminderService.BUILD_LIST));
-            mBuildListReminderDeadline += AlarmManager.INTERVAL_DAY;
         }
     }
 }

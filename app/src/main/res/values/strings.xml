@@ -143,5 +143,10 @@
     <string name="next_button">Next</string>
     <string name="next_button_done">Done</string>
     <string name="practice_hint">Build a list of good things first - then practice.</string>
+    <string name="practice_feedback_base">You have practiced </string>
+    <string name="practice_feedback_plural"> days in a row.</string>
+    <string name="practice_feedback_single"> day.</string>
+    <string name="max_practice_feedback">Maximum days of continuous practice: </string>
+    <string name="close_button">Close</string>
 
 </resources>

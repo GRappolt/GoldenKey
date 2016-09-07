@@ -28,10 +28,11 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.roachcitysoftware.goldenkey.MainActivity" />
-       </activity>
+        </activity>
         <activity
             android:name=".BuildListActivity"
             android:label="@string/title_activity_build_list"
@@ -89,6 +90,24 @@
                 <action android:name="com.roachcitysoftware.goldenkey.action.REMINDER" />
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name=".PracticeFeedbackActivity"
+            android:theme="@style/Theme.AppCompat.Dialog">
+            <intent-filter>
+                <action android:name="com.roachcitysoftware.goldenkey.action.practice_feedback" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".BuildListFeedbackActivity"
+            android:theme="@style/Theme.AppCompat.Dialog">
+            <intent-filter>
+                <action android:name="com.roachcitysoftware.goldenkey.action.build_list_feedback" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

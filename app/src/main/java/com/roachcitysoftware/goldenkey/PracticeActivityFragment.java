@@ -7,6 +7,7 @@ import android.content.ContentProviderClient;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
@@ -81,6 +82,7 @@ public class PracticeActivityFragment extends Fragment {
                                                {
                                                    recordEvent();
                                                    // Run follow-up activity (exit this activity)
+                                                   startActivity(new Intent("com.roachcitysoftware.goldenkey.action.practice_feedback"));
                                                    Activity a = getActivity();
                                                    a.finish();
                                                }

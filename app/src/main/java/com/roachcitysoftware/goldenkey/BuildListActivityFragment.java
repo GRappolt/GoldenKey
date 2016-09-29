@@ -19,7 +19,7 @@ import java.util.Random;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class BuildListActivityFragment extends Fragment {
+public class BuildListActivityFragment extends Fragment  {
 
     private static final String TAG = BuildListActivityFragment.class.getSimpleName();
     private EditText mNewBlessing;
@@ -149,7 +149,6 @@ public class BuildListActivityFragment extends Fragment {
         super.onSaveInstanceState(outState);
         Log.d(TAG, "onSaveInstanceState eventId: " + Long.toString(mEventId) + " itemsAdded: " +
                 Integer.toString(mItemsAdded));
-        recordEvent();
         if (mHintsShown) {
             outState.putInt("hintsShown", 1);
             outState.putInt("currentHint", mCurrentHint);
@@ -162,7 +161,7 @@ public class BuildListActivityFragment extends Fragment {
         outState.putInt("itemsAdded", mItemsAdded);
     }
 
-    private void recordEvent () {
+    public void recordEvent () {
         View v = getView();
         if (v == null){
             Log.d(TAG, "recordEvent failed - can't get View");

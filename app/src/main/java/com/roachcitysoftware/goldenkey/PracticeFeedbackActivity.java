@@ -11,8 +11,9 @@ public class PracticeFeedbackActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "onCreate start");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_practice_feedback);
-        Log.d(TAG, "onCreate");
+        Log.d(TAG, "onCreate done");
     }
 }

@@ -148,5 +148,18 @@
     <string name="practice_feedback_single"> day.</string>
     <string name="max_practice_feedback">Maximum days of continuous practice: </string>
     <string name="close_button">Close</string>
+    <string-array name="praise_list">
+        <item>Way to go!</item>
+        <item>Excellent!</item>
+        <item>Very good!</item>
+        <item>Congratulations!</item>
+        <item>Good job!</item>
+    </string-array>
+    <string name="build_list_feedback_base">You just added </string>
+    <string name="build_list_feedback_single"> item to your list.</string>
+    <string name="build_list_feedback_plural"> items to your list.</string>
+    <string name="max_list_feedback">Maximum items added in one session: </string>
+    <string name="list_size_feedback_base">Your list has </string>
+    <string name="list_size_feedback_end"> items total.</string>
 
 </resources>

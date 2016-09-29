@@ -16,9 +16,6 @@ public class MainActivityFragment extends Fragment {
 
     private static final String TAG = MainActivityFragment.class.getSimpleName();
 
-//    private Button mInstructionsButton;
-//    private Button mListButton;
-    private Button mPracticeButton;
 
     public MainActivityFragment() {
     }

@@ -3,6 +3,7 @@ package com.roachcitysoftware.goldenkey;
 
 import android.app.Activity;
 import android.content.ContentProviderClient;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Random;
 
 
 /**
@@ -27,6 +29,7 @@ public class PracticeFeedbackActivityFragment extends Fragment {
     private int mPracticeRun;
     private int mMaxPracticeRun;
     private String mPraise;
+    private String [] mPraiseList;
     private String mPracticeFeedback;
     private String mMaxFeedback;
     private TextView mPraiseText;
@@ -46,6 +49,11 @@ public class PracticeFeedbackActivityFragment extends Fragment {
         Log.d(TAG, "onCreateView starting");
         View v = inflater.inflate(R.layout.fragment_practice_feedback_activity, container, false);
         InitializeData(v);
+        if (mPracticeRun < 1){
+            // Don't display feedback for null practice
+            Activity a = getActivity();
+            a.finish();
+        }
         BuildStrings();
         mPraiseText = (TextView)v.findViewById(R.id.praise);
         mPraiseText.setText(mPraise);
@@ -140,7 +148,14 @@ public class PracticeFeedbackActivityFragment extends Fragment {
 
     private void BuildStrings(){
         Log.d(TAG, "BuildStrings starting");
-        mPraise = "Way to go!";
+        Resources res = getResources();
+        mPraiseList = res.getStringArray(R.array.praise_list);
+        Date dt = new Date();
+        long seed = dt.getTime();
+        int size = mPraiseList.length;
+        Random rn = new Random(seed);
+        int selection = rn.nextInt(size);
+        mPraise = mPraiseList[selection];
         if (mPracticeRun == 1)
             mPracticeFeedback = getString(R.string.practice_feedback_base) +
                     Integer.toString(mPracticeRun) + getString(R.string.practice_feedback_single);

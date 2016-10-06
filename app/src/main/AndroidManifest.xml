@@ -91,24 +91,6 @@
             </intent-filter>
         </receiver>
 
-        <activity
-            android:name=".PracticeFeedbackActivity"
-            android:theme="@style/Theme.AppCompat.Dialog">
-            <intent-filter>
-                <action android:name="com.roachcitysoftware.goldenkey.action.practice_feedback" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".BuildListFeedbackActivity"
-            android:theme="@style/Theme.AppCompat.Dialog"
-            android:parentActivityName=".MainActivity">
-            <intent-filter>
-                <action android:name="com.roachcitysoftware.goldenkey.action.build_list_feedback" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>

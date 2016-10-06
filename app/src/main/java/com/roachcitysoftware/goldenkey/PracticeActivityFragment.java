@@ -3,11 +3,14 @@ package com.roachcitysoftware.goldenkey;
 
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.content.ContentProviderClient;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
@@ -21,7 +24,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Random;
 
 
@@ -44,6 +49,8 @@ public class PracticeActivityFragment extends Fragment {
     private boolean mDone;
     private long mPracticeTime;
     private long mEventId;
+
+
 
     public PracticeActivityFragment() {
         // Required empty public constructor
@@ -81,10 +88,14 @@ public class PracticeActivityFragment extends Fragment {
                                                if (mDone)
                                                {
                                                    recordEvent();
-                                                   // Run follow-up activity (exit this activity)
-                                                   startActivity(new Intent("com.roachcitysoftware.goldenkey.action.practice_feedback"));
+                                                   // Display feedback dialog, then exit
                                                    Activity a = getActivity();
-                                                   a.finish();
+                                                   if (a instanceof FeedBackDisplay){
+                                                       ((FeedBackDisplay) a).displayFeedback();
+                                                   } else {
+                                                       Log.d(TAG, "onClickListener feedback failed");
+                                                       a.finish();
+                                                   }
                                                }
                                                else
                                                {
@@ -277,7 +288,7 @@ public class PracticeActivityFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        recordEvent();
+//        recordEvent();
         outState.putInt("blessingCount", mBlessingCount);
         outState.putInt("currentBlessing", mCurrentBlessing);
         if (mBlessingCount > 0) {
@@ -298,7 +309,7 @@ public class PracticeActivityFragment extends Fragment {
         Log.d(TAG, "onSaveInstanceState");
     }
 
-    private void recordEvent () {
+    public void recordEvent () {
         View v = getView();
         if (v == null){
             Log.d(TAG, "recordEvent failed - can't get View");
@@ -331,9 +342,15 @@ public class PracticeActivityFragment extends Fragment {
         {
             bp.onUpdateEvent(mEventId, GrandContract.PRACTICE_EVENT, done);
             Log.d(TAG, "recordEvent success - onUpdateEvent " + GrandContract.PRACTICE_EVENT +
-                    " " + done + "eventID: " + Long.toString(mEventId));
+                    " " + done + " eventID: " + Long.toString(mEventId));
         }
         cpc.release();
     }
+
+    public interface FeedBackDisplay {
+        public void displayFeedback();
+    }
+
+
 }
 

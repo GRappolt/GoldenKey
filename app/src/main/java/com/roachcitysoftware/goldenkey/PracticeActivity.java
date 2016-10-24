@@ -110,15 +110,15 @@ public class PracticeActivity extends AppCompatActivity
 
     private void InitializeData(){
         Log.d(TAG, "InitializeData starting");
-        long dateTime = 0;
+        long dateTime;
         Date current = new Date();
         GregorianCalendar curCal = new GregorianCalendar();
-        int currentDay = 0;
+        int currentDay;
         Date previous = new Date();
         GregorianCalendar prevCal = new GregorianCalendar();
-        int previousDay = 0;
+        int previousDay;
         boolean firstRun = true;
-        int runLength = 0;
+        int runLength;
         boolean inRun = true;
         mPracticeRun = 0;
         mMaxPracticeRun = 0;
@@ -196,12 +196,12 @@ public class PracticeActivity extends AppCompatActivity
         int selection = rn.nextInt(size);
         mPraise = mPraiseList[selection];
         if (mPracticeRun == 1)
-            mPracticeFeedback = getString(R.string.practice_feedback_base) +
-                    Integer.toString(mPracticeRun) + getString(R.string.practice_feedback_single);
+            mPracticeFeedback = getString(R.string.practice_feedback_base) + " " +
+                    Integer.toString(mPracticeRun) + " " + getString(R.string.practice_feedback_single);
         else
-            mPracticeFeedback = getString(R.string.practice_feedback_base) +
-                    Integer.toString(mPracticeRun) + getString(R.string.practice_feedback_plural);
-        mMaxFeedback = getString(R.string.max_practice_feedback) +
+            mPracticeFeedback = getString(R.string.practice_feedback_base) + " " +
+                    Integer.toString(mPracticeRun) + " " + getString(R.string.practice_feedback_plural);
+        mMaxFeedback = getString(R.string.max_practice_feedback) + " " +
                 Integer.toString(mMaxPracticeRun);
         Log.d(TAG, "BuildStrings done");
     }

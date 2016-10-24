@@ -39,8 +39,8 @@ public class PracticeActivityFragment extends Fragment {
     private EditText mBlessing;
     private Button mNextButton;
     private class BlessingEntry {
-        public long rowID;
-        public String blessingText;
+        long rowID;
+        String blessingText;
     }
     private BlessingEntry [] mBlessingList;
     private int mCurrentBlessing;
@@ -271,7 +271,6 @@ public class PracticeActivityFragment extends Fragment {
         caption = caption.trim();
         if (caption.isEmpty()) {
             bp.delete(target, null, null);
-//            bp.delete(GrandContract.CONTENT_URI_1,null,null);
         }
         else
         {
@@ -288,7 +287,6 @@ public class PracticeActivityFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-//        recordEvent();
         outState.putInt("blessingCount", mBlessingCount);
         outState.putInt("currentBlessing", mCurrentBlessing);
         if (mBlessingCount > 0) {
@@ -348,7 +346,7 @@ public class PracticeActivityFragment extends Fragment {
     }
 
     public interface FeedBackDisplay {
-        public void displayFeedback();
+        void displayFeedback();
     }
 
 

@@ -14,6 +14,8 @@ public class ReminderService extends Service {
     private static final String TAG = ReminderService.class.getSimpleName();
     public static final int PRACTICE = 1;
     public static final int BUILD_LIST = 2;
+    public static final int NOTIFY = 3;
+    public static final int CANCEL = 4;
     private static long mPracticeReminderDeadline;
     private static long mBuildListReminderDeadline;
 
@@ -108,12 +110,12 @@ public class ReminderService extends Service {
         if (now > mPracticeReminderDeadline){
             sendBroadcast(new Intent(
                     "com.roachcitysoftware.goldenkey.action.REMINDER").putExtra(
-                    "Target", ReminderService.PRACTICE));
+                    "Target", ReminderService.PRACTICE).putExtra("Action", ReminderService.NOTIFY));
         }
         if (now > mBuildListReminderDeadline){
             sendBroadcast(new Intent(
                     "com.roachcitysoftware.goldenkey.action.REMINDER").putExtra(
-                    "Target", ReminderService.BUILD_LIST));
+                    "Target", ReminderService.BUILD_LIST).putExtra("Action", ReminderService.NOTIFY));
         }
     }
 }

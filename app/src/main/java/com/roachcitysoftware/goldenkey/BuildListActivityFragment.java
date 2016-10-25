@@ -2,6 +2,7 @@ package com.roachcitysoftware.goldenkey;
 
 import android.content.ContentProviderClient;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -99,6 +100,9 @@ public class BuildListActivityFragment extends Fragment  {
                     StartHints();
             }
         });
+        v.getContext().sendBroadcast(new Intent(
+                "com.roachcitysoftware.goldenkey.action.REMINDER").putExtra(
+                "Target", ReminderService.BUILD_LIST).putExtra("Action", ReminderService.CANCEL));
         Log.d(TAG, "onCreateView");
         return v;
     }
@@ -172,6 +176,10 @@ public class BuildListActivityFragment extends Fragment  {
             Log.d(TAG, "recordEvent failed - can't get Context");
             return;
         }
+        ctx.sendBroadcast(new Intent(
+                "com.roachcitysoftware.goldenkey.action.REMINDER").putExtra(
+                "Target", ReminderService.BUILD_LIST).putExtra("Action", ReminderService.CANCEL));
+
         ContentProviderClient cpc =
                 ctx.getContentResolver().acquireContentProviderClient(GrandContract.CONTENT_URI_2);
         if (cpc == null){

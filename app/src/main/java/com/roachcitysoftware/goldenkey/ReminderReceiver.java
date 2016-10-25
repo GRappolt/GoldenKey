@@ -29,6 +29,7 @@ public class ReminderReceiver extends BroadcastReceiver {
 
         // Get selector
         int selector = intent.getIntExtra("Target", 0);
+        int action = intent.getIntExtra("Action", 0);
 
         // Set notification-specific variables
         switch (selector){
@@ -54,15 +55,26 @@ public class ReminderReceiver extends BroadcastReceiver {
                 return;
         }
 
-        // Build and send notification
-        Notification notification = new Notification.Builder(context)
-                .setContentTitle(title)
-                .setContentText(content)
-                .setSmallIcon(R.drawable.gk_notify)
-                .setContentIntent(operation)
-                .setAutoCancel(true)
-                .build(); // clk: getNotification() was deprecated in API level 16
-        notificationManager.notify(notificationId, notification);
+        switch (action){
+            case ReminderService.NOTIFY:
+                // Build and send notification
+                Notification notification = new Notification.Builder(context)
+                        .setContentTitle(title)
+                        .setContentText(content)
+                        .setSmallIcon(R.drawable.gk_notify)
+                        .setContentIntent(operation)
+                        .setAutoCancel(true)
+                        .build(); // clk: getNotification() was deprecated in API level 16
+                notificationManager.notify(notificationId, notification);
+                break;
+            case ReminderService.CANCEL:
+                notificationManager.cancel(notificationId);
+                break;
+            default:
+                // Handle unexpected event (throw exception?)
+                Log.d(TAG, "onReceive error - invalid Action");
+                return;
+        }
 
          Log.d(TAG, "onReceive");
     }

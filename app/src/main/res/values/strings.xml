@@ -5,7 +5,9 @@
     <string name="title_1">The Golden Key</string>
     <string name="title_2">to Paradise</string>
     <string name="slogan_1">Transform yourself - Transform your world</string>
-    <string name="slogan_2">You can live in paradise.  All it takes is steady practice.</string>
+    <string name="slogan_2">You can live in paradise.</string>
+    <string name="slogan_3">All it takes is steady practice.</string>
+    <string name="slogan_2a">You can live in paradise.  All it takes is steady practice.</string>
     <string name="instructions_button">Instructions</string>
     <string name="list_button">Build List</string>
     <string name="practice_button">Practice</string>

@@ -4,6 +4,8 @@
     <string name="action_settings">Settings</string>
     <string name="title_1">The Golden Key</string>
     <string name="title_2">to Paradise</string>
+    <string name="slogan_1">Transform yourself - Transform your world</string>
+    <string name="slogan_2">You can live in paradise.  All it takes is steady practice.</string>
     <string name="instructions_button">Instructions</string>
     <string name="list_button">Build List</string>
     <string name="practice_button">Practice</string>
@@ -28,7 +30,8 @@
     <string-array name="section_1_para_4">
         <item>After a week of regular, daily practice, you will find yourself starting </item>
         <item>to sometimes feel really good for no particular reason.  Keep on training, </item>
-        <item>and this will happen more and more often, and more strongly.  After a </item>
+        <item>and this will happen more and more often, and more strongly.  Sometimes, </item>
+        <item>the world will just light up with beauty.  After a </item>
         <item>month of steady practice, you will feel very happy most of the time.</item>
     </string-array>
     <string-array name="section_1_para_5">

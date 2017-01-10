@@ -1,6 +1,7 @@
 package com.roachcitysoftware.goldenkey;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
@@ -112,14 +113,10 @@ public class PracticeActivity extends AppCompatActivity
         Log.d(TAG, "InitializeData starting");
         long dateTime;
         Date current = new Date();
-        GregorianCalendar curCal = new GregorianCalendar();
-        int currentDay;
         Date previous = new Date();
-        GregorianCalendar prevCal = new GregorianCalendar();
-        int previousDay;
         boolean firstRun = true;
-        int runLength;
-        boolean inRun = true;
+        int runLength = 0;
+        int daysBefore = 0;
         mPracticeRun = 0;
         mMaxPracticeRun = 0;
         ContentResolver cr = getApplicationContext().getContentResolver();
@@ -147,31 +144,35 @@ public class PracticeActivity extends AppCompatActivity
             dateTime =
                     practiceCursor.getLong(practiceCursor.getColumnIndex(GrandContract.HistoryColumn.DATE_TIME));
             current.setTime(dateTime);
-            curCal.setTime(current);
-            currentDay = curCal.get(Calendar.DAY_OF_MONTH);
             runLength = 1;
             while (practiceCursor.moveToNext()){
                 dateTime =
                         practiceCursor.getLong(practiceCursor.getColumnIndex(GrandContract.HistoryColumn.DATE_TIME));
                 previous.setTime(dateTime);
-                prevCal.setTime(previous);
-                previousDay = prevCal.get(Calendar.DAY_OF_MONTH);
-                inRun = (currentDay - previousDay == 1) || ((currentDay == 1) &&
-                        (previousDay == prevCal.getMaximum(Calendar.DAY_OF_MONTH)));
-                if (inRun) {
-                    runLength++;
-                } else {
-                    if (firstRun)
-                        mPracticeRun = runLength;
-                    firstRun = false;
-                    if (mMaxPracticeRun < runLength)
-                        mMaxPracticeRun = runLength;
-                    runLength = 1;      // reset to minimum
+                daysBefore = FindDaysBefore(current, previous);
+                switch (daysBefore){
+                    case 0:
+                        break;
+                    case 1:
+                        runLength++;
+                        break;
+                    case 2:
+                        if (firstRun)
+                            mPracticeRun = runLength;
+                        firstRun = false;
+                        if (mMaxPracticeRun < runLength)
+                            mMaxPracticeRun = runLength;
+                        runLength = 1;      // reset to minimum
+                        break;
+                    default:
+                        Log.d(TAG, "InitializeData unexpected error - daysBefore out of range");
                 }
-                currentDay = previousDay;
+                Log.d(TAG, "InitializeData daysBefore: " + daysBefore + " runLength: " + runLength +
+                        " mMaxPracticeRun: " + mMaxPracticeRun);
+                current.setTime(dateTime);
             }
             // if in earliest run when data ends
-            if (inRun){
+            if (daysBefore < 2){
                 if (firstRun)
                     mPracticeRun = runLength;
                 if (mMaxPracticeRun < runLength)
@@ -183,6 +184,39 @@ public class PracticeActivity extends AppCompatActivity
         }
         cpc.release();
         Log.d(TAG, "InitializeData done");
+    }
+
+    private int FindDaysBefore(Date current, Date previous){
+        // Verify times are within 48 hours
+        long currentTime = current.getTime();
+        long previousTime = previous.getTime();
+        Log.d(TAG, "FindDaysBefore currentTime: " + currentTime + " previousTime: " + previousTime);
+        if (currentTime - previousTime > 2 * AlarmManager.INTERVAL_DAY){
+            Log.d(TAG, "FindDaysBefore first return");
+           return 2;
+        }
+        // Check day-of-week difference
+        GregorianCalendar curCal = new GregorianCalendar();
+        curCal.setTime(current);
+        int currentDay = curCal.get(Calendar.DAY_OF_WEEK);
+        GregorianCalendar prevCal = new GregorianCalendar();
+        prevCal.setTime(previous);
+        int previousDay = prevCal.get(Calendar.DAY_OF_WEEK);
+        Log.d(TAG, "FindDaysBefore currentDay: " + currentDay + " previousDay: " + previousDay);
+        if (currentDay == previousDay){
+            Log.d(TAG, "FindDaysBefore second return");
+            return 0;
+        }
+        if (currentDay - previousDay == 1){
+            Log.d(TAG, "FindDaysBefore third return");
+            return 1;
+        }
+        if ((currentDay == Calendar.SUNDAY) && (previousDay == Calendar.SATURDAY)){
+            Log.d(TAG, "FindDaysBefore fourth return");
+            return 1;
+        }
+        Log.d(TAG, "FindDaysBefore fifth return");
+        return 2;
     }
 
     private void BuildStrings(){

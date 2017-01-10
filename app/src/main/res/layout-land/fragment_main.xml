@@ -29,12 +29,32 @@
         android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
+        android:text="@string/slogan_1"
+        android:id="@+id/textView3"
+        android:layout_below="@+id/textView2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
+        android:text="@string/slogan_2"
+        android:id="@+id/textView4"
+        android:layout_below="@+id/textView3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp" />
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/instructions_button"
         android:id="@+id/instructions_button"
-        android:layout_below="@+id/textView2"
+        android:layout_below="@+id/textView4"
         android:layout_marginRight="30dp"
         android:layout_toLeftOf="@+id/list_button"
         android:layout_marginEnd="30dp"
@@ -47,7 +67,7 @@
         android:text="@string/list_button"
         android:id="@+id/list_button"
         android:layout_marginTop="30dp"
-        android:layout_below="@+id/textView2"
+        android:layout_below="@+id/textView4"
         android:layout_centerHorizontal="true" />
 
     <Button
@@ -55,7 +75,7 @@
         android:layout_height="wrap_content"
         android:text="@string/practice_button"
         android:id="@+id/practice_button"
-        android:layout_below="@+id/textView2"
+        android:layout_below="@+id/textView4"
         android:layout_toEndOf="@+id/list_button"
         android:layout_marginStart="30dp"
         android:layout_toRightOf="@+id/list_button"

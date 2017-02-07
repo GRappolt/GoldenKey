@@ -1,6 +1,5 @@
 package com.roachcitysoftware.goldenkey;
 
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,13 +8,12 @@ import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = MainActivity.class.getSimpleName();
+//    private static final String TAG = MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.d(TAG, "onCreate");
     }
 
 
@@ -23,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        Log.d(TAG, "onCreateOptionsMenu");
         return true;
     }
 
@@ -33,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up instructions_button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        Log.d(TAG, "onOptionsItemSelected item " + id);
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {

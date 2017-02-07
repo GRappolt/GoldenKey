@@ -14,7 +14,7 @@ import android.widget.Button;
  */
 public class MainActivityFragment extends Fragment {
 
-    private static final String TAG = MainActivityFragment.class.getSimpleName();
+//    private static final String TAG = MainActivityFragment.class.getSimpleName();
 
 
     public MainActivityFragment() {
@@ -45,7 +45,6 @@ public class MainActivityFragment extends Fragment {
                 startActivity(new Intent("com.roachcitysoftware.goldenkey.action.practice"));
             }
         });
-        Log.d(TAG, "onCreateView");
         return v;
     }
 }

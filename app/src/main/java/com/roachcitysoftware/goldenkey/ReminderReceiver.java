@@ -6,11 +6,10 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.util.Log;
 
 public class ReminderReceiver extends BroadcastReceiver {
-    private static final String TAG = ReminderReceiver.class.getSimpleName();
+//    private static final String TAG = ReminderReceiver.class.getSimpleName();
     public static final int PRACTICE_NOTIFICATION_ID = 901;
     public static final int BUILD_LIST_NOTIFICATION_ID = 902;
 
@@ -51,7 +50,6 @@ public class ReminderReceiver extends BroadcastReceiver {
                 break;
             default:
                 // Handle unexpected event (throw exception?)
-                Log.d(TAG, "onReceive error - invalid Target");
                 return;
         }
 
@@ -72,10 +70,8 @@ public class ReminderReceiver extends BroadcastReceiver {
                 break;
             default:
                 // Handle unexpected event (throw exception?)
-                Log.d(TAG, "onReceive error - invalid Action");
                 return;
         }
 
-         Log.d(TAG, "onReceive");
     }
 }

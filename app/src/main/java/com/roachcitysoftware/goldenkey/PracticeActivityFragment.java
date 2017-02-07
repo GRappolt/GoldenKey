@@ -3,14 +3,11 @@ package com.roachcitysoftware.goldenkey;
 
 import android.app.Activity;
 import android.app.AlarmManager;
-import android.app.AlertDialog;
 import android.content.ContentProviderClient;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
@@ -24,9 +21,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Random;
 
 
@@ -35,7 +30,7 @@ import java.util.Random;
  */
 public class PracticeActivityFragment extends Fragment {
 
-    private static final String TAG = PracticeActivityFragment.class.getSimpleName();
+//    private static final String TAG = PracticeActivityFragment.class.getSimpleName();
     private EditText mBlessing;
     private Button mNextButton;
     private class BlessingEntry {
@@ -93,7 +88,6 @@ public class PracticeActivityFragment extends Fragment {
                                                    if (a instanceof FeedBackDisplay){
                                                        ((FeedBackDisplay) a).displayFeedback();
                                                    } else {
-                                                       Log.d(TAG, "onClickListener feedback failed");
                                                        a.finish();
                                                    }
                                                }
@@ -123,7 +117,6 @@ public class PracticeActivityFragment extends Fragment {
         v.getContext().sendBroadcast(new Intent(
                 "com.roachcitysoftware.goldenkey.action.REMINDER").putExtra(
                 "Target", ReminderService.PRACTICE).putExtra("Action", ReminderService.CANCEL));
-        Log.d(TAG, "onCreateView");
         return v;
     }
 
@@ -136,18 +129,15 @@ public class PracticeActivityFragment extends Fragment {
         ContentProviderClient cpc =
                 v.getContext().getContentResolver().acquireContentProviderClient(GrandContract.CONTENT_URI_1);
         if (cpc == null) {
-            Log.d(TAG, "LoadBlessingList failed - can't get Content Resolver");
             return;
         }
         BlessingProvider bp = (BlessingProvider) cpc.getLocalContentProvider();
         if (bp == null) {
-            Log.d(TAG, "LoadBlessingList failed - can't get BlessingProvider");
             return;
         }
         // Do the real work here
         Cursor cursor = bp.query(GrandContract.CONTENT_URI_1, null, null, null, null);
         if ((cursor == null) || (!cursor.moveToFirst())) {
-            Log.d(TAG, "LoadBlessingList failed - can't get blessings");
             return;
         }
         mBlessingCount = cursor.getCount();
@@ -172,7 +162,6 @@ public class PracticeActivityFragment extends Fragment {
         // Clean up
         cursor.close();
         cpc.release();
-        Log.d(TAG, "LoadBlessingList");
 
     }
 
@@ -222,7 +211,6 @@ public class PracticeActivityFragment extends Fragment {
         mStartTime = inState.getLong("startTime");
         mPracticeTime = inState.getLong("practiceTime");
         mEventId = inState.getLong("eventId", -1);
-        Log.d(TAG, "RestoreBlessingList");
     }
 
 
@@ -232,10 +220,6 @@ public class PracticeActivityFragment extends Fragment {
         int b;
         int size = list.length;
         Random rn = new Random(seed);
-        Log.d(TAG, "Before Randomize");
-        for (a = 0; a < size; ++a) {
-            Log.d(TAG, "blessing[" + a + "] text: " + list[a].blessingText + " ID: " + list[a].rowID);
-        }
         for (a = 0; a < size; ++a) {
             b = rn.nextInt(size);
             if (a != b) {
@@ -243,11 +227,6 @@ public class PracticeActivityFragment extends Fragment {
                 list[a] = list[b];
                 list[b] = temp;
             }
-            Log.d(TAG, "swapped " + a + ", " + b);
-        }
-        Log.d(TAG, "After Randomize");
-        for (a = 0; a < size; ++a) {
-            Log.d(TAG, "blessing[" + a + "] text: " + list[a].blessingText + " ID: " + list[a].rowID);
         }
     }
 
@@ -261,12 +240,10 @@ public class PracticeActivityFragment extends Fragment {
         ContentProviderClient cpc =
                 v.getContext().getContentResolver().acquireContentProviderClient(GrandContract.CONTENT_URI_1);
         if (cpc == null) {
-            Log.d(TAG, "ProcessUpdate failed - can't get Content Resolver");
             return;
         }
         BlessingProvider bp = (BlessingProvider) cpc.getLocalContentProvider();
         if (bp == null) {
-            Log.d(TAG, "ProcessUpdate failed - can't get BlessingProvider");
             return;
         }
         Uri target = ContentUris.withAppendedId(GrandContract.CONTENT_URI_1, mBlessingList[mCurrentBlessing].rowID);
@@ -284,7 +261,6 @@ public class PracticeActivityFragment extends Fragment {
         }
         // Clean up
         cpc.release();
-        Log.d(TAG, "ProcessUpdate");
     }
 
     @Override
@@ -307,18 +283,15 @@ public class PracticeActivityFragment extends Fragment {
         outState.putLong("practiceTime", mPracticeTime);
         outState.putBoolean("done", mDone);
         outState.putLong("eventId", mEventId);
-        Log.d(TAG, "onSaveInstanceState");
     }
 
     public void recordEvent () {
         View v = getView();
         if (v == null){
-            Log.d(TAG, "recordEvent failed - can't get View");
             return;
         }
         Context ctx = v.getContext();
         if (ctx == null){
-            Log.d(TAG, "recordEvent failed - can't get Context");
             return;
         }
         ctx.sendBroadcast(new Intent(
@@ -327,12 +300,10 @@ public class PracticeActivityFragment extends Fragment {
         ContentProviderClient cpc =
                 ctx.getContentResolver().acquireContentProviderClient(GrandContract.CONTENT_URI_2);
         if (cpc == null){
-            Log.d(TAG, "recordEvent failed - can't get ContentProviderClient");
             return;
         }
         BlessingProvider bp = (BlessingProvider) cpc.getLocalContentProvider();
         if (bp == null){
-            Log.d(TAG, "recordEvent failed - can't get BlessingProvider");
             cpc.release();
             return;
         }
@@ -340,13 +311,9 @@ public class PracticeActivityFragment extends Fragment {
         String done = mComplete ? "Done" : "No";
         if (mEventId == -1) {
             mEventId = bp.onAddEvent(GrandContract.PRACTICE_EVENT, done);
-            Log.d(TAG, "recordEvent success - onAddEvent " + GrandContract.PRACTICE_EVENT +
-                    " " + done);
         } else
         {
             bp.onUpdateEvent(mEventId, GrandContract.PRACTICE_EVENT, done);
-            Log.d(TAG, "recordEvent success - onUpdateEvent " + GrandContract.PRACTICE_EVENT +
-                    " " + done + " eventID: " + Long.toString(mEventId));
         }
         cpc.release();
     }

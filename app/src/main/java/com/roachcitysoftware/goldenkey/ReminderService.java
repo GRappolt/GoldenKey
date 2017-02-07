@@ -11,7 +11,7 @@ import android.util.Log;
 import java.util.Date;
 
 public class ReminderService extends Service {
-    private static final String TAG = ReminderService.class.getSimpleName();
+//    private static final String TAG = ReminderService.class.getSimpleName();
     public static final int PRACTICE = 1;
     public static final int BUILD_LIST = 2;
     public static final int NOTIFY = 3;
@@ -35,7 +35,6 @@ public class ReminderService extends Service {
         long now = dt.getTime();
         mPracticeReminderDeadline = now;
         mBuildListReminderDeadline = now;
-        Log.d(TAG, "onCreate");
     }
 
     @Override
@@ -45,15 +44,13 @@ public class ReminderService extends Service {
         UpdateDeadlines();
         // Check time against deadlines, send notification if needed
         HandleNotifications();
-        Log.d(TAG, "onStartCommand");
         return START_STICKY;
     }
 
     @Override
     public void onDestroy(){
         super.onDestroy();
-        Log.d(TAG, "onDestroy");
-    }
+   }
 
     // Check history, update notification deadlines if needed
     private void UpdateDeadlines (){
@@ -61,12 +58,10 @@ public class ReminderService extends Service {
         ContentProviderClient cpc =
                 getContentResolver().acquireContentProviderClient(GrandContract.CONTENT_URI_2);
         if (cpc == null){
-            Log.d(TAG, "UpdateDeadlines failed - can't get ContentProviderClient");
             return;
         }
         BlessingProvider bp = (BlessingProvider) cpc.getLocalContentProvider();
         if (bp == null){
-            Log.d(TAG, "UpdateDeadlines failed - can't get BlessingProvider");
             cpc.release();
             return;
         }
@@ -82,8 +77,6 @@ public class ReminderService extends Service {
             if (lastDeadline > mPracticeReminderDeadline){
                 mPracticeReminderDeadline = lastDeadline;
             }
-        } else {
-            Log.d(TAG, "failed to update mPracticeReminderDeadline");
         }
         // Retrieve the last Build List time, update Build List deadline
         Cursor buildListCursor = bp.query(GrandContract.CONTENT_URI_2, null,
@@ -96,8 +89,6 @@ public class ReminderService extends Service {
             if (lastBuildDeadline > mBuildListReminderDeadline){
                 mBuildListReminderDeadline = lastBuildDeadline;
             }
-        } else {
-            Log.d(TAG, "failed to update mPracticeReminderDeadline");
         }
         // Release the database
         cpc.release();

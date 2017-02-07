@@ -9,7 +9,7 @@ import android.os.SystemClock;
 import android.util.Log;
 
 public class BootReceiver extends BroadcastReceiver {
-    private static final String TAG = BootReceiver.class.getSimpleName();
+//    private static final String TAG = BootReceiver.class.getSimpleName();
     private static final long DEFAULT_INTERVAL = AlarmManager.INTERVAL_FIFTEEN_MINUTES;
 
     public BootReceiver() {
@@ -29,6 +29,5 @@ public class BootReceiver extends BroadcastReceiver {
         // clk: Not using AlarmManager.RTC and corresponding System.currentTimeMillis()
         // Avoid basing your alarm on clock time if possible, if only need interval
         //  https://developer.android.com/training/scheduling/alarms.html
-        Log.d(TAG, "onReceive");
     }
 }

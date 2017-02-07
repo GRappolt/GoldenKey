@@ -18,7 +18,7 @@ import java.util.Random;
 
 public class BuildListActivity extends AppCompatActivity {
 
-    private static final String TAG = BuildListActivity.class.getSimpleName();
+//    private static final String TAG = BuildListActivity.class.getSimpleName();
     private int mBuildListRun;
     private int mMaxListRun;
     private int mListSizeRun;
@@ -31,7 +31,6 @@ public class BuildListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_build_list);
-        Log.d(TAG, "onCreate");
     }
 
 
@@ -39,7 +38,6 @@ public class BuildListActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_build_list, menu);
-        Log.d(TAG, "onCreateOptionsMenu");
         return true;
     }
 
@@ -49,42 +47,34 @@ public class BuildListActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        Log.d(TAG, "onOptionsItemSelected item " + id);
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Log.d(TAG, "onOptionsItemSelected ACTION SETTINGS");
             return true;
         }
 
         if (id == android.R.id.home) {
-            Log.d(TAG, "onOptionsItemSelected HOME");
             DisplayFeedback();
             return true;
         }
 
-        Log.d(TAG, "onOptionsItemSelected OTHER");
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onBackPressed(){
-        Log.d(TAG, "onBackPressed");
         DisplayFeedback();
     }
 
     @Override
     public boolean onNavigateUp(){
-        Log.d(TAG, "onNavigateUp");
         DisplayFeedback();
         return super.onNavigateUp();
     }
 
     private void DisplayFeedback () {
-        Log.d(TAG, "DisplayFeedback");
         RecordFragmentEvent();
         InitializeData();
-        Log.d(TAG, Integer.toString(mBuildListRun));
         if (mBuildListRun < 1){
             // Don't display feedback for zero list items
             finish();
@@ -112,7 +102,6 @@ public class BuildListActivity extends AppCompatActivity {
     }
 
     private void InitializeData(){
-        Log.d(TAG, "InitializeData starting");
         String itemCount;
         int itemsAdded;
         mBuildListRun = 0;
@@ -120,18 +109,15 @@ public class BuildListActivity extends AppCompatActivity {
         mListSizeRun = 0;
         ContentResolver cr = getApplicationContext().getContentResolver();
         if (cr == null) {
-            Log.d(TAG, "InitializeData failed - can't get Content Resolver");
             return;
         }
         ContentProviderClient cpch =
                 cr.acquireContentProviderClient(GrandContract.CONTENT_URI_2);
         if (cpch == null) {
-            Log.d(TAG, "InitializeData failed - can't get history Content Provider Client");
             return;
         }
         BlessingProvider bph = (BlessingProvider) cpch.getLocalContentProvider();
         if (bph == null) {
-            Log.d(TAG, "InitializeData failed - can't get history BlessingProvider");
             cpch.release();
             return;
         }
@@ -142,51 +128,41 @@ public class BuildListActivity extends AppCompatActivity {
         if ((buildCursor != null) && (buildCursor.moveToFirst())){
             itemCount =
                     buildCursor.getString(buildCursor.getColumnIndex(GrandContract.HistoryColumn.EXTRA_DATA));
-            Log.d(TAG, "Initial item count: " + itemCount);
             itemsAdded = Integer.parseInt(itemCount);
-            Log.d(TAG, "Initial itema added: " + Integer.toString(itemsAdded));
             mBuildListRun = itemsAdded;
             mMaxListRun = mBuildListRun;
             while (buildCursor.moveToNext()){
                 itemCount =
                         buildCursor.getString(buildCursor.getColumnIndex(GrandContract.HistoryColumn.EXTRA_DATA));
-                Log.d(TAG, "Item count: " + itemCount);
                 itemsAdded = Integer.parseInt(itemCount);
                 if (itemsAdded > mMaxListRun)
                     mMaxListRun = itemsAdded;
             }
             buildCursor.close();
-        } else {
-            Log.d(TAG, "failed to get Build List history");
         }
         cpch.release();
         ContentProviderClient cpcb =
                 cr.acquireContentProviderClient(GrandContract.CONTENT_URI_1);
         if (cpcb == null) {
-            Log.d(TAG, "InitializeData failed - can't get blessing Content Provider Client");
             return;
         }
         BlessingProvider bpb = (BlessingProvider) cpcb.getLocalContentProvider();
         if (bpb == null) {
-            Log.d(TAG, "InitializeData failed - can't get blessing BlessingProvider");
             cpcb.release();
             return;
         }
         // Do the real work here
         Cursor blessingCursor = bpb.query(GrandContract.CONTENT_URI_1, null, null, null, null);
         if ((blessingCursor == null) || (!blessingCursor.moveToFirst())) {
-            Log.d(TAG, "failed to get blessings");
             cpcb.release();
             return;
         }
         mListSizeRun = blessingCursor.getCount();
         blessingCursor.close();
         cpcb.release();
-        Log.d(TAG, "InitializeData done");
     }
 
     private void BuildStrings(){
-        Log.d(TAG, "BuildStrings starting");
         Resources res = getResources();
         String [] praiseList = res.getStringArray(R.array.praise_list);
         Date dt = new Date();
@@ -204,30 +180,24 @@ public class BuildListActivity extends AppCompatActivity {
         mMaxListFeedback = getString(R.string.max_list_feedback) + " " + Integer.toString(mMaxListRun);
         mListSizeFeedback = getString(R.string.list_size_feedback_base) + " " +
                 Integer.toString(mListSizeRun) + " " + getString(R.string.list_size_feedback_end);
-        Log.d(TAG, "BuildStrings done");
     }
 
     private void RecordFragmentEvent ()
     {
-        Log.d(TAG, "RecordFragmentEvent starting");
         FragmentManager fm = getSupportFragmentManager();
         if (fm == null){
-            Log.d(TAG, "RecordFragmentEvent failed - null FragmentManager");
             return;
         }
         android.support.v4.app.Fragment frag = fm.findFragmentById(R.id.build_list_fragment);
         if (frag == null){
-            Log.d(TAG, "RecordFragmentEvent failed - null Fragment");
             return;
         }
         BuildListActivityFragment blaf;
         if (frag instanceof BuildListActivityFragment)
             blaf = (BuildListActivityFragment) frag;
         else {
-            Log.d(TAG, "RecordFragmentEvent failed - wrong fragment type");
             return;
         }
         blaf.recordEvent();
-        Log.d(TAG, "RecordFragmentEvent succeeded (done)");
     }
 }

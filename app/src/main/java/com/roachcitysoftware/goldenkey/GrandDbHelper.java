@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 public class GrandDbHelper extends SQLiteOpenHelper {
-    private static final String TAG = GrandDbHelper.class.getSimpleName();
+//    private static final String TAG = GrandDbHelper.class.getSimpleName();
 
     public GrandDbHelper (Context context) {
         super(context, GrandContract.DB_NAME, null, GrandContract.DB_VERSION);
@@ -22,13 +22,11 @@ public class GrandDbHelper extends SQLiteOpenHelper {
         String sql = String.format("create table %s (%s integer primary key autoincrement, %s text)",
                 GrandContract.TABLE_1, GrandContract.BlessingsColumn.ID,
                 GrandContract.BlessingsColumn.BLESSING);
-        Log.d(TAG, "onCreate with SQL: " + sql);
         db.execSQL(sql);
         sql = String.format("create table %s (%s integer primary key autoincrement, %s integer, %s text, %s text)",
                 GrandContract.TABLE_2, GrandContract.HistoryColumn.ID, GrandContract.HistoryColumn.DATE_TIME,
                 GrandContract.HistoryColumn.EVENT_TYPE, GrandContract.HistoryColumn.EXTRA_DATA);
-        Log.d(TAG, "onCreate with SQL: " + sql);
-        db.execSQL(sql);
+         db.execSQL(sql);
     }
 
     @Override

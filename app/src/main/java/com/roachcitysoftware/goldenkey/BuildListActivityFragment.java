@@ -22,7 +22,7 @@ import java.util.Random;
  */
 public class BuildListActivityFragment extends Fragment  {
 
-    private static final String TAG = BuildListActivityFragment.class.getSimpleName();
+//    private static final String TAG = BuildListActivityFragment.class.getSimpleName();
     private EditText mNewBlessing;
     private boolean mHintsShown;
     private Button mHintButton;
@@ -44,16 +44,13 @@ public class BuildListActivityFragment extends Fragment  {
         mAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "Add button Clicked");
                 ContentProviderClient cpc =
                         v.getContext().getContentResolver().acquireContentProviderClient(GrandContract.CONTENT_URI_1);
                 if (cpc == null) {
-                    Log.d(TAG, "Add failed - can't get Content Resolver");
                     return;
                 }
                 BlessingProvider bp = (BlessingProvider) cpc.getLocalContentProvider();
                 if (bp == null) {
-                    Log.d(TAG, "Add failed - can't get BlessingProvider");
                     return;
                 }
                 boolean added = bp.onAdd(mNewBlessing.getText().toString());
@@ -103,7 +100,6 @@ public class BuildListActivityFragment extends Fragment  {
         v.getContext().sendBroadcast(new Intent(
                 "com.roachcitysoftware.goldenkey.action.REMINDER").putExtra(
                 "Target", ReminderService.BUILD_LIST).putExtra("Action", ReminderService.CANCEL));
-        Log.d(TAG, "onCreateView");
         return v;
     }
 
@@ -151,8 +147,6 @@ public class BuildListActivityFragment extends Fragment  {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        Log.d(TAG, "onSaveInstanceState eventId: " + Long.toString(mEventId) + " itemsAdded: " +
-                Integer.toString(mItemsAdded));
         if (mHintsShown) {
             outState.putInt("hintsShown", 1);
             outState.putInt("currentHint", mCurrentHint);
@@ -168,12 +162,10 @@ public class BuildListActivityFragment extends Fragment  {
     public void recordEvent () {
         View v = getView();
         if (v == null){
-            Log.d(TAG, "recordEvent failed - can't get View");
             return;
         }
         Context ctx = v.getContext();
         if (ctx == null){
-            Log.d(TAG, "recordEvent failed - can't get Context");
             return;
         }
         ctx.sendBroadcast(new Intent(
@@ -183,26 +175,20 @@ public class BuildListActivityFragment extends Fragment  {
         ContentProviderClient cpc =
                 ctx.getContentResolver().acquireContentProviderClient(GrandContract.CONTENT_URI_2);
         if (cpc == null){
-            Log.d(TAG, "recordEvent failed - can't get ContentProviderClient");
             return;
         }
         BlessingProvider bp = (BlessingProvider) cpc.getLocalContentProvider();
         if (bp == null){
-            Log.d(TAG, "recordEvent failed - can't get BlessingProvider");
             cpc.release();
             return;
         }
         String itemsAdded = Integer.toString(mItemsAdded);
         if (mEventId == -1) {
             mEventId = bp.onAddEvent(GrandContract.BUILD_LIST_EVENT, itemsAdded);
-            Log.d(TAG, "recordEvent success - onAddEvent " + GrandContract.BUILD_LIST_EVENT +
-                " " + itemsAdded);
         } else
         {
             bp.onUpdateEvent(mEventId, GrandContract.BUILD_LIST_EVENT, itemsAdded);
-            Log.d(TAG, "recordEvent success - onUpdateEvent " + GrandContract.BUILD_LIST_EVENT +
-                    " " + itemsAdded + "eventID: " + Long.toString(mEventId));
-        }
+         }
         cpc.release();
     }
 }

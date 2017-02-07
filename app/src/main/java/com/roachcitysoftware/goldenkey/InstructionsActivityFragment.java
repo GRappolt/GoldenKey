@@ -15,7 +15,7 @@ import android.widget.TextView;
  */
 public class InstructionsActivityFragment extends Fragment {
 
-    private static final String TAG = InstructionsActivityFragment.class.getSimpleName();
+//    private static final String TAG = InstructionsActivityFragment.class.getSimpleName();
 
     public InstructionsActivityFragment() {
     }
@@ -28,7 +28,6 @@ public class InstructionsActivityFragment extends Fragment {
         StringBuffer data = new StringBuffer();
         BuildInstructionsBuffer(data);
         instructionsView.setText(Html.fromHtml(data.toString(), null, null));
-        Log.d(TAG, "onCreateView");
         return v;
     }
 

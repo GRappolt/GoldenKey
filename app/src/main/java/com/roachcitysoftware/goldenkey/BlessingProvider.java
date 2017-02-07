@@ -15,7 +15,7 @@ import java.util.Date;
 
 
 public class BlessingProvider extends ContentProvider {
-    private static final String TAG = BlessingProvider.class.getSimpleName();
+//    private static final String TAG = BlessingProvider.class.getSimpleName();
     private GrandDbHelper grandDbHelper;
 
     private static final UriMatcher sURIMatcher = new UriMatcher(
@@ -79,7 +79,6 @@ public class BlessingProvider extends ContentProvider {
             // Notify that data for this uri has changed
             getContext().getContentResolver().notifyChange(uri, null);
         }
-        Log.d(TAG, "deleted records: " + ret);
         return ret;
    }
 
@@ -87,16 +86,12 @@ public class BlessingProvider extends ContentProvider {
     public String getType(Uri uri) {
         switch (sURIMatcher.match(uri)) {
             case GrandContract.BLESSING_DIR:
-                Log.d(TAG, "gotType: " + GrandContract.BLESSING_TYPE_DIR);
                 return GrandContract.BLESSING_TYPE_DIR;
             case GrandContract.BLESSING_ITEM:
-                Log.d(TAG, "gotType: " + GrandContract.BLESSING_TYPE_ITEM);
                 return GrandContract.BLESSING_TYPE_ITEM;
             case GrandContract.HISTORY_DIR:
-                Log.d(TAG, "gotType: " + GrandContract.HISTORY_TYPE_DIR);
                 return GrandContract.HISTORY_TYPE_DIR;
             case GrandContract.HISTORY_ITEM:
-                Log.d(TAG, "gotType: " + GrandContract.HISTORY_TYPE_ITEM);
                 return GrandContract.HISTORY_TYPE_ITEM;
             default:
                 throw new IllegalArgumentException("Illegal uri: " + uri);
@@ -125,7 +120,6 @@ public class BlessingProvider extends ContentProvider {
         // Was insert successful?
         if (rowId != -1) {
               ret = ContentUris.withAppendedId(uri, rowId);
-            Log.d(TAG, "db rowID: " + rowId);
 
             // Notify that data for this uri has changed
             // clk: Notify registered observers that a row was updated
@@ -134,9 +128,6 @@ public class BlessingProvider extends ContentProvider {
             //   2nd argument for a ContentObserver is null here
             getContext().getContentResolver().notifyChange(uri, null);
         }
-        else {
-            Log.d(TAG, "insert failed");
-        }
 
         return ret;
     }
@@ -144,7 +135,6 @@ public class BlessingProvider extends ContentProvider {
     @Override
     public boolean onCreate() {
         grandDbHelper = new GrandDbHelper(getContext());
-        Log.d(TAG, "onCreate");
         return true;
     }
 
@@ -192,7 +182,6 @@ public class BlessingProvider extends ContentProvider {
         //   will know of changes and CursorLoader will know to re-query
         cursor.setNotificationUri(getContext().getContentResolver(), uri);
 
-        Log.d(TAG, "queried records: "+cursor.getCount());
         return cursor;
     }
 
@@ -243,7 +232,6 @@ public class BlessingProvider extends ContentProvider {
             // Notify that data for this uri has changed
             getContext().getContentResolver().notifyChange(uri, null);
         }
-        Log.d(TAG, "updated records: " + ret);
         return ret;
     }
 
@@ -251,7 +239,6 @@ public class BlessingProvider extends ContentProvider {
     {
         text = text.trim();
         if (text.isEmpty()) {
-            Log.d(TAG, "onAdd empty string");
             return false;
         }
         ContentValues entry = new ContentValues();
@@ -259,10 +246,8 @@ public class BlessingProvider extends ContentProvider {
         entry.put(GrandContract.BlessingsColumn.BLESSING, text);
         Uri result = insert(GrandContract.CONTENT_URI_1, entry);
         if (result != null) {
-            Log.d(TAG, "onAdd success - text: " + text);
             return true;
         } else {
-            Log.d(TAG, "onAdd failed");
             return false;
         }
     }
@@ -271,7 +256,6 @@ public class BlessingProvider extends ContentProvider {
     {
         eventType = eventType.trim();
         if (eventType.isEmpty()) {
-            Log.d(TAG, "onAddEvent no event type");
             return -1;
         }
         extraData = extraData.trim();
@@ -286,10 +270,8 @@ public class BlessingProvider extends ContentProvider {
 
         Uri result = insert(GrandContract.CONTENT_URI_2, entry);
         if (result != null) {
-            Log.d(TAG, "onAddEvent success - event: " + eventType + " - data: " + extraData);
             return ContentUris.parseId(result);
         } else {
-            Log.d(TAG, "onAddEvent failed");
             return -1;
         }
     }
@@ -297,12 +279,10 @@ public class BlessingProvider extends ContentProvider {
     public void onUpdateEvent (long eventId, String eventType, String extraData)
     {
         if (eventId == -1){
-            Log.d(TAG, "onUpdateEvent failed - invalid ID");
             return;
         }
         eventType = eventType.trim();
         if (eventType.isEmpty()) {
-            Log.d(TAG, "onUpdateEvent failed - no event type");
             return;
         }
         extraData = extraData.trim();
@@ -317,10 +297,5 @@ public class BlessingProvider extends ContentProvider {
 
         Uri target = ContentUris.withAppendedId(GrandContract.CONTENT_URI_2, eventId);
         int upDateCount = update(target, entry, null, null);
-        if (upDateCount > 0){
-            Log.d(TAG, "onUpdateEvent succeeded");
-        } else {
-            Log.d(TAG, "onUpdateEvent failed - zero updates");
-        }
     }
 }

@@ -20,7 +20,7 @@ android {
         }
     }
     compileSdkVersion 22
-    buildToolsVersion "21.1.2"
+    buildToolsVersion '25.0.0'
     defaultConfig {
         applicationId "com.roachcitysoftware.goldenkey"
         minSdkVersion 16

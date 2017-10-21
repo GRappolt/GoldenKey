@@ -4,11 +4,13 @@
     <string name="action_settings">Settings</string>
     <string name="title_1">The Golden Key</string>
     <string name="title_2">to Paradise</string>
+    <string name="title_3">The Golden Key to Paradise</string>
     <string name="slogan_1">Transform yourself - Transform your world</string>
     <string name="slogan_2">You can live in paradise.</string>
     <string name="slogan_3">All it takes is steady practice.</string>
     <string name="slogan_2a">You can live in paradise.  All it takes is steady practice.</string>
     <string name="instructions_button">Instructions</string>
+    <string name="license_button">License</string>
     <string name="list_button">Build List</string>
     <string name="practice_button">Practice</string>
     <string name="title_activity_instructions">Golden Key - Instructions</string>
@@ -166,5 +168,7 @@
     <string name="max_list_feedback">Maximum items added in one session: </string>
     <string name="list_size_feedback_base">Your list has </string>
     <string name="list_size_feedback_end"> items total.</string>
-
+    <string name="blurb_1">This world can be both heaven and hell. It\'s hell when your mind is filled with bad things - problems, failures, loss and pain. It\'s heaven when your mind is filled with good things.</string>
+    <string name="blurb_2">You can train your mind to focus more on the good things.  Practice thinking about good things, and feeling happy about them.  This app helps you train.  Start by building a list of good things – at least 50 items (to start with).  Use that list to practice felling happy about good things – in 15 minute sessions once a day.  As with any kind of training, steady practice is key.</string>
+    <string name="blurb_3">After a week of regular, daily practice, you will sometimes feel really good for no particular reason.  Keep on training, and this will happen more and more.  After a month of steady practice, you will feel very happy most of the time.  Steady practice is the golden key to paradise.</string>
 </resources>

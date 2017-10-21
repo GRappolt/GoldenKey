@@ -16,7 +16,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 
     private MainActivity mMainActivity;
     private TextView mTitle1;
-    private TextView mTitle2;
+//    private TextView mTitle2;
     private Button mInstructions;
     private Button mBuildList;
     private Button mPractice;
@@ -30,7 +30,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         super.setUp();
         mMainActivity = getActivity();
         mTitle1 = (TextView) mMainActivity.findViewById(R.id.textView);
-        mTitle2 = (TextView) mMainActivity.findViewById(R.id.textView2);
+//        mTitle2 = (TextView) mMainActivity.findViewById(R.id.textView2);
         mInstructions = (Button) mMainActivity.findViewById(R.id.instructions_button);
         mBuildList = (Button) mMainActivity.findViewById(R.id.list_button);
         mPractice = (Button) mMainActivity.findViewById(R.id.practice_button);
@@ -39,7 +39,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
     public void testPreconditions() {
         assertNotNull("mMainActivity is null.", mMainActivity);
         assertNotNull("mTitle1 is null.", mTitle1);
-        assertNotNull("mTitle2 is null.", mTitle2);
+     //   assertNotNull("mTitle2 is null.", mTitle2);
         assertNotNull("mInstructions is null.", mInstructions);
         assertNotNull("mBuildList is null.", mBuildList);
         assertNotNull("mPractice is null.", mPractice);
@@ -52,13 +52,13 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         assertEquals(expected, actual);
     }
 
-    public void testMainActivityTitle2_labelText()
+/*    public void testMainActivityTitle2_labelText()
     {
         final String expected = mMainActivity.getString(R.string.title_2);
         final String actual = mTitle2.getText().toString();
         assertEquals(expected, actual);
     }
-
+*/
     public void testMainActivityInstructions_layout ()
     {
         final View decorView = mMainActivity.getWindow().getDecorView();

@@ -110,6 +110,12 @@
     <string name="hint_button_1">Show Hints</string>
     <string name="hint_button_2">Next Hint</string>
     <string name="_text_entry_hint">Enter new item here</string>
+    <string name="build_list_instruction">List things you like - ANYTHING and EVERYTHING that makes you happy.</string>
+    <string name="initial_count">0000</string>
+    <string name="list_count_label">Items</string>
+    <string name="initial_count_2">000</string>
+    <string name="new_count_label">New Items</string>
+    <string name="examples_button">Examples</string>
     <string-array name="hint_list">
         <item>friends</item>
         <item>little victories</item>

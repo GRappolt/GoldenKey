@@ -4,9 +4,10 @@ import android.content.ContentProviderClient;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.database.Cursor;
+import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,8 @@ public class BuildListActivityFragment extends Fragment  {
     private int mCurrentHint;
     private long mEventId;
     private int mItemsAdded;
+    private TextView mItemCount;
+    private TextView mNewItemCount;
 
     public BuildListActivityFragment() {
     }
@@ -39,8 +42,8 @@ public class BuildListActivityFragment extends Fragment  {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_build_list, container, false);
-        mNewBlessing = (EditText) v.findViewById(R.id.new_list_items);
-        Button mAddButton = (Button) v.findViewById(R.id.add_button);
+        mNewBlessing = v.findViewById(R.id.new_list_items);
+        Button mAddButton = v.findViewById(R.id.add_button);
         mAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,6 +62,7 @@ public class BuildListActivityFragment extends Fragment  {
                     mNewBlessing.setText("");
                     ++mItemsAdded;
                 }
+                updateCounts(v);
             }
         });
         // Set mHinntsShown, mCurrentHint and mHintList from savedInstanceState
@@ -81,8 +85,8 @@ public class BuildListActivityFragment extends Fragment  {
             mEventId = -1;
             mItemsAdded = 0;
         }
-        mHintButton = (Button) v.findViewById(R.id.hint_button);
-        mHintText = (TextView) v.findViewById(R.id.hint_items);
+        mHintButton = v.findViewById(R.id.hint_button);
+        mHintText = v.findViewById(R.id.hint_items);
         if (mHintsShown) {
             mHintButton.setText(R.string.hint_button_2);
             mHintText.setText(mHintList[mCurrentHint]);
@@ -97,6 +101,9 @@ public class BuildListActivityFragment extends Fragment  {
                     StartHints();
             }
         });
+        mItemCount = v.findViewById(R.id.list_count);
+        mNewItemCount = v.findViewById(R.id.new_item_count);
+        updateCounts(v);
         v.getContext().sendBroadcast(new Intent(
                 "com.roachcitysoftware.goldenkey.action.REMINDER").putExtra(
                 "Target", ReminderService.BUILD_LIST).putExtra("Action", ReminderService.CANCEL));
@@ -190,5 +197,60 @@ public class BuildListActivityFragment extends Fragment  {
             bp.onUpdateEvent(mEventId, GrandContract.BUILD_LIST_EVENT, itemsAdded);
          }
         cpc.release();
+    }
+
+    private void updateCounts (View v) {
+        int ListSize = getListSize(v);
+        String itemCount = Integer.toString(ListSize);
+        int stringSize = itemCount.length();
+        if (stringSize == 1)
+            itemCount = "000" + itemCount;
+        else if (stringSize == 2)
+            itemCount = "00" + itemCount;
+        else if (stringSize == 3)
+            itemCount = "0" + itemCount;
+       mItemCount.setText(itemCount);
+       if (ListSize == 0)
+           mItemCount.setBackgroundColor(Color.RED);
+       else if (ListSize < 50)
+           mItemCount.setBackgroundColor(Color.YELLOW);
+       else
+           mItemCount.setBackgroundColor(Color.GREEN);
+
+        String itemsAdded = Integer.toString(mItemsAdded);
+        stringSize = itemsAdded.length();
+        if (stringSize == 1)
+            itemsAdded = "00" + itemsAdded;
+        else if (stringSize == 2)
+            itemsAdded = "0" + itemsAdded;
+        mNewItemCount.setText(itemsAdded);
+        if (mItemsAdded == 0)
+            mNewItemCount.setBackgroundColor(Color.RED);
+        else if (mItemsAdded < 10)
+            mNewItemCount.setBackgroundColor(Color.YELLOW);
+        else
+            mNewItemCount.setBackgroundColor(Color.GREEN);
+    }
+
+    private int getListSize (View v) {
+        ContentProviderClient cpc =
+                v.getContext().getContentResolver().acquireContentProviderClient(GrandContract.CONTENT_URI_1);
+        if (cpc == null) {
+            return 0;
+        }
+        BlessingProvider bp = (BlessingProvider) cpc.getLocalContentProvider();
+        if (bp == null) {
+            cpc.release();
+            return 0;
+        }
+        Cursor blessingCursor = bp.query(GrandContract.CONTENT_URI_1, null, null, null, null);
+        if ((blessingCursor == null) || (!blessingCursor.moveToFirst())) {
+            cpc.release();
+            return 0;
+        }
+        int ListSize = blessingCursor.getCount();
+        blessingCursor.close();
+        cpc.release();
+        return ListSize;
     }
 }

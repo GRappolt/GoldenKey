@@ -8,12 +8,17 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.ListView;
 
 import java.util.Date;
 import java.util.Random;
@@ -27,43 +32,53 @@ public class BuildListActivityFragment extends Fragment  {
     private EditText mNewBlessing;
     private boolean mHintsShown;
     private Button mHintButton;
-    private TextView mHintText;
+    private ListView mHintText;
     private String [] mHintList;
     private int mCurrentHint;
     private long mEventId;
     private int mItemsAdded;
     private TextView mItemCount;
     private TextView mNewItemCount;
+    private RelativeLayout mExampleLayout;
+    private AdapterView.OnItemClickListener mExampleSelector;
+    private ReturnWatcher mReturnWatcher;
 
     public BuildListActivityFragment() {
+    }
+
+    public class ReturnWatcher implements TextWatcher  {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            for (int j = 0; j < i2; ++j) {
+                if (charSequence.charAt(i + j) == '\n') {
+                    View v = getView();
+                    AddItem(v);
+                }
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_build_list, container, false);
+        mReturnWatcher = new ReturnWatcher();
         mNewBlessing = v.findViewById(R.id.new_list_items);
+        mNewBlessing.addTextChangedListener(mReturnWatcher);
         Button mAddButton = v.findViewById(R.id.add_button);
         mAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ContentProviderClient cpc =
-                        v.getContext().getContentResolver().acquireContentProviderClient(GrandContract.CONTENT_URI_1);
-                if (cpc == null) {
-                    return;
-                }
-                BlessingProvider bp = (BlessingProvider) cpc.getLocalContentProvider();
-                if (bp == null) {
-                    return;
-                }
-                boolean added = bp.onAdd(mNewBlessing.getText().toString());
-                cpc.release();
-                if (added) {
-                    mNewBlessing.setText("");
-                    ++mItemsAdded;
-                }
-                updateCounts(v);
-            }
+                AddItem(v);
+             }
         });
         // Set mHinntsShown, mCurrentHint and mHintList from savedInstanceState
         if (savedInstanceState != null)
@@ -87,10 +102,11 @@ public class BuildListActivityFragment extends Fragment  {
         }
         mHintButton = v.findViewById(R.id.hint_button);
         mHintText = v.findViewById(R.id.hint_items);
+        mExampleLayout = v.findViewById(R.id.examples_layout);
         if (mHintsShown) {
             mHintButton.setText(R.string.hint_button_2);
-            mHintText.setText(mHintList[mCurrentHint]);
-            mHintText.setVisibility(View.VISIBLE);
+            // mHintText.setText(mHintList[mCurrentHint]);
+            mExampleLayout.setVisibility(View.VISIBLE);
         }
         mHintButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,6 +117,15 @@ public class BuildListActivityFragment extends Fragment  {
                     StartHints();
             }
         });
+        mExampleSelector = new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String item = (String)((TextView) view).getText();
+                mNewBlessing.setText(item);
+            }
+        };
+        mHintText = v.findViewById(R.id.hint_items);
+        mHintText.setOnItemClickListener(mExampleSelector);
         mItemCount = v.findViewById(R.id.list_count);
         mNewItemCount = v.findViewById(R.id.new_item_count);
         updateCounts(v);
@@ -113,7 +138,7 @@ public class BuildListActivityFragment extends Fragment  {
     public void StartHints ()
     {
         mHintsShown = true;
-        mHintButton.setText(R.string.hint_button_2);
+//        mHintButton.setText(R.string.hint_button_2);
         // Set up hint list
         Resources res = getResources();
         mHintList = res.getStringArray(R.array.hint_list);
@@ -121,8 +146,8 @@ public class BuildListActivityFragment extends Fragment  {
         long seed = dt.getTime();
         RandomizeList(mHintList, seed);
         // Set initial hint text
-        mHintText.setText(mHintList[mCurrentHint]);
-        mHintText.setVisibility(View.VISIBLE);
+        // mHintText.setText(mHintList[mCurrentHint]);
+        mExampleLayout.setVisibility(View.VISIBLE);
     }
 
     public void GetNextHint ()
@@ -130,7 +155,7 @@ public class BuildListActivityFragment extends Fragment  {
         ++mCurrentHint;
         if (mCurrentHint >= mHintList.length)
             mCurrentHint = 0;
-        mHintText.setText(mHintList[mCurrentHint]);
+        // mHintText.setText(mHintList[mCurrentHint]);
     }
 
     public void RandomizeList (String [] list, long seed)
@@ -252,5 +277,24 @@ public class BuildListActivityFragment extends Fragment  {
         blessingCursor.close();
         cpc.release();
         return ListSize;
+    }
+
+    private void AddItem (View v) {
+        ContentProviderClient cpc =
+                v.getContext().getContentResolver().acquireContentProviderClient(GrandContract.CONTENT_URI_1);
+        if (cpc == null) {
+            return;
+        }
+        BlessingProvider bp = (BlessingProvider) cpc.getLocalContentProvider();
+        if (bp == null) {
+            return;
+        }
+        boolean added = bp.onAdd(mNewBlessing.getText().toString());
+        cpc.release();
+        if (added) {
+            mNewBlessing.setText("");
+            ++mItemsAdded;
+        }
+        updateCounts(v);
     }
 }

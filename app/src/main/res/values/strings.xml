@@ -116,6 +116,8 @@
     <string name="initial_count_2">000</string>
     <string name="new_count_label">New Items</string>
     <string name="examples_button">Examples</string>
+    <string name="examples_caption">Things other people like:</string>
+    <string name="examples_footer">Tap item to select for editing</string>
     <string-array name="hint_list">
         <item>friends</item>
         <item>little victories</item>

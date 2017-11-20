@@ -124,7 +124,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/examples_button"
-        android:id="@+id/hint_button"
+        android:id="@+id/example_button"
         android:layout_below="@+id/list_count"
         android:layout_centerHorizontal="true"
         android:layout_alignParentEnd="true"
@@ -138,7 +138,7 @@
         android:layout_height="match_parent"
         android:id="@+id/examples_layout"
         android:visibility="invisible"
-        android:layout_below="@id/hint_button"
+        android:layout_below="@id/example_button"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentStart="true"
@@ -158,10 +158,10 @@
 
 
             <ListView
-                android:id="@+id/hint_items"
+                android:id="@+id/example_items"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:entries="@array/hint_list"
+                android:entries="@array/example_list"
                 android:fillViewport="true"
                 android:layout_below="@id/examples_caption"
                 android:layout_above="@id/examples_footer"

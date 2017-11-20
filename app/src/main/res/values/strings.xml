@@ -107,8 +107,6 @@
     </string-array>
     <string name="title_activity_build_list">Golden Key - Build List</string>
     <string name="add_button">Add</string>
-    <string name="hint_button_1">Show Hints</string>
-    <string name="hint_button_2">Next Hint</string>
     <string name="_text_entry_hint">Enter new item here</string>
     <string name="build_list_instruction">List things you like - ANYTHING and EVERYTHING that makes you happy.</string>
     <string name="initial_count">0000</string>
@@ -118,7 +116,7 @@
     <string name="examples_button">Examples</string>
     <string name="examples_caption">Things other people like:</string>
     <string name="examples_footer">Tap item to select for editing</string>
-    <string-array name="hint_list">
+    <string-array name="example_list">
         <item>friends</item>
         <item>little victories</item>
         <item>my favorite foods</item>

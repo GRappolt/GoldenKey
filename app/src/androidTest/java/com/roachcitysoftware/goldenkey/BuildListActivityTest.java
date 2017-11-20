@@ -25,10 +25,10 @@ public class BuildListActivityTest extends ActivityInstrumentationTestCase2<Buil
     protected void setUp() throws Exception {
         super.setUp();
         mBuildListActivity = getActivity();
-        mNewListItems = (TextView) mBuildListActivity.findViewById(R.id.new_list_items);
-        mHintItems = (TextView) mBuildListActivity.findViewById(R.id.hint_items);
-        mAddButton = (Button) mBuildListActivity.findViewById(R.id.add_button);
-        mHintsButon = (Button) mBuildListActivity.findViewById(R.id.hint_button);
+        mNewListItems = mBuildListActivity.findViewById(R.id.new_list_items);
+        mHintItems = mBuildListActivity.findViewById(R.id.example_items);
+        mAddButton = mBuildListActivity.findViewById(R.id.add_button);
+        mHintsButon = mBuildListActivity.findViewById(R.id.example_button);
     }
 
     public void testPreconditions() {
@@ -58,12 +58,6 @@ public class BuildListActivityTest extends ActivityInstrumentationTestCase2<Buil
         assertEquals(layoutParams.height, WindowManager.LayoutParams.WRAP_CONTENT);
     }
 
-    public void testBuildListActivityHintsButton_text ()
-    {
-        final String expected = mBuildListActivity.getString(R.string.hint_button_1);
-        final String actual = mHintsButon.getText().toString();
-        assertEquals(expected, actual);
-    }
 
     public void testBuildListActivityHintsButton_layout ()
     {

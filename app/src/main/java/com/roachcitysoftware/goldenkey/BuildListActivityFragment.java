@@ -30,18 +30,13 @@ public class BuildListActivityFragment extends Fragment  {
 
 //    private static final String TAG = BuildListActivityFragment.class.getSimpleName();
     private EditText mNewBlessing;
-    private boolean mHintsShown;
-    private Button mHintButton;
-    private ListView mHintText;
-    private String [] mHintList;
-    private int mCurrentHint;
+    private boolean mExamplesShown;
+    private String [] mExampleList;
     private long mEventId;
     private int mItemsAdded;
     private TextView mItemCount;
     private TextView mNewItemCount;
     private RelativeLayout mExampleLayout;
-    private AdapterView.OnItemClickListener mExampleSelector;
-    private ReturnWatcher mReturnWatcher;
 
     public BuildListActivityFragment() {
     }
@@ -70,62 +65,54 @@ public class BuildListActivityFragment extends Fragment  {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_build_list, container, false);
-        mReturnWatcher = new ReturnWatcher();
+        ReturnWatcher returnWatcher = new ReturnWatcher();
         mNewBlessing = v.findViewById(R.id.new_list_items);
-        mNewBlessing.addTextChangedListener(mReturnWatcher);
-        Button mAddButton = v.findViewById(R.id.add_button);
-        mAddButton.setOnClickListener(new View.OnClickListener() {
+        mNewBlessing.addTextChangedListener(returnWatcher);
+        Button addButton = v.findViewById(R.id.add_button);
+        addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AddItem(v);
              }
         });
-        // Set mHinntsShown, mCurrentHint and mHintList from savedInstanceState
+        // Set mExamplesShown and mExampleList from savedInstanceState
         if (savedInstanceState != null)
         {
             if (savedInstanceState.getInt("hintsShown") > 0) {
-                mHintsShown = true;
-                mCurrentHint = savedInstanceState.getInt("currentHint");
-                mHintList = savedInstanceState.getStringArray("hintList");
+                mExamplesShown = true;
+                mExampleList = savedInstanceState.getStringArray("hintList");
             } else {
-                mHintsShown = false;
-                mCurrentHint = 0;
+                mExamplesShown = false;
             }
             mEventId = savedInstanceState.getLong("eventId", -1);
             mItemsAdded = savedInstanceState.getInt("itemsAdded", 0);
         }
         else {
-            mHintsShown = false;
-            mCurrentHint = 0;
+            mExamplesShown = false;
             mEventId = -1;
             mItemsAdded = 0;
         }
-        mHintButton = v.findViewById(R.id.hint_button);
-        mHintText = v.findViewById(R.id.hint_items);
+        Button exampleButton = v.findViewById(R.id.example_button);
+        ListView exampleText = v.findViewById(R.id.example_items);
         mExampleLayout = v.findViewById(R.id.examples_layout);
-        if (mHintsShown) {
-            mHintButton.setText(R.string.hint_button_2);
-            // mHintText.setText(mHintList[mCurrentHint]);
+        if (mExamplesShown) {
             mExampleLayout.setVisibility(View.VISIBLE);
         }
-        mHintButton.setOnClickListener(new View.OnClickListener() {
+        exampleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mHintsShown)
-                    GetNextHint();
-                else
-                    StartHints();
+                if (!mExamplesShown)
+                    StartExamples();
             }
         });
-        mExampleSelector = new AdapterView.OnItemClickListener() {
+        AdapterView.OnItemClickListener exampleSelector = new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String item = (String)((TextView) view).getText();
                 mNewBlessing.setText(item);
             }
         };
-        mHintText = v.findViewById(R.id.hint_items);
-        mHintText.setOnItemClickListener(mExampleSelector);
+        exampleText.setOnItemClickListener(exampleSelector);
         mItemCount = v.findViewById(R.id.list_count);
         mNewItemCount = v.findViewById(R.id.new_item_count);
         updateCounts(v);
@@ -135,28 +122,18 @@ public class BuildListActivityFragment extends Fragment  {
         return v;
     }
 
-    public void StartHints ()
+    public void StartExamples()
     {
-        mHintsShown = true;
-//        mHintButton.setText(R.string.hint_button_2);
+        mExamplesShown = true;
         // Set up hint list
         Resources res = getResources();
-        mHintList = res.getStringArray(R.array.hint_list);
+        mExampleList = res.getStringArray(R.array.example_list);
         Date dt = new Date();
         long seed = dt.getTime();
-        RandomizeList(mHintList, seed);
-        // Set initial hint text
-        // mHintText.setText(mHintList[mCurrentHint]);
+        RandomizeList(mExampleList, seed);
         mExampleLayout.setVisibility(View.VISIBLE);
     }
 
-    public void GetNextHint ()
-    {
-        ++mCurrentHint;
-        if (mCurrentHint >= mHintList.length)
-            mCurrentHint = 0;
-        // mHintText.setText(mHintList[mCurrentHint]);
-    }
 
     public void RandomizeList (String [] list, long seed)
     {
@@ -179,10 +156,9 @@ public class BuildListActivityFragment extends Fragment  {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        if (mHintsShown) {
+        if (mExamplesShown) {
             outState.putInt("hintsShown", 1);
-            outState.putInt("currentHint", mCurrentHint);
-            outState.putStringArray("hintList", mHintList);
+            outState.putStringArray("hintList", mExampleList);
         }
         else {
             outState.putInt("hintsShown", 0);

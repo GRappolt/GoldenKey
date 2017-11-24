@@ -156,6 +156,8 @@
     <string name="next_button">Next</string>
     <string name="next_button_done">Done</string>
     <string name="practice_hint">Build a list of good things first - then practice.</string>
+    <string name="practice_prompt1">Think happy thoughts about:</string>
+    <string name="practice_prompt2">Tap item to edit (or delete) if needed.</string>
     <string name="practice_feedback_base">You have practiced </string>
     <string name="practice_feedback_plural"> days in a row.</string>
     <string name="practice_feedback_single"> day.</string>

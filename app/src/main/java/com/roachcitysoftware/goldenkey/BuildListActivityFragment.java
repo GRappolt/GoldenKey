@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.text.Editable;
@@ -14,11 +15,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ListView;
+import android.view.inputmethod.InputMethodManager;
 
 import java.util.Date;
 import java.util.Random;
@@ -37,6 +40,8 @@ public class BuildListActivityFragment extends Fragment  {
     private TextView mItemCount;
     private TextView mNewItemCount;
     private RelativeLayout mExampleLayout;
+    private ListView mExampleText;
+    private ArrayAdapter mExampleAdapter;
 
     public BuildListActivityFragment() {
     }
@@ -81,6 +86,8 @@ public class BuildListActivityFragment extends Fragment  {
             if (savedInstanceState.getInt("hintsShown") > 0) {
                 mExamplesShown = true;
                 mExampleList = savedInstanceState.getStringArray("hintList");
+                mExampleAdapter = new ArrayAdapter<>
+                        (getContext(), android.R.layout.simple_list_item_1, mExampleList);
             } else {
                 mExamplesShown = false;
             }
@@ -93,16 +100,19 @@ public class BuildListActivityFragment extends Fragment  {
             mItemsAdded = 0;
         }
         Button exampleButton = v.findViewById(R.id.example_button);
-        ListView exampleText = v.findViewById(R.id.example_items);
+        mExampleText = v.findViewById(R.id.example_items);
+        mExampleText.setAdapter(mExampleAdapter);
         mExampleLayout = v.findViewById(R.id.examples_layout);
         if (mExamplesShown) {
             mExampleLayout.setVisibility(View.VISIBLE);
+            hideSoftKeyboard(v);
         }
         exampleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!mExamplesShown)
                     StartExamples();
+                hideSoftKeyboard(v);
             }
         });
         AdapterView.OnItemClickListener exampleSelector = new AdapterView.OnItemClickListener() {
@@ -112,7 +122,7 @@ public class BuildListActivityFragment extends Fragment  {
                 mNewBlessing.setText(item);
             }
         };
-        exampleText.setOnItemClickListener(exampleSelector);
+        mExampleText.setOnItemClickListener(exampleSelector);
         mItemCount = v.findViewById(R.id.list_count);
         mNewItemCount = v.findViewById(R.id.new_item_count);
         updateCounts(v);
@@ -131,6 +141,9 @@ public class BuildListActivityFragment extends Fragment  {
         Date dt = new Date();
         long seed = dt.getTime();
         RandomizeList(mExampleList, seed);
+        mExampleAdapter = new ArrayAdapter<>
+                (getContext(), android.R.layout.simple_list_item_1, mExampleList);
+        mExampleText.setAdapter(mExampleAdapter);
         mExampleLayout.setVisibility(View.VISIBLE);
     }
 
@@ -272,5 +285,15 @@ public class BuildListActivityFragment extends Fragment  {
             ++mItemsAdded;
         }
         updateCounts(v);
+    }
+
+    public static void hideSoftKeyboard(View v) {
+        Context c = v.getContext();
+        InputMethodManager inputMethodManager =
+                (InputMethodManager)c.getSystemService(Context.INPUT_METHOD_SERVICE);
+        IBinder wt = v.getWindowToken();
+        if (wt != null) {
+            inputMethodManager.hideSoftInputFromWindow(wt, 0);
+        }
     }
 }

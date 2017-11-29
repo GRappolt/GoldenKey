@@ -166,7 +166,6 @@
             android:id="@+id/example_items"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:entries="@array/example_list"
             android:fillViewport="true"
             android:layout_below="@id/examples_caption"
             android:layout_above="@id/examples_footer"

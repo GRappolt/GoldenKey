@@ -31,7 +31,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         mMainActivity = getActivity();
         mTitle1 = (TextView) mMainActivity.findViewById(R.id.textView);
 //        mTitle2 = (TextView) mMainActivity.findViewById(R.id.textView2);
-        mInstructions = (Button) mMainActivity.findViewById(R.id.instructions_button);
+        mInstructions = (Button) mMainActivity.findViewById(R.id.details_button);
         mBuildList = (Button) mMainActivity.findViewById(R.id.list_button);
         mPractice = (Button) mMainActivity.findViewById(R.id.practice_button);
     }

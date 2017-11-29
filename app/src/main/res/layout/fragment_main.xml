@@ -75,8 +75,8 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/license_button"
-        android:id="@+id/instructions_button"
+        android:text="@string/details_button"
+        android:id="@+id/details_button"
         android:layout_below="@+id/list_button"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="7dp" />

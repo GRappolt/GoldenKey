@@ -20,11 +20,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".InstructionsActivity"
-            android:label="@string/title_activity_instructions"
+            android:name=".DetailsActivity"
+            android:label="@string/title_activity_details"
             android:parentActivityName=".MainActivity">
             <intent-filter>
-                <action android:name="com.roachcitysoftware.goldenkey.action.instructions" />
+                <action android:name="com.roachcitysoftware.goldenkey.action.details" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -80,7 +80,7 @@
         <service
             android:name=".ReminderService"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="true"/>
 
         <receiver
             android:name=".ReminderReceiver"

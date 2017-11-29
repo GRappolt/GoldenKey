@@ -3,7 +3,6 @@ package com.roachcitysoftware.goldenkey;
 import android.content.res.Resources;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,25 +12,25 @@ import android.widget.TextView;
 /**
  * This fragment displays the instructions for Golden Key.
  */
-public class InstructionsActivityFragment extends Fragment {
+public class DetailsActivityFragment extends Fragment {
 
-//    private static final String TAG = InstructionsActivityFragment.class.getSimpleName();
+//    private static final String TAG = DetailsActivityFragment.class.getSimpleName();
 
-    public InstructionsActivityFragment() {
+    public DetailsActivityFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_instructions, container, false);
-        TextView instructionsView = (TextView) v.findViewById(R.id.textView3);
+        View v = inflater.inflate(R.layout.fragment_details, container, false);
+        TextView detailsView = v.findViewById(R.id.textView3);
         StringBuffer data = new StringBuffer();
-        BuildInstructionsBuffer(data);
-        instructionsView.setText(Html.fromHtml(data.toString(), null, null));
+        BuildDetailsBuffer(data);
+        detailsView.setText(Html.fromHtml(data.toString(), null, null));
         return v;
     }
 
-    private void BuildInstructionsBuffer (StringBuffer data) {
+    private void BuildDetailsBuffer(StringBuffer data) {
         data.append("<body>");
         AddHeader(data, R.string.section_1_header);
         AddParagraph(data, R.array.section_1_para_1);

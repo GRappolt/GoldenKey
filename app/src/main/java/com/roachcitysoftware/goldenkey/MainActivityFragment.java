@@ -3,7 +3,6 @@ package com.roachcitysoftware.goldenkey;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,21 +23,21 @@ public class MainActivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_main, container, false);
-        Button mInstructionsButton = (Button) v.findViewById(R.id.instructions_button);
-        mInstructionsButton.setOnClickListener(new View.OnClickListener() {
+        Button mDetailsButton = v.findViewById(R.id.details_button);
+        mDetailsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent("com.roachcitysoftware.goldenkey.action.instructions"));
+                startActivity(new Intent("com.roachcitysoftware.goldenkey.action.details"));
             }
         });
-        Button mListButton = (Button) v.findViewById(R.id.list_button);
+        Button mListButton = v.findViewById(R.id.list_button);
         mListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent("com.roachcitysoftware.goldenkey.action.build_list"));
             }
         });
-        Button mPracticeButton = (Button) v.findViewById(R.id.practice_button);
+        Button mPracticeButton = v.findViewById(R.id.practice_button);
         mPracticeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

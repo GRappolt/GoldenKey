@@ -10,10 +10,10 @@
     <string name="slogan_3">All it takes is steady practice.</string>
     <string name="slogan_2a">You can live in paradise.  All it takes is steady practice.</string>
     <string name="instructions_button">Instructions</string>
-    <string name="license_button">License</string>
+    <string name="details_button">Details</string>
     <string name="list_button">Build List</string>
     <string name="practice_button">Practice</string>
-    <string name="title_activity_instructions">Golden Key - Instructions</string>
+    <string name="title_activity_details">Golden Key - Details</string>
     <string name="section_1_header">Background</string>
     <string-array name="section_1_para_1">
         <item>This world can be both heaven and hell.  </item>

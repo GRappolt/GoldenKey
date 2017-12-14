@@ -34,10 +34,6 @@ public class DetailsActivityFragment extends Fragment {
         data.append("<body>");
         AddHeader(data, R.string.section_1_header);
         AddParagraph(data, R.array.section_1_para_1);
-        AddParagraph(data, R.array.section_1_para_2);
-        AddParagraph(data, R.array.section_1_para_3);
-        AddParagraph(data, R.array.section_1_para_4);
-        AddParagraph(data, R.array.section_1_para_5);
         AddHeader(data, R.string.section_2_header);
         AddParagraph(data, R.array.section_2_para_1);
         AddParagraph(data, R.array.section_2_para_2);

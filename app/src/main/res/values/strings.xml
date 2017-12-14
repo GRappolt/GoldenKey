@@ -14,12 +14,10 @@
     <string name="list_button">Build List</string>
     <string name="practice_button">Practice</string>
     <string name="title_activity_details">Golden Key - Details</string>
-    <string name="section_1_header">Background</string>
+    <string name="section_1_header">License</string>
     <string-array name="section_1_para_1">
-        <item>This world can be both heaven and hell.  </item>
-        <item>It\'s hell when your mind is filled with bad things</item>
-        <item> - problems, failures, loss and pain.  </item>
-        <item>It\'s heaven when your mind is filled with good things.</item>
+        <item>Copyright 2017 &#169; Roach City Software. </item>
+        <item>This software is licensed under the Eclipse Public License 1.0.</item>
     </string-array>
     <string-array name="section_1_para_2">
         <item>You can train your mind to focus more on the good things of the world.</item>
@@ -221,6 +219,92 @@
         <item>Jim Polluck</item>
         <item>Fred</item>
         <item>good old Lulu</item>
+        *****************************
+        <item>sunsets</item>
+        <item>snow-capped mountains</item>
+        <item>morning cloak butterflies</item>
+        <item>waterfalls</item>
+        <item>the stars on a clear night</item>
+        <item>Luna moths</item>
+        <item>the full moon</item>
+        <item>Monarch butterflies</item>
+        <item>Tiger Swallowtails</item>
+        <item>humming birds</item>
+        <item>white birch trees</item>
+        <item>ocean waves on a rocky shore</item>
+        <item>lightening across the prairie</item>
+        <item>pine forest</item>
+        <item>Cape Cod beaches</item>
+        <item>Denali</item>
+        <item>humpback whales</item>
+        <item>the woods in June</item>
+        <item>wildflowers</item>
+        <item>new-fallen snow</item>
+        ********************************
+        <item>Burning Man</item>
+        <item>motorcycles</item>
+        <item>Harley-Davidson</item>
+        <item>roller coaster rides</item>
+        <item>Merry-Go-Rounds</item>
+        <item>Ferris Wheels</item>
+        <item>cotton candy</item>
+        <item>candy apples</item>
+        <item>candy corn</item>
+        <item>NASCAR racing</item>
+        <item>watching football</item>
+        <item>tailgate parties</item>
+        <item>belly dancers</item>
+        <item>Egyptian pyramids</item>
+        <item>shishkabob</item>
+        <item>Jack Daniels whiskey</item>
+        <item>narwhals</item>
+        <item>the scent of roses</item>
+        <item>beach parties</item>
+        <item>comfortable slippers</item>
+        ***********************************
+        <item>kittens</item>
+        <item>puppies</item>
+        <item>my pet iguana</item>
+        <item>Corgies</item>
+        <item>pit bulls</item>
+        <item>parakeets</item>
+        <item>Simon's cat</item>
+        <item>kitties</item>
+        <item>Himalayan cats</item>
+        <item>Persian cats</item>
+        <item>Siamese cats</item>
+        <item>Grumpy Cat</item>
+        <item>Disapproving Rabbits</item>
+        <item>pet bunnies</item>
+        <item>Guinea pigs</item>
+        <item>Golden hamsters</item>
+        <item>my first bunny</item>
+        <item>my first puppy</item>
+        <item>Mr. Big (dog)</item>
+        <item>Thumper (rabbit)</item>
+        *********************************
+        <item>Rock Around the Clock (song)</item>
+        <item>Rock and Roll (music)</item>
+        <item>La Danse Macabre (music)</item>
+        <item>Country Joe and the Fish (band)</item>
+        <item>When the Saints Come Marching In (song)</item>
+        <item>Ode to Joy (music)</item>
+        <item>Mozart</item>
+        <item>Ludwig von Beethoven</item>
+        <item>Ride of the Valkiries (music)</item>
+        <item>Richard Wagner (composer)</item>
+        <item>Duke Ellington</item>
+        <item>Louis Armstrong</item>
+        <item>The Grateful Dead</item>
+        <item>Eine Kleine Nachtmusik</item>
+        <item>Bridge Over Troubled Waters (song)</item>
+        <item>Phish (band)</item>
+        <item>Dancing Queen (song)</item>
+        <item>Achy Breaky Heart (song)</item>
+        <item>Weird Al Yankovic (musician)</item>
+        <item>Days of Future Past (album)</item>
+        <item>Bob Dylan</item>
+        <item>Pachelbel Canon</item>
     </string-array>
     <string name="title_activity_practice">Golden Key - Practice</string>
     <string name="next_button">Next</string>

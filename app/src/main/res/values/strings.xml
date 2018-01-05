@@ -19,56 +19,53 @@
         <item>Copyright 2017 &#169; Roach City Software. </item>
         <item>This software is licensed under the Eclipse Public License 1.0.</item>
     </string-array>
-    <string-array name="section_1_para_2">
-        <item>You can train your mind to focus more on the good things of the world.</item>
-        <item>  It\'s a matter of practicing thinking about good things, and feeling happy about them.</item>
-        <item>  As with any kind of training, steady practice is key.</item>
-    </string-array>
-    <string-array name="section_1_para_3">
-        <item>This app helps you train.</item>
-        <item>  You start by building a list of good things,</item>
-        <item> and then use that list to practice thinking about good things.</item>
-    </string-array>
-    <string-array name="section_1_para_4">
-        <item>After a week of regular, daily practice, you will find yourself starting </item>
-        <item>to sometimes feel really good for no particular reason.  Keep on training, </item>
-        <item>and this will happen more and more often, and more strongly.  Sometimes, </item>
-        <item>the world will just light up with beauty.  After a </item>
-        <item>month of steady practice, you will feel very happy most of the time.</item>
-    </string-array>
-    <string-array name="section_1_para_5">
-        <item>Steady practice is the golden key to paradise.</item>
-    </string-array>
-    <string name="section_2_header">Build List</string>
+    <string name="section_2_header">Theory</string>
     <string-array name="section_2_para_1">
-        <item>Before you can practice, you need a list of good things.  </item>
-        <item>Use the &lt;B>Build List&lt;/B> screen to create that list.  </item>
-        <item>Enter things that make you happy into the text </item>
-        <item>box, and press the &lt;B>Add&lt;/B> button after each one.</item>
+        <item>This software is designed to change brain function.  </item>
+        <item>Specifically, it is designed to increase the over-all </item>
+        <item>activity level of the reward centers.</item>
     </string-array>
     <string-array name="section_2_para_2">
-        <item>For example, let\'s say you like hotdogs.  Enter \"hotdogs\" in the text box – </item>
-        <item>all you need is the one word.  Notice that the example is hotdogs - probably not </item>
-        <item>the greatest thing you\'ve ever eaten, but good.  You need a lot of things that make </item>
-        <item>you happy for your list – but they don\'t all have to be wonderful.  Just good is </item>
-        <item>good enough.</item>
+        <item>The reward centers become more active when good things happen,</item>
+        <item>and we feel happy.  However, the reward centers don\'t stay</item>
+        <item>active very long, and the happy feeling generally doesn\'t</item>
+        <item>last.  Most of us try to become happy by making more good</item>
+        <item>things happen - a never-ending struggle.  There is an</item>
+        <item>alternative (or perhaps complimentary) approach.</item>
     </string-array>
     <string-array name="section_2_para_3">
-        <item>You will need lots of things that make you happy in your list - and lots of </item>
-        <item>different kinds of things.  Food, pets, friends, things you are proud of, natural </item>
-        <item>beauty, special moments in your life, music, movies, books, sex, big and little </item>
-        <item>victories, insights, escapes from danger and relief from pain - anything and </item>
-        <item>everything you can feel good about.  Humor (favorite jokes, funny happenings) is </item>
-        <item>especially good.</item>
+        <item>Researchers studying happiness have noted that some people are generally happier </item>
+        <item>than others - and that it doesn\'t seem to have much to do with what\'s actually </item>
+        <item>happening in their lives.  People just seem to have different basic happiness levels.  </item>
+        <item>This means that the reward centers have different base-line levels of activity in </item>
+        <item>different people.  When nothing particularly good or bad is happening, some people </item>
+        <item>feel good - have active reward centers - and some people don\'t.</item>
     </string-array>
     <string-array name="section_2_para_4">
-        <item>If you need help thinking of different kinds of good things, use </item>
-        <item>the &lt;B>Hints&lt;/B> button.</item>
+        <item>Knowing that some people are just basically happier than others wouldn\'t help much </item>
+        <item>if you couldn\'t do anything about it - but you can.  The reward centers are highly </item>
+        <item>plastic - their basic activity level changes easily, and a lot, in response to </item>
+        <item>stimulus patterns.  This is proven by the phenomenon of drug addiction.  The reward centers </item>
+        <item>adapt to the stimulation from the drug, and become less active without the drug.  This means </item>
+        <item>that addicts feel bad all the time when they aren\'t high.</item>
     </string-array>
     <string-array name="section_2_para_5">
-        <item>Once you\'ve made a good start on your list, you can begin training.  However, </item>
-        <item>that shouldn\'t stop you from adding to your list.  Keep growing the list as long as </item>
-        <item>you keep practicing.</item>
+        <item>Golden Key is designed to produce the opposite effect of drug addiction.  Whether </item>
+        <item>stimulation produces habituation (decreased activity, as in drug addiction) or </item>
+        <item>potentiation (increased activity) depends on the timing and intensity of the </item>
+        <item>stimulus.  Golden Key uses happy thoughts to stimulate the reward centers </item>
+        <item>continuously, and as intensely as you can manage, for a limited interval </item>
+        <item>(fifteen minutes).  After that, the reward centers are allowed to recover.  This </item>
+        <item>pattern will build up the reward centers, not wear them out.</item>
+    </string-array>
+    <string-array name="section_2_para_6">
+        <item>To get the most good out of Golden Key, it\'s important to practice correctly.  Continue </item>
+        <item>practicing for the full fifteen minutes - until the \"Next\" button says \"Done\".  Practice </item>
+        <item>once a day, every day.  Hold each happy thought just long enough to feel really happy, then </item>
+        <item>move to the next thought.  Don\'t let the happy feeling start to fade - you\'re not trying to </item>
+        <item>desensitize yourself to happy thoughts!  Make sure your list of good things to think about </item>
+        <item>incudes lots of different kinds of happy thoughts - you\'re trying to build happiness in general, </item>
+        <item>not just greater liking for one or two kinds of things.</item>
     </string-array>
     <string name="section_3_header">Practice</string>
     <string-array name="section_3_para_1">
@@ -305,6 +302,51 @@
         <item>Days of Future Past (album)</item>
         <item>Bob Dylan</item>
         <item>Pachelbel Canon</item>
+        *******************************************
+        <item>the Rose Bowl parade</item>
+        <item>snowmobiling</item>
+        <item>rodeos</item>
+        <item>basketball</item>
+        <item>New Year's Eve in Times Square</item>
+        <item>Mississippi riverboats</item>
+        <item>a Caribbean cruise</item>
+        <item>a Hawaiian vacation</item>
+        <item>fire dancers</item>
+        <item>circus clowns</item>
+        <item>my favorite night-club</item>
+        <item>Michelle L'Amour</item>
+        <item>second place in the state championship</item>
+        <item>rock concerts</item>
+        <item>The Rolling Stones</item>
+        <item>skiing</item>
+        <item>roller blading</item>
+        <item>Mixed Martial Arts</item>
+        <item>cage matches</item>
+        <item>Mardi Gras</item>
+        <item>The Price Is Right (TV show)</item>
+        <item>Zap Comics</item>
+        <item>Star Wars</item>
+        <item>Star Trek</item>
+        <item>Marvel Comics</item>
+        <item>making it to the finals</item>
+        *****************************************
+        <item>bedroom slippers</item>
+        <item>a warm bed</item>
+        <item>winter supper warm between four walls</item>
+        <item>sitting by the fireside</item>
+        <item>home</item>
+        <item>weekends</item>
+        <item>summer vacation</item>
+        <item>5 o'clock - quitting time</item>
+        <item>everyone home for Christmas</item>
+        <item>a good cigar</item>
+        <item>money in hte bank</item>
+        <item>payday</item>
+        <item>chicken soup</item>
+        <item>relaxing in front of the TV</item>
+        <item>a nice cup of cocoa</item>
+        <item>Saturday morning cartoons</item>
+        <item>retirement</item>
     </string-array>
     <string name="title_activity_practice">Golden Key - Practice</string>
     <string name="next_button">Next</string>

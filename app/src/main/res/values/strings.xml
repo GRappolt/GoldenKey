@@ -17,7 +17,8 @@
     <string name="section_1_header">License</string>
     <string-array name="section_1_para_1">
         <item>Copyright 2017 &#169; Roach City Software. </item>
-        <item>This software is licensed under the Eclipse Public License 1.0.</item>
+        <item>This software is licensed under the Eclipse Public License 1.0.  </item>
+        <item>Source code is available on GitHub.  The project name is \"Golden Key\".</item>
     </string-array>
     <string name="section_2_header">Theory</string>
     <string-array name="section_2_para_1">
@@ -67,38 +68,20 @@
         <item>incudes lots of different kinds of happy thoughts - you\'re trying to build happiness in general, </item>
         <item>not just greater liking for one or two kinds of things.</item>
     </string-array>
-    <string name="section_3_header">Practice</string>
+    <string name="section_3_header">Data Security</string>
     <string-array name="section_3_para_1">
-        <item>Use the &lt;B>Practice&lt;/B> screen for daily practice.  The screen will show one item from </item>
-        <item>your list, and a &lt;B>Next&lt;/B> button.</item>
+        <item>Golden Key stores a lot of data.  The most important data is your list of things that make you </item>
+        <item>happy.  Golden Key also stores data on your use of the app - needed for reminders and feedback </item>
+        <item>messages.  After you put in the work to build a long list of things you like, you won\'t want </item>
+        <item>to lose this data.  It\'s also personal enough so that you probably want to keep it private.</item>
     </string-array>
     <string-array name="section_3_para_2">
-        <item>Think about what\'s good about the item on the screen – why you like it.  </item>
-        <item>When you feel as good about the item as you can, press the &lt;B>Next&lt;/B> button.  </item>
-        <item>Keep going.  At the end of the session, the &lt;B>Next&lt;/B> button will say &lt;B>Done&lt;/B> </item>
-        <item>and the &lt;B>Practice&lt;/B> screen will close when you press it.</item>
-    </string-array>
-    <string-array name="section_3_para_3">
-        <item>The idea is to use each item to make yourself feel good.  If the item is \"hotdogs\", </item>
-        <item>and you find yourself remembering a fair where you had a hotdog and how much fun the </item>
-        <item>Ferris wheel was, that\'s great - you\'re feeling happy.  If you find yourself </item>
-        <item>thinking \"I really wish I had a hotdog right now!\", that\'s not great - you\'re not </item>
-        <item>feeling happy.  If you find yourself thinking \"Gee, I feel really stupid thinking </item>
-        <item>about hotdogs!\", that\'s not great either.</item>
-    </string-array>
-    <string-array name="section_3_para_4">
-        <item>If you get distracted by some of these not so great thoughts, don\'t try to fight it.  </item>
-        <item>Instead, just try to remember what\'s good about your happy list item.  Struggling </item>
-        <item>against bad thoughts just makes them stronger.  Actively concentrating on good thoughts </item>
-        <item>will lead to the bad thoughts fading away on their own.</item>
-    </string-array>
-    <string-array name="section_3_para_5">
-        <item>Items on the Practice screen can be edited, if you really think you need to.  They can </item>
-        <item>also be deleted, if they don’t work anymore.  Just edit or delete the text and press </item>
-        <item>the &lt;B>Next&lt;/B> button.</item>
-    </string-array>
-    <string-array name="section_3_para_6">
-        <item>Practice every day to feel really great!</item>
+        <item>Golden Key relies on Android for both data security and data backup.  Android maintains </item>
+        <item>the data for Golden Key in a private database file that is only accessible to the Golden </item>
+        <item>Key app.  To keep other people from running Golden Key and seeing your list that way, you will </item>
+        <item>need to password-protect your device.  To have Android back up your data to your Goggle Drive, </item>
+        <item>make sure \"Back up my data\" is enabled under the \"Backup &amp; reset\" option in Settings.  </item>
+        <item>More flexible backup options are available through third-party apps.</item>
     </string-array>
     <string name="title_activity_build_list">Golden Key - Build List</string>
     <string name="add_button">Add</string>
@@ -340,7 +323,7 @@
         <item>5 o'clock - quitting time</item>
         <item>everyone home for Christmas</item>
         <item>a good cigar</item>
-        <item>money in hte bank</item>
+        <item>money in the bank</item>
         <item>payday</item>
         <item>chicken soup</item>
         <item>relaxing in front of the TV</item>

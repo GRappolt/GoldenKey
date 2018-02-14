@@ -5,13 +5,14 @@ import android.app.Service;
 import android.content.ContentProviderClient;
 import android.content.Intent;
 import android.database.Cursor;
+// import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 
 import java.util.Date;
 
 public class ReminderService extends Service {
-//    private static final String TAG = ReminderService.class.getSimpleName();
+    private static final String TAG = ReminderService.class.getSimpleName();
     public static final int PRACTICE = 1;
     public static final int BUILD_LIST = 2;
     public static final int NOTIFY = 3;
@@ -22,15 +23,17 @@ public class ReminderService extends Service {
     public ReminderService() {
     }
 
+
     @Override
     public IBinder onBind(Intent intent) {
-        return null;        // This is an unbound Service
+        return null;
     }
 
     @Override
     public void onCreate(){
         super.onCreate();
         // Initialize notification deadlines
+        Log.d(TAG, "onCreate");
         Date dt = new Date();
         long now = dt.getTime();
         mPracticeReminderDeadline = now;
@@ -41,6 +44,7 @@ public class ReminderService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId){
         super.onStartCommand(intent, flags, startId);
         // Check history, update notification deadlines if needed
+        Log.d(TAG, "onStartCommand");
         UpdateDeadlines();
         // Check time against deadlines, send notification if needed
         HandleNotifications();
@@ -107,6 +111,12 @@ public class ReminderService extends Service {
             sendBroadcast(new Intent(
                     "com.roachcitysoftware.goldenkey.action.REMINDER").putExtra(
                     "Target", ReminderService.BUILD_LIST).putExtra("Action", ReminderService.NOTIFY));
+            MainActivityFragment.SetOldList(true);
+            Log.d(TAG, "MainActivityFragment.SetOldList(TRUE)");
+        }
+        else {
+            MainActivityFragment.SetOldList(false);
+            Log.d(TAG, "MainActivityFragment.SetOldList(FALSE)");
         }
     }
 }

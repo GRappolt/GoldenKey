@@ -1,22 +1,17 @@
 package com.roachcitysoftware.goldenkey;
 
-// import android.content.ComponentName;
 import android.content.ContentProviderClient;
-// import android.content.Context;
 import android.content.Intent;
-// import android.content.ServiceConnection;
 import android.database.Cursor;
 import android.graphics.Color;
-// import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
+// import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-// import static android.content.Context.BIND_AUTO_CREATE;
 
 
 /**
@@ -24,7 +19,7 @@ import android.widget.Button;
  */
 public class MainActivityFragment extends Fragment {
 
-    private static final String TAG = MainActivityFragment.class.getSimpleName();
+//    private static final String TAG = MainActivityFragment.class.getSimpleName();
     private Button mListButton;
     private Button mPracticeButton;
     static boolean sOldList = false;
@@ -36,7 +31,6 @@ public class MainActivityFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.d(TAG, "OnCreateView");
         View v = inflater.inflate(R.layout.fragment_main, container, false);
         Button mDetailsButton = v.findViewById(R.id.details_button);
         mDetailsButton.setOnClickListener(new View.OnClickListener() {
@@ -65,13 +59,12 @@ public class MainActivityFragment extends Fragment {
 
     @Override
     public void onStart() {
-        Log.d(TAG, "OnStart");
         super.onStart();
-            if (NeedBuildList()){
-                mListButton.setBackgroundColor(Color.YELLOW);
-            } else {
-                mPracticeButton.setBackgroundColor(Color.YELLOW);
-            }
+        if (NeedBuildList()){
+            mListButton.setBackgroundColor(Color.YELLOW);
+        } else {
+            mPracticeButton.setBackgroundColor(Color.YELLOW);
+        }
     }
 
 
@@ -81,9 +74,7 @@ public class MainActivityFragment extends Fragment {
 
 
     private boolean NeedBuildList () {
-//        if (ListTooShort(getView()))
-//              return true;
-        return ListTooOld();
+        return (ListTooShort(getView()) || ListTooOld());
     }
 
     private boolean ListTooShort (View v) {
@@ -112,7 +103,6 @@ public class MainActivityFragment extends Fragment {
     }
 
     private boolean ListTooOld () {
-        Log.d (TAG, "ListTooOld: " + sOldList);
         return sOldList;
     }
 }

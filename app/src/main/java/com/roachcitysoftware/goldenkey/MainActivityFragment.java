@@ -94,7 +94,8 @@ public class MainActivityFragment extends Fragment {
         Cursor cursor = bp.query(GrandContract.CONTENT_URI_1, null, null, null, null);
         if ((cursor == null) || (!cursor.moveToFirst())) {
             cpc.release();
-            return false;
+            // No history yet!  Therefore list is empty.
+            return true;
         }
         blessingCount = cursor.getCount();
         cursor.close();

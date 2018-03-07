@@ -95,6 +95,7 @@
     <string name="examples_caption">Things other people like:</string>
     <string name="examples_footer">Tap item to select for editing</string>
     <string-array name="example_list">
+        <!--
         <item>friends</item>
         <item>little victories</item>
         <item>my favorite foods</item>
@@ -129,6 +130,7 @@
         <item>movies I like</item>
         <item>games</item>
         <item>moments of spiritual insight</item>
+        -->
         ****************************************
         <item>all-chocolate birthday cake</item>
         <item>cream horns</item>
@@ -290,14 +292,14 @@
         <item>snowmobiling</item>
         <item>rodeos</item>
         <item>basketball</item>
-        <item>New Year's Eve in Times Square</item>
+        <item>New Year\'s Eve in Times Square</item>
         <item>Mississippi riverboats</item>
         <item>a Caribbean cruise</item>
         <item>a Hawaiian vacation</item>
         <item>fire dancers</item>
         <item>circus clowns</item>
         <item>my favorite night-club</item>
-        <item>Michelle L'Amour</item>
+        <item>Michelle L\'Amour</item>
         <item>second place in the state championship</item>
         <item>rock concerts</item>
         <item>The Rolling Stones</item>
@@ -320,7 +322,7 @@
         <item>home</item>
         <item>weekends</item>
         <item>summer vacation</item>
-        <item>5 o'clock - quitting time</item>
+        <item>5 o\'clock - quitting time</item>
         <item>everyone home for Christmas</item>
         <item>a good cigar</item>
         <item>money in the bank</item>
@@ -330,6 +332,10 @@
         <item>a nice cup of cocoa</item>
         <item>Saturday morning cartoons</item>
         <item>retirement</item>
+        <item>talking with friends</item>
+        <item>sleeping in</item>
+        <item>getting a good start on the day\'s work</item>
+        <item>running</item>
     </string-array>
     <string name="title_activity_practice">Golden Key - Practice</string>
     <string name="next_button">Next</string>

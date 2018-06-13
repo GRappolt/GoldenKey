@@ -79,7 +79,7 @@
         <item>Golden Key relies on Android for both data security and data backup.  Android maintains </item>
         <item>the data for Golden Key in a private database file that is only accessible to the Golden </item>
         <item>Key app.  To keep other people from running Golden Key and seeing your list that way, you will </item>
-        <item>need to password-protect your device.  To have Android back up your data to your Goggle Drive, </item>
+        <item>need to password-protect your device.  To have Android back up your data to your Google Drive, </item>
         <item>make sure \"Back up my data\" is enabled under the \"Backup &amp; reset\" option in Settings.  </item>
         <item>More flexible backup options are available through third-party apps.</item>
     </string-array>
